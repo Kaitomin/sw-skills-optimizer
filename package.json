@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd client && npm run build",
     "start": "nodemon src/app"
   },
   "author": "",
@@ -24,6 +25,7 @@
     "mongoose": "^6.1.9",
     "multer": "^1.4.4",
     "multer-gridfs-storage": "^5.0.2",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "serve-static": "^1.14.2"
   }
 }
