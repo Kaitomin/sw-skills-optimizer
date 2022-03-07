@@ -6,7 +6,10 @@ const charRoutes = require('./routes/characterRoutes');
 const skillsRoutes = require('./routes/skillsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cookieParser = require("cookie-parser");
+const serveStatic = require("serve-static")
 const { getCurrUser } = require('./middleware/userMiddleware');
+const path = require('path');
+
 
 require('dotenv').config();
 
@@ -22,6 +25,8 @@ app.use(cors(
     credentials: true,
   }
 ));
+
+app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
 app.use(getCurrUser)
 
