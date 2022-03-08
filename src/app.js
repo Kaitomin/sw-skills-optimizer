@@ -43,6 +43,10 @@ app.use('/api', charRoutes);
 app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, './client/dist', 'index.html'));
+});
+
 // DB connection
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
