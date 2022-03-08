@@ -1,9 +1,7 @@
 import { createStore } from 'vuex'
-// import Cookies from 'js-cookie'
 
 const store = createStore({
   state: {
-    // user: '',
     chainsArray: JSON.parse(localStorage.getItem('chains')) ?? [],
     allTemplates: new Map(JSON.parse(localStorage.getItem('template')))
   },
@@ -38,19 +36,19 @@ const store = createStore({
     saveTemplate(state, template) {
       if (template.ids.length > 0) {
         state.chainsArray = state.chainsArray.filter(c => !template.ids.includes(c.chains[0]))
-        localStorage.setItem('chains', JSON.stringify(state.chainsArray))
+        // localStorage.setItem('chains', JSON.stringify(state.chainsArray))
       } else {
         state.chainsArray = template.chains
-        localStorage.setItem('chains', JSON.stringify(state.chainsArray))
+        // localStorage.setItem('chains', JSON.stringify(state.chainsArray))
       }
     },
     deleteTemplate(state, id) {
       state.chainsArray = state.chainsArray.filter(c => !id.includes(c.chains[0]))
-      localStorage.setItem('chains', JSON.stringify(state.chainsArray)) 
+      // localStorage.setItem('chains', JSON.stringify(state.chainsArray)) 
     },
     saveAllRotations(state, template) {
       state.allTemplates = template
-      localStorage.setItem('template', state.allTemplates);
+      // localStorage.setItem('template', state.allTemplates);
     },
   }
 })
