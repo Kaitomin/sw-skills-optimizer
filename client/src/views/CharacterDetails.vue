@@ -45,7 +45,7 @@
     <!-- Rotations -->
     <div class="skills-rotation">
       <h1>Rotations</h1>
-      <button class="btn btn-info" @click="saveTemplate">Save templates</button>
+      <!-- <button class="btn btn-info" @click="saveTemplate">Save templates</button> -->
       <Rotation
         v-for="component in components"
         :key="component[0]"
