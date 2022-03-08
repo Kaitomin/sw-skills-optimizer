@@ -24,19 +24,19 @@ app.use(cors(
   }
 ));
 
-if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '../client/dist')));
-}
-app.use(express.static('public'));
+// if (process.env.NODE_ENV === 'production') {
+// 	app.use(express.static(path.join(__dirname, '../client/dist')));
+// }
+// app.use(express.static('public'));
 
 app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
 app.use(getCurrUser)
 
 // Serve file after each request - Heroku
-app.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-});
+// app.get('*', (request, response) => {
+//   response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+// });
 
 
 // Routes
