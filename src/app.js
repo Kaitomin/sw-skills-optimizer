@@ -6,7 +6,7 @@ const charRoutes = require('./routes/characterRoutes');
 const skillsRoutes = require('./routes/skillsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cookieParser = require("cookie-parser");
-// const serveStatic = require("serve-static")
+const serveStatic = require("serve-static")
 const { getCurrUser } = require('./middleware/userMiddleware');
 const path = require('path');
 
@@ -26,11 +26,10 @@ app.use(cors(
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '../client/dist')));
-} else {
-  app.use(express.static('public'));
 }
+app.use(express.static('public'));
 
-// app.use(serveStatic(path.join(__dirname, '../client/dist')));
+app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
 app.use(getCurrUser)
 
