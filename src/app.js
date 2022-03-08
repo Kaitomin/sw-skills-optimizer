@@ -31,12 +31,12 @@ app.use(express.static('public'));
 
 // app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
-app.use(getCurrUser)
+app.use(getCurrUser);
 
 // Serve file after each request - Heroku
-app.get('*', (request, response) => {
-  response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-});
+// app.get('*', (request, response) => {
+//   response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+// });
 
 // Routes
 app.use('/api', charRoutes);
