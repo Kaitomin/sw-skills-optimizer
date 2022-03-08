@@ -40,8 +40,8 @@ app.use(getCurrUser);
 
 // Routes
 app.use(charRoutes);
-app.use('/api', skillsRoutes);
-app.use('/api', userRoutes);
+app.use(skillsRoutes);
+app.use(userRoutes);
 
 // DB connection
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
