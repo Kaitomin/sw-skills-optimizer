@@ -6,7 +6,7 @@ const charRoutes = require('./routes/characterRoutes');
 const skillsRoutes = require('./routes/skillsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const cookieParser = require("cookie-parser");
-const serveStatic = require("serve-static")
+// const serveStatic = require("serve-static")
 const { getCurrUser } = require('./middleware/userMiddleware');
 const path = require('path');
 
@@ -16,7 +16,6 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
@@ -27,15 +26,20 @@ app.use(cors(
 ));
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '../client/dist')));
+	app.use(express.static(path.join(__dirname, '../client/dist/*')));
+  // Serve file after each request - Heroku
+  app.get('*', (request, response) => {
+    response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+  });
+} else {
+  app.use(express.static('public'));
 }
-app.use(serveStatic(path.join(__dirname, '../client/dist')));
+
+// app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
 app.use(getCurrUser)
 
-app.get('*', (request, response) => {
-	response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-});
+
 
 // Routes
 app.use('/api', charRoutes);
