@@ -10,7 +10,6 @@ const cookieParser = require("cookie-parser");
 const { getCurrUser } = require('./middleware/userMiddleware');
 const path = require('path');
 
-
 require('dotenv').config();
 
 const app = express();
@@ -26,11 +25,7 @@ app.use(cors(
 ));
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '../client/dist/*')));
-  // Serve file after each request - Heroku
-  app.get('*', (request, response) => {
-    response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
-  });
+	app.use(express.static(path.join(__dirname, '../client/dist')));
 } else {
   app.use(express.static('public'));
 }
@@ -39,6 +34,10 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(getCurrUser)
 
+// Serve file after each request - Heroku
+app.get('*', (request, response) => {
+  response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
 
 
 // Routes
