@@ -21,14 +21,21 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
   {
-    origin: 'http://localhost:8080',
+    // origin: 'http://localhost:8080',
     credentials: true,
   }
 ));
 
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '../client/dist')));
+}
 app.use(serveStatic(path.join(__dirname, '../client/dist')));
 
 app.use(getCurrUser)
+
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
+});
 
 // Routes
 app.use('/api', charRoutes);
