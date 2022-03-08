@@ -44,7 +44,7 @@ app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, './client/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
 
 // DB connection
