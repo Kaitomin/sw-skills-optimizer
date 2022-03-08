@@ -39,7 +39,7 @@ app.use(getCurrUser);
 // });
 
 // Routes
-app.use('/api', charRoutes);
+app.use(charRoutes);
 app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 
