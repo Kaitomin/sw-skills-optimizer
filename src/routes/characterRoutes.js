@@ -9,7 +9,7 @@ const { getCurrUser } = require('../middleware/userMiddleware');
 // Set Multer storage to upload images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/src/assets/uploads/characters')
+    cb(null, './client/src/assets/uploads/characters')
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + '.' + file.originalname.split('.')[1])

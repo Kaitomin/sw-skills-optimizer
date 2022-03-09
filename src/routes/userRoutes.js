@@ -9,7 +9,7 @@ require('dotenv').config();
 // JWT
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id, role) => {
-    return jwt.sign({ id, role }, process.env.SESSION_SECRET_KEY, { 
+    return jwt.sign({ id, role }, process.env.JWT_SECRET_KEY, { 
         expiresIn: maxAge
     });
 }
@@ -37,6 +37,7 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.login(username, password);
     const token = createToken(user._id, user.role);
+    console.log('token', token)
 
     res.cookie('jwt', token, { 
       httpOnly: true, // client can't retrieve cookie with script
@@ -47,7 +48,7 @@ router.post('/login', async (req, res) => {
 
     return res.status(201).json({ user: user._id, role: user.role });
   } catch (error) {
-    return res.status(400).send({ error })
+    return res.status(400).send({ 'error': 'NO' })
   }
 });
 
