@@ -70,7 +70,6 @@ export default {
     onSelect() {
       const file = this.$refs.file.files[0];
       this.file = file;
-      console.log("this.file :", this.file)
     },
     async addNewSkill() {
       try {
@@ -91,9 +90,12 @@ export default {
       }
     },
   },
-  created() {
+  beforeCreate() {
     if (!this.$root.userRole) this.$router.push('/')
   },
+  created() {
+    this.getAllCharacters()
+  }
   
 }
 </script>
