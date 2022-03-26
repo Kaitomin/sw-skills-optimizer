@@ -7,6 +7,8 @@
         <div class="cdInput">
           <input type="range" id="charCD" min="0" max="55" step="1" v-model="charCD" />
           <p id="cdInput">Character CDR : {{ charCD +'%' }}</p>
+          <label>Desire Worker</label>
+          <input type="checkbox" id="dw" :checked="checked" @click="toggleDesire" />
         </div>
         <table class="table table-striped table-skills">
           <thead>
@@ -75,17 +77,34 @@ export default {
     return {
       char: '',
       charCD: '44',
+      checked: false,
+      skillsDefault: [],
       skills: [],
       components: new Map(),
       rotationLimit: 0,
       deleteId: [],
-      save: {save: false, deleteId: this.deleteId}
+      save: { save: false, deleteId: this.deleteId }
     }
   },
   components: { Rotation },
   methods: {
     getImgUrl(iconUrl) {
       return require('@/assets/uploads/skills/' + iconUrl)
+    },
+    toggleDesire() {
+      this.checked = !this.checked;
+      
+      if (this.checked) {
+        Array.from(this.skills).map(skill => {
+          if (skill.dwBoost) {
+            skill.dmg = Math.round(skill.dmg * 1.6)
+          } else {
+            skill.dmg = Math.round(skill.dmg * 1.2)
+          }
+        });
+      } else {
+        this.skills = JSON.parse(JSON.stringify(this.skillsDefault))
+      }
     },
     calcCD(skill) {
       return (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2);
@@ -125,7 +144,8 @@ export default {
       CharacterService.getCharacterInfo(this.id)
       .then(res => {
         this.char = res.data.character;
-        this.skills = res.data.skills;
+        this.skills = JSON.parse(JSON.stringify(res.data.skills));
+        this.skillsDefault = JSON.parse(JSON.stringify(res.data.skills));
       })
       .catch(err => console.log('Error :', err));
     };
