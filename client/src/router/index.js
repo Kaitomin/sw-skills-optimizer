@@ -13,7 +13,7 @@ const routes = [
     component: CharactersList
   },
   {
-    path: '/character/:id',
+    path: '/character/:name',
     name: 'CharacterDetails',
     component: CharacterDetails,
     props: true
