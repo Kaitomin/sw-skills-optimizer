@@ -1,0 +1,17 @@
+.skills-container.lily .skills-details .table-skills th {
+  background-color: purple;
+}
+.skills-container.lily .skills-details .table {
+  background-color: #48004854;
+}
+.skills-container.lily button.add-rotation {
+  background-color: purple;
+}
+.skills-container.lily .chains-container .dropdown-toggle {
+  color: white;
+  border: 1px solid white;
+  background-color: #b400ff26;
+}
+.skills-container.lily .chains-container .dropdown-toggle:hover {
+  background-color: #b400ff38;
+}
