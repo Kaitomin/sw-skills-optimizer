@@ -1,13 +1,15 @@
 <template>
   <div>
     <div id="nav">
-      <router-link to="/">Characters</router-link> |
+      <router-link to="/">Characters</router-link>
       <span v-if="userRole == 'ADMIN'">
-        <router-link to="/add-new-char">Add character</router-link> |
-        <router-link to="/add-new-skill">Add skill</router-link> |
-        <a @click="logout">Logout</a>
+        <router-link to="/add-new-char"> | Add character</router-link>
+        <router-link to="/add-new-skill"> | Add skill</router-link>
+        <a @click="logout"> | Logout</a>
       </span>
       <br>
+      <router-link class="character" to="/character/Iris">Iris - </router-link>
+      <router-link class="character" to="/character/Lily">Lily</router-link>
       <span v-if="userRole">Hello {{ userRole }}</span>
 
     </div>
@@ -58,17 +60,18 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
+  font-size: 1.3em;
   font-weight: bold;
-  color: #2c3e50;
+  color: #d9d9d9;
   text-decoration: none;
 }
-
+#nav a.character {
+  font-size: 1.1em;
+}
 #nav a.router-link-exact-active {
   color: #42b983;
 }
