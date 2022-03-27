@@ -5,7 +5,7 @@
         <img 
           :src="getImgUrl(char.icon)"
           alt="character icon"
-          @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id } })">
+          @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })">
     </div>
   </div>
 </template>
