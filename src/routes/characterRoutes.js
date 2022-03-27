@@ -54,9 +54,9 @@ router.post('/add-new-char', upload.single('avatar'), async (req, res) => {
 });
 
 // Get character skills information
-router.get('/character/:id', async (req, res) => {
+router.get('/character/:name', async (req, res) => {
   try {
-    const character = await Character.findOne({ _id: req.params.id});
+    const character = await Character.findOne({ name: req.params.name});
     const skills = await Skill.find({ character: character.name });
     return res.status(201).json({ character, skills });
   } catch (error) {
