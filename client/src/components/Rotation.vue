@@ -92,7 +92,7 @@ export default {
         this.$store.commit('saveTemplate', {chains: this.allChains, ids: this.save.deleteId})
         this.$emit('save')
       }
-    }
+    },
   },
   created() {
     if (this.$store.state.chainsArray) {
@@ -127,5 +127,11 @@ export default {
     left: 10px;
     display: flex;
     flex-direction: column;
+  }
+  .rotations-container .actions > button:first-child {
+    margin-bottom: 1em;
+  }
+  p {
+    color: white;
   }
 </style>
