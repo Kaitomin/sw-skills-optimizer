@@ -84,9 +84,7 @@
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cd') }}</td>
     </tr>
     <!-- End Chain -->
-  </table>
-  
-  
+  </table>  
 </template>
 
 <script>
@@ -175,8 +173,21 @@ export default {
       }
     },
     skillValue() {
-      this.chains = [this.rotationId, [this.id, this.c1_s1, this.c1_s2, this.c1_s3]]
-      this.$emit('chains', {chains: this.chains, pos: this.pos})
+     this.chains = [this.rotationId, [this.id, this.c1_s1, this.c1_s2, this.c1_s3]]
+     this.$emit('chains', {chains: this.chains, pos: this.pos})
+    },
+    skills() {
+      this.skills.forEach(skill => {
+        if (skill._id == this.c1_s1._id) {
+          this.c1_s1 = skill
+        }
+        if (skill._id == this.c1_s2._id) {
+          this.c1_s2 = skill
+        }
+        if (skill._id == this.c1_s3._id) {
+          this.c1_s3 = skill
+        }
+      });
     }
   },
   created() {
@@ -212,6 +223,9 @@ export default {
 </script>
 
 <style scoped>
+  .table {
+    color: white;
+  }
   .table > tr:first-child > td {
     border-top: none;
   }
@@ -245,7 +259,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, 50px);
     grid-gap: 5px 1px;
-    background: #cfcfcf;
+    background: #ffffff7a;
     transform: translate3d(-120px, 38px, 0) !important;
     top: 25px !important;
     left: -5px !important;
@@ -258,5 +272,8 @@ export default {
   }
   ul.dropdown-menu li {
     font-size: 40px;
+  }
+  .fa-ban {
+    color: red;
   }
 </style>
