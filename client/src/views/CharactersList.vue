@@ -50,13 +50,13 @@ export default {
 <style scoped>
   .characters-list {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     max-width: 500px;
     margin: 0 auto;
   }
   .characters-list img {
-    width: 200px;
+    width: 150px;
     height: auto;
   }
 </style>
