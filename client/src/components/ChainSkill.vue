@@ -63,23 +63,23 @@
         </div>
       </td>
     </tr>
-    <tr>
+    <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG</th>
       <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'dmg') }}%</td>
     </tr>
-    <tr>
+    <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">Cast</th>
       <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
     </tr>
-    <tr>
+    <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">CD</th>
       <td>{{ calcHighestCD(c1_s1.cd, c1_s2.cd, c1_s3.cd) }}s</td>
     </tr>
-    <tr>
+    <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/Cast</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
     </tr>
-    <tr>
+    <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/CD</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cd') }}</td>
     </tr>
