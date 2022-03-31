@@ -6,6 +6,10 @@
 }
 .skills-container.lily button.add-rotation {
   background-color: purple;
+  border-radius: 5px;
+}
+.skills-container.lily button.add-rotation:hover {
+  background-color: #620062;;
 }
 .skills-container.lily .chains-container .dropdown-toggle {
   color: white;
@@ -24,7 +28,7 @@
   width: 100%;
   /* height: 1900px; */
   z-index: -999;
-  opacity: 0.7;
+  opacity: 0.5;
   background: url(./img/lily.jpg);
   background-position: center;
   background-size: cover;
