@@ -1,7 +1,7 @@
 <template>
   <table class="table">
     <tr>
-      <td v-if="thValue"></td>
+      <td v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))"></td>
       <!-- Chain -->
       <td>
         <div class="chains-container">
@@ -64,23 +64,23 @@
       </td>
     </tr>
     <tr>
-      <th v-if="thValue">DMG</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG</th>
       <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'dmg') }}%</td>
     </tr>
     <tr>
-      <th v-if="thValue">Cast</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">Cast</th>
       <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
     </tr>
     <tr>
-      <th v-if="thValue">CD</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">CD</th>
       <td>{{ calcHighestCD(c1_s1.cd, c1_s2.cd, c1_s3.cd) }}s</td>
     </tr>
     <tr>
-      <th v-if="thValue">DMG/Cast</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/Cast</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
     </tr>
     <tr>
-      <th v-if="thValue">DMG/CD</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/CD</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cd') }}</td>
     </tr>
     <!-- End Chain -->
@@ -92,10 +92,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  props: ['skills', 'charCD', 'thValue', 'reset', 'data', 'pos', 'rotationId'],
+  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name'],
   data() {
     return {
-      id: '',
+      chainId: '',
       c1_s1: '',
       c1_s2: '',
       c1_s3: '',
@@ -163,6 +163,9 @@ export default {
         c1_s2: this.c1_s2,
         c1_s3: this.c1_s3
       }
+    },
+    clientWidth() {
+      return window.innerWidth
     }
   },
   watch: {
@@ -173,7 +176,7 @@ export default {
       }
     },
     skillValue() {
-     this.chains = [this.rotationId, [this.id, this.c1_s1, this.c1_s2, this.c1_s3]]
+     this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
      this.$emit('chains', {chains: this.chains, pos: this.pos})
     },
     skills() {
@@ -192,15 +195,15 @@ export default {
   },
   created() {
     if (!this.data) {
-      this.id = uuidv4()
-      this.chains = [this.rotationId, [this.id, this.c1_s1, this.c1_s2, this.c1_s3]]
+      this.chainId = uuidv4()
+      this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
     } else {
-      this.id = this.data.chains[1][0]
-      this.c1_s1 = this.data.chains[1][1]
-      this.c1_s2 = this.data.chains[1][2]
-      this.c1_s3 = this.data.chains[1][3]
+      this.chainId = this.data.chains[2][0]
+      this.c1_s1 = this.data.chains[2][1]
+      this.c1_s2 = this.data.chains[2][2]
+      this.c1_s3 = this.data.chains[2][3]
 
-      // Copy array by reference (reference lost using JSON.parse in Vuex)
+      // Copy array by reference (reference is lost using JSON.parse in Vuex)
       if (this.c1_s1._id == this.c1_s2._id) {
         this.c1_s1 = this.c1_s2
       }
@@ -214,7 +217,8 @@ export default {
   },
   updated() {
     this.$emit('total-values', {
-      id: this.id,
+      id: this.chainId,
+      name: this.name,
       dmgCast: this.dmgCast,
       dmgCd: this.dmgCd
     })
@@ -249,8 +253,9 @@ export default {
     width: 45px;
   }
   .chains-container .chains-sub .btn {
-    padding: 0 10px;
+    /* padding: 0 10px; */
     height: 60px;
+    width: 72px;
   }
   ul.dropdown-menu {
     min-width: 0;
@@ -259,7 +264,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, 50px);
     grid-gap: 5px 1px;
-    background: #ffffff7a;
+    background: #ffffff47;
     transform: translate3d(-120px, 38px, 0) !important;
     top: 25px !important;
     left: -5px !important;
@@ -275,5 +280,21 @@ export default {
   }
   .fa-ban {
     color: red;
+  }
+  @media screen and (max-width: 640px) { 
+    .chains-container {
+      align-items: end; 
+    }
+    .chains-container .table td {
+      text-align: right;
+    }
+  }
+  @media screen and (max-width: 368px) { 
+    .chains-container {
+      align-items: center; 
+    }
+    .chains-container .table td {
+      text-align: center;
+    }
   }
 </style>
