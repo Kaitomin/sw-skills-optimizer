@@ -1,15 +1,20 @@
 <template>
   <div>
     <div id="nav">
-      <router-link to="/">Characters</router-link>
-      <span v-if="userRole == 'ADMIN'">
-        <router-link to="/add-new-char"> | Add character</router-link>
-        <router-link to="/add-new-skill"> | Add skill</router-link>
-        <a @click="logout"> | Logout</a>
-      </span>
-      <br>
-      <router-link class="character" to="/character/Iris">Iris - </router-link>
-      <router-link class="character" to="/character/Lily">Lily</router-link>
+      <router-link to="/">
+        <img src="@/assets/img/logo.png" alt="soulworker logo" class="sw-logo">
+      </router-link>
+      <div class="menu">
+        <router-link to="/">All</router-link><div class="separator"></div>
+        <span v-if="userRole == 'ADMIN'"><div class="separator"></div>
+          <router-link to="/add-new-char"> | Add character</router-link>
+          <router-link to="/add-new-skill"> | Add skill</router-link>
+          <a @click="logout"> | Logout</a>
+        </span>
+        
+        <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
+        <router-link to="/character/Lily">Lily</router-link>
+      </div>
     </div>
     <hr>
     <router-view :key="$route.fullPath" />
@@ -20,7 +25,6 @@
 <script>
 
 import UserService from './services/UserService';
-import CharacterService from './services/CharacterService';
 
 export default {
   data() {
@@ -62,15 +66,26 @@ export default {
   padding: 10px 0;
 }
 #nav a {
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: bold;
   color: #d9d9d9;
   text-decoration: none;
 }
-#nav a.character {
-  font-size: 1em;
+.sw-logo {
+  width: 200px;
+}
+#nav .menu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+  margin: 0 auto;
 }
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.separator {
+  border-left: 1px solid white;
+  height: 15px;
 }
 </style>
