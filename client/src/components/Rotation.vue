@@ -133,6 +133,16 @@ export default {
     display: flex;
     flex-direction: column;
   }
+  .rotations-container .actions .btn {
+    background: #00000052;
+    color: white;
+    border: 1px solid white;
+  }
+  .rotations-container .actions .btn:hover {
+    background: #e9e9e9;
+    color: black;
+    border: 1px solid white;
+  }
   .rotations-container .actions > button:first-child {
     margin-bottom: 1em;
   }
