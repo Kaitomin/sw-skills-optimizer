@@ -7,12 +7,12 @@
 
     <div class="chains-container">
       <div>
-        <ChainSkill :data="filteredChains[0]" :pos="0" :skills="skills" :charCD="charCD" :thValue="true" :reset="reset" @reset="reset = false" @total-values="showTotal" @chains="getChains" :rotationId="id" />
-        <ChainSkill :data="filteredChains[1]" :pos="1" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" />
-        <ChainSkill :data="filteredChains[2]" :pos="2" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" />
-        <ChainSkill :data="filteredChains[3]" :pos="3" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" />
-        <ChainSkill :data="filteredChains[4]" :pos="4" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" />
-        <ChainSkill :data="filteredChains[5]" :pos="5" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" />
+        <ChainSkill :data="filteredChains[0]" :pos="0" :skills="skills" :charCD="charCD" :thValue="true" :reset="reset" @reset="reset = false" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[1]" :pos="1" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[2]" :pos="2" :skills="skills" :charCD="charCD" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[3]" :pos="3" :skills="skills" :charCD="charCD" :thValue640="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[4]" :pos="4" :skills="skills" :charCD="charCD" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[5]" :pos="5" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
       </div>
     </div>
     
@@ -30,7 +30,7 @@
 import ChainSkill from './ChainSkill.vue';
 
 export default {
-  props: ['skills', 'charCD', 'id', 'save', 'charId'],
+  props: ['skills', 'charCD', 'id', 'save', 'charId', 'name'],
   data() {
     return {
       reset: false,
@@ -63,7 +63,8 @@ export default {
 
       if (this.allChains.length > 0) {
         this.allChains.forEach((ch, index) => {
-          if (ch.chains[0] == e.chains[0] && ch.chains[1][0] == e.chains[1][0]) {
+
+          if (ch.chains[0] == e.chains[0] && ch.chains[2][0] == e.chains[2][0]) {       
             this.allChains.splice(index, 1, e)
             found = true
             return
@@ -89,26 +90,30 @@ export default {
   watch: {
     save() {
       if (this.save.save) {
-        this.$store.commit('saveTemplate', {chains: this.allChains, ids: this.save.deleteId})
+        this.$store.commit('saveChains', {chains: this.allChains, ids: this.save.deleteId, name: this.name})
         this.$emit('save')
       }
     },
   },
   created() {
-    if (this.$store.state.chainsArray) {
-      this.filteredChains.length = 6
-
-      // Get all chains
-      this.allChains = this.$store.state.chainsArray
-      // Filter by rotation id
-      this.tmp = this.allChains.filter(ch => ch.chains[0] == this.id)
-
-      // Add chains to rotation by pos
-      for (let i = 0; i < 6; i++) {
-        if (this.tmp[i]) {
-          this.filteredChains[this.tmp[i].pos] = this.tmp[i]
+    let tmp;
+    switch (this.name) {
+      case 'Lily':
+        this.allChains = this.$store.getters.lilyChains
+        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
+        for (let i = 0; i < 6; i++) {
+          if (!tmp[i]) continue
+          this.filteredChains[tmp[i].pos] = tmp[i]    
         }
-      }
+        break;
+      case 'Iris':
+        this.allChains = this.$store.getters.irisChains
+        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
+        for (let i = 0; i < 6; i++) {
+          if (!tmp[i]) continue
+          this.filteredChains[tmp[i].pos] = tmp[i]    
+        }
+        break;
     }
   },
 }
@@ -133,5 +138,50 @@ export default {
   }
   p {
     color: white;
+  }
+
+  /* Skills rotations */
+  .skills-rotation {
+    /* width: 715px; */
+    margin: 0 1em;
+  }
+  .skills-rotation > p:nth-child(3) {
+    margin-bottom: 1em;
+  }
+  .skills-rotation button.rotation {
+    display: inline-block;
+    width: 120px;
+    height: 40px;
+    color: white;
+    border: 0;
+  }
+  .skills-rotation button.disabled-rotation {
+    background: #5c5c5c;
+    color: black;
+  }
+  .skills-rotation input {
+    width: 50px;
+  }
+  @media screen and (max-width: 750px) {
+    .skills-rotation {
+      width: 100%;
+    }
+  }
+  @media screen and (max-width: 640px) {
+    .rotations-container .actions {
+      top: 15px;
+    }
+    .rotations-container .actions .btn {
+      height: 65px;
+    }
+    .skills-rotation .chains-container > div {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr 1fr;
+    }
+  }
+  @media screen and (max-width: 368px) {
+    .skills-rotation .chains-container > div {
+      grid-template-columns: 60% 40%;
+    }
   }
 </style>
