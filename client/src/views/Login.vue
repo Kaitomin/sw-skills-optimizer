@@ -16,7 +16,6 @@
 import UserService from '../services/UserService';
 
 export default {
-
   data() {
     return {
       username: '',
@@ -42,7 +41,6 @@ export default {
     } catch (error) {
       this.$router.push('/')
     }
-    
   }
 }
 </script>
@@ -56,7 +54,6 @@ export default {
     border: 1px solid rgba(0,0,150,0.3);
     padding: 2rem;
     border-radius: 10px;
-
   }
   .login-container form input {
     border-radius: 5px;
