@@ -1,11 +1,11 @@
 <template>
   <div class="characters-list">
     <div v-for="char in charList" :key="char._id">
-      <!-- <h1>{{ char.name }}</h1> -->
-        <img 
-          :src="getImgUrl(char.icon)"
-          alt="character icon"
-          @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })">
+      <img 
+        :src="getImgUrl(char.icon)"
+        alt="character icon"
+        @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })"
+      >
     </div>
   </div>
 </template>
@@ -54,6 +54,14 @@ export default {
     align-items: center;
     max-width: 500px;
     margin: 0 auto;
+  }
+  .characters-list > div {
+    border: 1px solid white;
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+  .characters-list > div:hover {
+    opacity: 0.8;
   }
   .characters-list img {
     width: 150px;
