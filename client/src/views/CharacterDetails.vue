@@ -1,6 +1,7 @@
 <template>
-  <div class="skills-container" :class="name.toLowerCase()">
+  <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
     <!-- Skills -->
+    <!--
     <div class="skills-details">
       <h1>Skills</h1>
       <div v-if="char">
@@ -11,7 +12,6 @@
           </div>
           <div class="dw-container">
             <p>Desire Worker</p>
-            <!-- <input type="checkbox" class="dw-input" :checked="checked" @click="toggleDesire" /> -->
             <span class="checkmark dw-input" :checked="checked" @click="toggleDesire"><i class="fa-solid fa-check disabled"></i></span>
           </div>
         </div>
@@ -27,7 +27,7 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR <br> & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cast')">DMG/Cast<span class="tooltip-msg">Ratio between DMG & Cast aka DPS, <br> the higher the better</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cast')">DMG/Cast<span class="tooltip-msg">DMG% per frame aka DPS, <br> the higher the better</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR & <br> chain +15% CDR bonus calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
@@ -39,7 +39,7 @@
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
-              <td>{{ skill.cast }}</td>
+              <td>{{ skill.cast }}F</td>
               <td>{{ calcCD(skill) }}s</td>
               <td>{{ calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
@@ -52,12 +52,20 @@
       </div>
       <hr>
     </div>
+    -->
+    <SkillsTable 
+      :charName="name"
+      @skills-table="toggleDesire"
+      @char-cdr="currentCDR"
+    />
     <!-- Rotations -->
     <div class="skills-rotation">
       <h1>Rotations</h1>
-      <p><i>3rd row automatically takes into account 15% CDR chain bonus</i></p>
-      <p><i>No selectable 2nd row bonus nor 3rd row DMG% bonus for now</i></p>
-      <!-- <button class="btn btn-info" @click="saveTemplate">Save templates</button> -->
+      <div class="chain-bonus">
+        <p><i>3rd row automatically takes into account 15% CDR chain bonus</i></p>
+        <p><i>No selectable 2nd row bonus nor 3rd row DMG% bonus for now</i></p>
+      </div>
+      <button v-if="rotationLimit > 0" class="btn btn-info btn-save" @click="saveRotations">Save templates</button>
       <Rotation
         v-for="component in components"
         :key="component[0]"
@@ -66,10 +74,11 @@
         :charCD="charCD"
         :save="save"
         :charId="id"
+        :name="name"
         @save="setSave"
         @delete-component="deleteComponent(component)"
       />     
-      <button class="rotation" :class="rotationLimit <= 3 ? 'add-rotation' : 'disabled-rotation'" @click="addRotation">Add rotation</button>
+      <button class="rotation" :class="rotationLimit <= 2 ? 'add-rotation' : 'disabled-rotation'" @click="addRotation">Add rotation</button>
     </div>
   </div>
   
@@ -77,8 +86,8 @@
 
 <script>
 
-import CharacterService from '../services/CharacterService';
 import Rotation from '../components/Rotation.vue';
+import SkillsTable from '../components/SkillsTable.vue';
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
@@ -86,20 +95,21 @@ export default {
   data() {
     return {
       char: '',
-      charCD: '44',
-      checked: false,
-      skillsDefault: [],
+      charCD: '',
+      // checked: false,
+      // skillsDefault: [],
       skills: [],
       components: new Map(),
       rotationLimit: 0,
       deleteId: [],
       save: { save: false, deleteId: this.deleteId },
       sortOrder: false,
-      hover: false
+      containerH: ''
     }
   },
-  components: { Rotation },
+  components: { Rotation, SkillsTable },
   methods: {
+    /*
     getImgUrl(iconUrl) {
       return require('@/assets/uploads/skills/' + iconUrl)
     },
@@ -148,8 +158,15 @@ export default {
           break;
       }
     },
+    */
+    toggleDesire(skillsTable) {
+      this.skills = skillsTable
+    },
+    currentCDR(charCDR) {
+      this.charCD = charCDR
+    },
     addRotation() {
-      if (this.rotationLimit <= 3) {
+      if (this.rotationLimit <= 2) {
         this.components.set(uuidv4(), Rotation)
         this.rotationLimit += 1;
       }
@@ -162,14 +179,18 @@ export default {
       this.rotationLimit -= 1;
     },
     // Commit all changes
-    saveTemplate() {
+    saveRotations() {
       this.save = {save: true, deleteId: this.deleteId}
-      this.$store.commit('saveAllRotations', JSON.stringify(Array.from(this.components.entries())));
+      this.$store.commit('saveRotations', {
+        name: this.name, 
+        rotations: JSON.stringify(Array.from(this.components.entries()))
+      });
     },
     // Reset save props after saveTemplate()
     setSave() {
       this.save.save = false
     },
+    /*
     sortTab() {
       let tbody = document.querySelector('tbody');
       let tr = Array.from(document.querySelectorAll('tbody tr'));
@@ -189,26 +210,78 @@ export default {
       if (e.target.classList.contains("tooltip-container")) {
         e.target.children[0].style.display = "none"
       }
+    },
+    */
+  },
+  computed: {
+    containerHeight() {
+      return {
+        '--container-height': this.containerH
+      }
     }
   },
+  // watch: {
+  //   containerH() {
+  //     if(document.querySelector('.skills-container').offsetHeight) {
+  //       console.log(document.querySelector('.skills-container').offsetHeight)
+  //     }
+  //   }
+  // },
   created() {
     // Get character skills
-    const getInfo = () => {
-      CharacterService.getCharacterInfo(this.name)
-      .then(res => {
-        this.char = res.data.character;
-        this.skills = JSON.parse(JSON.stringify(res.data.skills));
-        this.skillsDefault = JSON.parse(JSON.stringify(res.data.skills));
-        this.displayTooltips
-      })
-      .catch(err => console.log('Error :', err));
-    };
-    getInfo();
-
+    // const getInfo = () => {
+    //   CharacterService.getCharacterInfo(this.name)
+    //   .then(res => {
+    //     this.char = res.data.character;
+    //     this.skills = JSON.parse(JSON.stringify(res.data.skills));
+    //     this.skillsDefault = JSON.parse(JSON.stringify(res.data.skills));
+    //     this.displayTooltips
+    //   })
+    //   .catch(err => console.log('Error :', err));
+    // };
+    // getInfo();
+  },
+  mounted() {
     // Get rotations templates
-    if (this.$store.state.allTemplates) {
-      this.components = this.$store.state.allTemplates;
+    switch (this.name) {
+      case 'Lily':
+        this.components = this.$store.getters.lilyRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
+      case 'Iris':
+        this.components = this.$store.getters.irisRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
     }
+
+    // window.addEventListener('load', () => {
+    //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+    //   console.log("Loaded")
+    // })
+    setTimeout(() => {
+      this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+    }, 500)
+
+    // this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+
+
+    // const getCharRotations = () => {
+    //   if (this.name == "Lily") {
+    //     if (!this.$store.getters.lilyRotations) return
+
+        
+    //   } else if (this.name == "Iris") {
+    //     if (!this.$store.getters.irisRotations) return
+
+    //     this.components = this.$store.getters.irisRotations;
+    //     this.rotationLimit = Array.from(this.components).length
+    //   }
+    // }
+    // getCharRotations();
+  },
+  updated() {
+    this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+    // console.log("Updated", document.querySelector('.skills-container').offsetHeight + 'px')
   },
 }
 
@@ -221,15 +294,28 @@ export default {
     border: 1px solid white;
     font-size: 2em;
   }
-  .checked {
+  /* .checked {
     background-color: #0064e1 !important;
-  }
+  } */
   /* Skills container */
   .skills-container {
     display: flex;
     justify-content: space-around;
     /* flex-direction: column; */
   }
+  .skills-container:before {
+    height: var(--container-height);
+    animation: 2s ease-in 0s fadeIn;
+  }
+  @-webkit-keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 0.7; }  
+  }
+  @keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 0.7; } 
+  }
+
   .skills-container p {
     margin-bottom: 0;
   }
@@ -239,14 +325,14 @@ export default {
     color: white;
   }
   /* SKills details */
-  .skills-details {
+  /* .skills-details {
     min-width: 715px;
     margin: 0 1em;
   }
   .skills-details .char-info {
     display: flex;
     justify-content: space-evenly;
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 2em;
   }
   .skills-details .dw-container {
@@ -301,7 +387,7 @@ export default {
   }
   .skills-details .table td {
     padding: 0.7rem 0 0.3rem 0;
-    /* border-top: 0; */
+    border-top: 0;
   }
   .table-skills { 
     border-spacing: 0px;
@@ -337,11 +423,24 @@ export default {
   .table-skills p {
     margin: 0;
   }
+  */
 
   /* Skills rotations */
-  .skills-rotation {
+  /* .skills-rotation {
     width: 715px;
     margin: 0 1em;
+  }
+  .skills-rotation > p:nth-child(3) {
+    margin-bottom: 1em;
+  }
+  
+  
+  .skills-rotation input {
+    width: 50px;
+  } */
+
+  .chain-bonus {
+    margin-bottom: 1em;
   }
   button.rotation {
     display: inline-block;
@@ -349,14 +448,11 @@ export default {
     height: 40px;
     color: white;
     border: 0;
+    margin-bottom: 1em;
   }
   button.disabled-rotation {
     background: #5c5c5c;
     color: black;
-  }
-  
-  .skills-rotation input {
-    width: 50px;
   }
 
   @media screen and (max-width: 1400px) {
@@ -369,6 +465,8 @@ export default {
     .skills-container {
       min-width: 100%;
     }
+  }
+  @media screen and (max-width: 640px) {
     .skills-rotation {
       width: 100%;
     }
