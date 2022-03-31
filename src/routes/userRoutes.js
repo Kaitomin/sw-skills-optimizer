@@ -15,18 +15,18 @@ const createToken = (id, role) => {
 }
 
 // User registration
-router.post('/register', async (req, res) => {
-  const { username, password, role } = req.body;
+// router.post('/register', async (req, res) => {
+//   const { username, password, role } = req.body;
 
-  try {
-    const user = await User.create({ username, password, role });
+//   try {
+//     const user = await User.create({ username, password, role });
 
-    return res.status(201).json({ user: user._id });
-  } catch (error) {
-    return res.status(400).send({ error })
-  }
+//     return res.status(201).json({ user: user._id });
+//   } catch (error) {
+//     return res.status(400).send({ error })
+//   }
   
-});
+// });
 
 router.get('/login', (req, res) => {
   if (res.locals.user) return res.status(401).json({msg: 'Already logged in' })
@@ -37,7 +37,6 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.login(username, password);
     const token = createToken(user._id, user.role);
-    console.log('token', token)
 
     res.cookie('jwt', token, { 
       httpOnly: true, // client can't retrieve cookie with script
