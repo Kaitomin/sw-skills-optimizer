@@ -1,58 +1,6 @@
 <template>
   <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
-    <!-- Skills -->
-    <!--
-    <div class="skills-details">
-      <h1>Skills</h1>
-      <div v-if="char">
-        <div class="char-info">
-          <div class="cdInput">
-            <input type="range" id="charCD" min="0" max="55" step="1" v-model="charCD" />
-            <p id="cdInput">Character CDR : {{ charCD +'%' }}</p>
-          </div>
-          <div class="dw-container">
-            <p>Desire Worker</p>
-            <span class="checkmark dw-input" :checked="checked" @click="toggleDesire"><i class="fa-solid fa-check disabled"></i></span>
-          </div>
-        </div>
-        <table class="table table-striped table-skills">
-          <thead>
-            <tr 
-              @mouseover="displayTooltips" 
-              @mouseout="hideTooltips"
-            >
-              <th scope="col">Skill</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Number of frames [205%  aspd - 60fps]</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR <br> & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
-              <th class="separator-th"></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cast')">DMG/Cast<span class="tooltip-msg">DMG% per frame aka DPS, <br> the higher the better</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR & <br> chain +15% CDR bonus calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ +charCD + 15 }}% ]</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="skill in skills" :key="skill._id">
-              <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
-                <p>{{ skill.skillName }}</p>
-              </td>
-              <td>{{ skill.dmg }}%</td>
-              <td>{{ skill.cast }}F</td>
-              <td>{{ calcCD(skill) }}s</td>
-              <td>{{ calcCD15(skill) }}s</td>
-              <td class="separator-td"></td>
-              <td class="dmg-cast">{{ Math.round(skill.dmg/skill.cast) }}</td>
-              <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
-              <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <hr>
-    </div>
-    -->
+    <!-- Skills table -->
     <SkillsTable 
       :charName="name"
       @skills-table="toggleDesire"
@@ -95,9 +43,7 @@ export default {
   data() {
     return {
       char: '',
-      charCD: '',
-      // checked: false,
-      // skillsDefault: [],
+      charCD: '44',
       skills: [],
       components: new Map(),
       rotationLimit: 0,
@@ -109,56 +55,6 @@ export default {
   },
   components: { Rotation, SkillsTable },
   methods: {
-    /*
-    getImgUrl(iconUrl) {
-      return require('@/assets/uploads/skills/' + iconUrl)
-    },
-    toggleDesire() {
-      this.checked = !this.checked;
-      
-      if (this.checked) {
-        document.querySelector('.fa-check').classList.remove('disabled')
-        document.querySelector('.dw-input').classList.add('checked')
-
-        Array.from(this.skills).map(skill => {
-          if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg * 1.6)
-          } else {
-            skill.dmg = Math.round(skill.dmg * 1.2)
-          }
-        })
-      } else {
-        document.querySelector('.fa-check').classList.add('disabled')
-        document.querySelector('.dw-input').classList.remove('checked')
-
-        this.skills = JSON.parse(JSON.stringify(this.skillsDefault))
-      }
-    },
-    calcCD(skill) {
-      return (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2);
-    },
-    calcCD15(skill) {
-      return (+skill.cd - ((+skill.cd * this.charCD/100) + (+skill.cd * 0.15))).toFixed(2);
-    },
-    sortBy(criteria) {
-      this.sortOrder = !this.sortOrder;
-
-      switch(criteria) {
-        case 'dmg-cast':
-          this.skills.sort((a, b) => this.sortOrder ? Math.round(a.dmg/a.cast) - Math.round(b.dmg/b.cast) : Math.round(b.dmg/b.cast) - Math.round(a.dmg/a.cast))
-          break;
-        case 'dmg-cd':
-          this.skills.sort((a, b) => this.sortOrder ? Math.round(a.dmg/this.calcCD(a)) - Math.round(b.dmg/this.calcCD(b)) : Math.round(b.dmg/this.calcCD(b)) - Math.round(a.dmg/this.calcCD(a)))
-          break;
-        case 'dmg-cd15':
-          this.skills.sort((a, b) => this.sortOrder ? Math.round(a.dmg/this.calcCD15(a)) - Math.round(b.dmg/this.calcCD15(b)) : Math.round(b.dmg/this.calcCD15(b)) - Math.round(a.dmg/this.calcCD15(a)))
-          break;
-        default:
-          this.skills.sort((a, b) => this.sortOrder ? +a[criteria] - +b[criteria] : +b[criteria] - +a[criteria])
-          break;
-      }
-    },
-    */
     toggleDesire(skillsTable) {
       this.skills = skillsTable
     },
@@ -190,28 +86,6 @@ export default {
     setSave() {
       this.save.save = false
     },
-    /*
-    sortTab() {
-      let tbody = document.querySelector('tbody');
-      let tr = Array.from(document.querySelectorAll('tbody tr'));
-
-      tr.forEach(tr => tr.remove())
-      tr.sort((a, b) => {
-        return a.querySelector('td.dmg-cast').textContent - b.querySelector('td.dmg-cast').textContent
-      })
-      tr.forEach(tr => tbody.append(tr))
-    },
-    displayTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "block"
-      }
-    },
-    hideTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "none"
-      }
-    },
-    */
   },
   computed: {
     containerHeight() {
@@ -219,27 +93,6 @@ export default {
         '--container-height': this.containerH
       }
     }
-  },
-  // watch: {
-  //   containerH() {
-  //     if(document.querySelector('.skills-container').offsetHeight) {
-  //       console.log(document.querySelector('.skills-container').offsetHeight)
-  //     }
-  //   }
-  // },
-  created() {
-    // Get character skills
-    // const getInfo = () => {
-    //   CharacterService.getCharacterInfo(this.name)
-    //   .then(res => {
-    //     this.char = res.data.character;
-    //     this.skills = JSON.parse(JSON.stringify(res.data.skills));
-    //     this.skillsDefault = JSON.parse(JSON.stringify(res.data.skills));
-    //     this.displayTooltips
-    //   })
-    //   .catch(err => console.log('Error :', err));
-    // };
-    // getInfo();
   },
   mounted() {
     // Get rotations templates
@@ -253,35 +106,12 @@ export default {
         this.rotationLimit = Array.from(this.components).length
         break;
     }
-
-    // window.addEventListener('load', () => {
-    //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    //   console.log("Loaded")
-    // })
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
     }, 500)
-
-    // this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-
-
-    // const getCharRotations = () => {
-    //   if (this.name == "Lily") {
-    //     if (!this.$store.getters.lilyRotations) return
-
-        
-    //   } else if (this.name == "Iris") {
-    //     if (!this.$store.getters.irisRotations) return
-
-    //     this.components = this.$store.getters.irisRotations;
-    //     this.rotationLimit = Array.from(this.components).length
-    //   }
-    // }
-    // getCharRotations();
   },
   updated() {
     this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    // console.log("Updated", document.querySelector('.skills-container').offsetHeight + 'px')
   },
 }
 
@@ -293,10 +123,8 @@ export default {
     color: white;
     border: 1px solid white;
     font-size: 2em;
+    padding: 5px 0;
   }
-  /* .checked {
-    background-color: #0064e1 !important;
-  } */
   /* Skills container */
   .skills-container {
     display: flex;
@@ -309,11 +137,11 @@ export default {
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; }  
+    100% { opacity: 0.5; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; } 
+    100% { opacity: 0.5; } 
   }
 
   .skills-container p {
@@ -324,121 +152,6 @@ export default {
   .skills-container table {
     color: white;
   }
-  /* SKills details */
-  /* .skills-details {
-    min-width: 715px;
-    margin: 0 1em;
-  }
-  .skills-details .char-info {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: flex-end;
-    margin-bottom: 2em;
-  }
-  .skills-details .dw-container {
-    display: block;
-    position: relative;
-    cursor: auto;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  .skills-details .dw-container .checkmark {
-    position: absolute;
-    top: -20px;
-    left: 40px;
-    height: 20px;
-    width: 20px;
-    background-color: #eee;
-  }
-
-  .skills-details .dw-container i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    color: white;
-  }
-  .disabled {
-    opacity: 0;
-  }
-  .skills-details .tooltip-container {
-    position: relative;
-  }
-  .skills-details .tooltip-msg {
-    display: none;
-    position: absolute;
-    width: max-content;
-    z-index: 999;
-    top: 50px;
-    left: 0;
-    text-align: left;
-    padding: 10px;
-    border: 1px solid white;
-    background: #000000a1;
-  }
-  .skills-details .table thead th {
-    border-bottom: 0;
-    vertical-align: middle;
-    width: 40px;
-    border-top: 0;
-  }
-  .skills-details .table td {
-    padding: 0.7rem 0 0.3rem 0;
-    border-top: 0;
-  }
-  .table-skills { 
-    border-spacing: 0px;
-    border: 1px solid white;
-  }
-  .table-skills thead > tr > td:first-child,
-  .table-skills tbody > tr > td:first-child {
-    padding-left: 0.5rem;
-  }
-
-  .table-skills tbody {
-    text-align: center;
-    font-size: 15px;
-  }
-  .table-skills img {
-    width: 50px;
-  }
-  .table-skills th {
-    color: white;
-    padding: 5px 0;
-  }
-  .table-skills td {
-    vertical-align: middle;
-  }
-  .table-skills th.separator-th {
-    width: 1px !important;
-    background: #ffffff7a;
-  }
-  .table-skills .separator-td {
-    width: 1px;
-    background: #ffffff7a;
-  }
-  .table-skills p {
-    margin: 0;
-  }
-  */
-
-  /* Skills rotations */
-  /* .skills-rotation {
-    width: 715px;
-    margin: 0 1em;
-  }
-  .skills-rotation > p:nth-child(3) {
-    margin-bottom: 1em;
-  }
-  
-  
-  .skills-rotation input {
-    width: 50px;
-  } */
-
   .chain-bonus {
     margin-bottom: 1em;
   }
