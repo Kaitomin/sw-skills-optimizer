@@ -5,7 +5,7 @@
       <div v-if="char">
         <div class="char-info">
           <div class="cdInput">
-            <input type="range" id="charCD" min="0" max="55" step="1" @mouseup.left="$emit('char-cdr', charCD)" v-model="charCD" />
+            <input type="range" id="charCD" min="0" max="55" step="1" @click="$emit('char-cdr', charCD)" v-model="charCD" />
             <p id="cdInput">Character CDR : {{ charCD +'%' }}</p>
           </div>
           <div class="dw-container">
