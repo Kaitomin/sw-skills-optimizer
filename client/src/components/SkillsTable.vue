@@ -10,11 +10,10 @@
           </div>
           <div class="dw-container">
             <p>Desire Worker</p>
-            <!-- <input type="checkbox" class="dw-input" :checked="checked" @click="toggleDesire" /> -->
             <span class="checkmark dw-input" :checked="checked" @click="toggleDesire"><i class="fa-solid fa-check disabled"></i></span>
           </div>
         </div>
-        <table v-if="clientWidth > 475" class="table table-striped table-skills">
+        <table v-if="clientWidth > 550" class="table table-striped table-skills">
           <thead>
             <tr 
               @mouseover="displayTooltips" 
@@ -56,12 +55,9 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Number of frames [205%  aspd - 60fps]</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
-              <!-- <th scope="col" class="tooltip-container" @click="sortBy('dmg-cast')">DMG/Cast<span class="tooltip-msg">DMG% per frame aka DPS, <br> the higher the better</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR & <br> chain +15% CDR bonus calculation. <br> Generally the higher the more you should spam the skill when off CD</span><br>[{{ +charCD + 15 }}% ]</th> -->
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Number of frames [205%  aspd - 60fps] (DMG/Cast)</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
             </tr>
           </thead>
           <tbody>
@@ -74,9 +70,6 @@
               <td>{{ skill.cast }}F <br>({{ Math.round(skill.dmg/skill.cast) }}%/F)</td>
               <td>{{ calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
               <td>{{ calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
-              <!-- <td class="dmg-cast">{{ Math.round(skill.dmg/skill.cast) }}</td>
-              <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
-              <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td> -->
             </tr>
           </tbody>
         </table>
@@ -178,18 +171,15 @@ export default {
     }
   },
   created() {
-    // const getInfo = () => {
-      CharacterService.getCharacterInfo(this.charName)
-      .then(res => {
-        this.char = res.data.character;
-        this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
-        this.skillsDefaultTable = JSON.parse(JSON.stringify(res.data.skills));
-        this.displayTooltips
-        this.$emit('skills-table', this.skillsTable)
-      })
-      .catch(err => console.log('Error :', err));
-    // };
-    // getInfo();
+    CharacterService.getCharacterInfo(this.charName)
+    .then(res => {
+      this.char = res.data.character;
+      this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
+      this.skillsDefaultTable = JSON.parse(JSON.stringify(res.data.skills));
+      this.displayTooltips
+      this.$emit('skills-table', this.skillsTable)
+    })
+    .catch(err => console.log('Error :', err));
   }
 }
 </script>
@@ -200,6 +190,7 @@ export default {
     color: white;
     border: 1px solid white;
     font-size: 2em;
+    padding: 5px 0;
   }
   .checked {
     background-color: #0064e1 !important;
@@ -213,7 +204,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-end;
-    margin-bottom: 2em;
+    /* margin-bottom: 2em; */
     color: white;
   }
   .skills-details .dw-container {
