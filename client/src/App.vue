@@ -10,8 +10,6 @@
       <br>
       <router-link class="character" to="/character/Iris">Iris - </router-link>
       <router-link class="character" to="/character/Lily">Lily</router-link>
-      <span v-if="userRole">Hello {{ userRole }}</span>
-
     </div>
     <hr>
     <router-view :key="$route.fullPath" />
@@ -61,16 +59,16 @@ export default {
   color: #2c3e50;
 }
 #nav {
-  padding: 30px;
+  padding: 10px 0;
 }
 #nav a {
-  font-size: 1.3em;
+  font-size: 1em;
   font-weight: bold;
   color: #d9d9d9;
   text-decoration: none;
 }
 #nav a.character {
-  font-size: 1.1em;
+  font-size: 1em;
 }
 #nav a.router-link-exact-active {
   color: #42b983;
