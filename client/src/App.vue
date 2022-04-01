@@ -2,7 +2,7 @@
   <div>
     <div id="nav">
       <router-link to="/">
-        <img src="@/assets/img/logo.png" alt="soulworker logo" class="sw-logo">
+        <img src="@/assets/img/logo.webp" alt="soulworker logo" class="sw-logo" width="200" height="113">
       </router-link>
       <div class="menu">
         <router-link to="/">All</router-link><div class="separator"></div>
