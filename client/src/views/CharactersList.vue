@@ -4,7 +4,9 @@
       <router-link :to="'/character/' + char.name">
         <img 
           :src="getImgUrl(char.icon)"
-          :alt="char.name + ' icon'"         
+          :alt="char.name + ' icon'"
+          width="150"
+          height="150"       
         >
       </router-link>
     </div>
