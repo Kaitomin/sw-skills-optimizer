@@ -7,7 +7,6 @@
           :alt="char.name + ' icon'"         
         >
       </router-link>
-        <!-- @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })" -->
     </div>
   </div>
 </template>
@@ -25,7 +24,7 @@ export default {
   methods: {
     async getAllCharacters() {
       try {
-        const res = await CharacterService.getAllCharacters();
+        const res = await CharacterService.getAllCharacters()
         this.charList = res.data.charList;
       } catch (error) {
         console.log('Error :', error);
