@@ -27,7 +27,7 @@
 
 <script>
 
-import ChainSkill from './ChainSkill.vue';
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: ['skills', 'charCD', 'id', 'save', 'charId', 'name'],
@@ -40,7 +40,7 @@ export default {
     }
   },
   components: {
-    ChainSkill
+    ChainSkill: defineAsyncComponent(() => import('./ChainSkill.vue'))
   },
   methods: {
     deleteComponent() {
