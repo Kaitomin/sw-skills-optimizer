@@ -1,11 +1,13 @@
 <template>
   <div class="characters-list">
     <div v-for="char in charList" :key="char._id">
-      <img 
-        :src="getImgUrl(char.icon)"
-        alt="character icon"
-        @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })"
-      >
+      <router-link :to="'/character/' + char.name">
+        <img 
+          :src="getImgUrl(char.icon)"
+          :alt="char.name + ' icon'"         
+        >
+      </router-link>
+        <!-- @click="this.$router.push({ name: 'CharacterDetails', params: { id: char._id, name: char.name } })" -->
     </div>
   </div>
 </template>
