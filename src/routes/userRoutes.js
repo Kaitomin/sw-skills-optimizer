@@ -5,7 +5,6 @@ const { getCurrUser } = require('../middleware/userMiddleware');
 
 require('dotenv').config();
 
-
 // JWT
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id, role) => {
@@ -13,20 +12,6 @@ const createToken = (id, role) => {
         expiresIn: maxAge
     });
 }
-
-// User registration
-// router.post('/register', async (req, res) => {
-//   const { username, password, role } = req.body;
-
-//   try {
-//     const user = await User.create({ username, password, role });
-
-//     return res.status(201).json({ user: user._id });
-//   } catch (error) {
-//     return res.status(400).send({ error })
-//   }
-  
-// });
 
 router.get('/login', (req, res) => {
   if (res.locals.user) return res.status(401).json({msg: 'Already logged in' })
