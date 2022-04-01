@@ -22,19 +22,19 @@ const routes = [
     path: '/add-new-char',
     name: 'AddNewChar',
     meta: { title: 'New char', content: 'Add a new Soulworker character' },
-    component: lazyLoad('addNewCharacter.vue')
+    component: lazyLoad('addNewCharacter')
   },
   {
     path: '/add-new-skill',
     name: 'AddNewSkill',
     meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
-    component: lazyLoad('addNewSkill.vue')
+    component: lazyLoad('addNewSkill')
   },
   {
     path: '/login',
     name: 'Login',
     meta: { title: 'Login', content: 'Login to access edit feature' },
-    component: lazyLoad('Login.vue')
+    component: lazyLoad('Login')
   },
   {
     path: '/:pathMatch(.*)*',
