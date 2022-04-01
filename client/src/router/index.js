@@ -1,41 +1,40 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import CharactersList from '../views/CharactersList.vue'
-// import CharacterDetails from '../views/CharacterDetails.vue'
-// import AddNewChar from '../views/addNewCharacter.vue'
-// import AddNewSkill from '../views/addNewSkill.vue'
-// import Login from '../views/Login.vue'
+
+function lazyLoad(view){
+  return() => import(`@/views/${view}.vue`)
+}
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     meta: { title: 'Soulworker | Skills optimizer' },
-    component: () => import('@/views/CharactersList.vue')
+    component: lazyLoad('CharactersList')
   },
   {
     path: '/character/:name',
     name: 'CharacterDetails',
     meta: { title: ' | skills infos' },
-    component: () => import('@/views/CharacterDetails.vue'),
+    component: lazyLoad('CharacterDetails'),
     props: true
   },
   {
     path: '/add-new-char',
     name: 'AddNewChar',
     meta: { title: 'New char' },
-    component: () => import('@/views/addNewCharacter.vue')
+    component: lazyLoad('addNewCharacter.vue')
   },
   {
     path: '/add-new-skill',
     name: 'AddNewSkill',
     meta: { title: 'New skill' },
-    component: () => import('@/views/addNewSkill.vue')
+    component: lazyLoad('addNewSkill.vue')
   },
   {
     path: '/login',
     name: 'Login',
     meta: { title: 'Login' },
-    component: () => import('@/views/Login.vue')
+    component: lazyLoad('Login.vue')
   },
   {
     path: '/:pathMatch(.*)*',
