@@ -33,7 +33,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
+                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'"  width="50" height="50">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
