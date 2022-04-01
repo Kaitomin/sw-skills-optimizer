@@ -65,7 +65,7 @@ export default {
     },
     addRotation() {
       if (this.rotationLimit <= 2) {
-        this.components.set(uuidv4(), Rotation)
+        this.components.set(uuidv4(), this.Rotation)
         this.rotationLimit += 1;
       }
     },
