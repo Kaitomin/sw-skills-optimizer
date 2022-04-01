@@ -202,7 +202,6 @@ export default {
       this.c1_s1 = this.data.chains[2][1]
       this.c1_s2 = this.data.chains[2][2]
       this.c1_s3 = this.data.chains[2][3]
-      console.log(this.c1_s1)
 
       // Copy array by reference (reference is lost using JSON.parse in Vuex)
       if (this.c1_s1._id == this.c1_s2._id) {
@@ -230,6 +229,11 @@ export default {
 <style scoped>
   .table {
     color: white;
+  }
+  .table td, .table th {
+    padding: 0.6rem 0.2rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
   }
   .table > tr:first-child > td {
     border-top: none;
