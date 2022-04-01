@@ -4,8 +4,10 @@
     <form @submit.prevent="login">
       <label>Username</label>
       <input type="text" v-model="username" required/>
+      <span class="error">{{ error.username }}</span>
       <label>Password</label>
       <input type="password" v-model="password" required/>
+      <span class="error">{{ error.password }}</span>
       <button class="btn btn-primary">Login</button>
     </form>
   </div>
@@ -14,24 +16,56 @@
 <script>
 
 import UserService from '../services/UserService';
+// import { ValidationProvider, extend } from 'vee-validate';
+// import { required } from 'vee-validate/dist/rules';
+
+// extend('required', {
+//   ...required,
+//   message: 'This field is required'
+// });
 
 export default {
   data() {
     return {
       username: '',
       password: '',
+      error: {username: '', password: ''}
     }
   },
   methods: {
+    handleErrors() {
+      this.error.username = this.error.password = ''
+      if (this.username.length < 5 ) {
+        this.error.username = 'Length must be > 5'
+        return
+      }
+      if (this.password.length < 5 ) {
+        this.error.password = 'Length must be > 5'
+        return
+      }
+      if (!this.username.match(/^[a-z0-9]+$/i)) {
+        this.error.username = 'Only letters and numbers allowed '
+        return
+      }
+      if (!this.password.match(/^[a-z0-9!+]+$/i)) {
+        this.error.password = 'Only letters, numbers, ! and + allowed'
+        return
+      }
+    },
     async login() {
-      try {
-        const res = await UserService.login({
-          username: this.username.toLowerCase(),
-          password: this.password
-        });
-        this.$router.go();
-      } catch (error) {
-        console.log("Login error :", error);
+      this.handleErrors(this.username, this.password)
+
+      if (!this.error.username && !this.error.password) {
+        console.log('TRY')
+        try {
+          const res = await UserService.login({
+            username: this.username.toLowerCase(),
+            password: this.password
+          });
+          this.$router.go();
+        } catch (error) {
+          console.log("Login error :", error);
+        }
       }
     }
   },
@@ -46,7 +80,10 @@ export default {
 </script>
 
 <style scoped>
-  .login-container form {
+  h1, label {
+    color: white;
+  }
+  form {
     display: flex;
     flex-direction: column;
     width: 250px;
@@ -55,12 +92,15 @@ export default {
     padding: 2rem;
     border-radius: 10px;
   }
-  .login-container form input {
+  form input {
     border-radius: 5px;
     border: 1px solid blue;
     margin-bottom: 1rem;
   }
-  .login-container form button {
+  form button {
     margin-top: 1rem;
+  }
+  .error {
+    color: red;
   }
 </style>
