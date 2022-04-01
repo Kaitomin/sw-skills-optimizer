@@ -126,66 +126,43 @@ export default {
   .chains-container > div:first-child {
     display: flex;
   }
-  .rotations-container .actions {
+  .actions {
     position: absolute;
     top: 60px;
     left: 10px;
     display: flex;
     flex-direction: column;
   }
-  .rotations-container .actions .btn {
+  .btn {
     background: #00000052;
     color: white;
     border: 1px solid white;
   }
-  .rotations-container .actions .btn:hover {
+  .btn:hover {
     background: #e9e9e9;
     color: black;
     border: 1px solid white;
   }
-  .rotations-container .actions > button:first-child {
+  .actions > button:first-child {
     margin-bottom: 1em;
   }
   p {
     color: white;
   }
-
-  /* Skills rotations */
-  .skills-rotation {
-    /* width: 715px; */
-    margin: 0 1em;
-  }
-  .skills-rotation > p:nth-child(3) {
-    margin-bottom: 1em;
-  }
-  .skills-rotation button.rotation {
-    display: inline-block;
-    width: 120px;
-    height: 40px;
-    color: white;
-    border: 0;
-  }
-  .skills-rotation button.disabled-rotation {
-    background: #5c5c5c;
-    color: black;
-  }
-  .skills-rotation input {
-    width: 50px;
-  }
   @media screen and (max-width: 640px) {
-    .rotations-container .actions {
+    .actions {
       top: 15px;
     }
-    .rotations-container .actions .btn {
+    .btn {
       height: 65px;
     }
-    .skills-rotation .chains-container > div {
+    .chains-container > div {
       display: grid;
       grid-template-columns: 1fr 1.05fr 1fr;
     }
   }
   @media screen and (max-width: 368px) {
-    .skills-rotation .chains-container > div {
+    .chains-container > div {
       grid-template-columns: 60% 40%;
     }
   }

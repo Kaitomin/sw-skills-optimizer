@@ -233,7 +233,7 @@ export default {
   .table {
     color: white;
   }
-  .table td, .table th {
+  td, th {
     padding: 0.6rem 0.2rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
@@ -245,23 +245,22 @@ export default {
     display: flex;
     flex-direction: column-reverse;
   }
-  .chains-container input {
+  input {
     width: 50px;
   }
-  .chains-container .chains-sub {
+  .chains-sub {
     display: flex;
     justify-content: center;
     align-content: center;
     margin: 3px 0;
   }
-  .chains-container .chains-sub button.dropdown-toggle::after {
+  button.dropdown-toggle::after {
     content: none;
   }
-  .chains-container .chains-sub img{
+  /* .chains-container .chains-sub img {
     width: 45px;
-  }
-  .chains-container .chains-sub .btn {
-    /* padding: 0 10px; */
+  } */
+  .btn {
     height: 60px;
     width: 72px;
   }
@@ -284,7 +283,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  ul.dropdown-menu li {
+  li {
     font-size: 40px;
   }
   .fa-ban {
@@ -294,7 +293,7 @@ export default {
     .chains-container {
       align-items: end; 
     }
-    .chains-container .table td {
+    td {
       text-align: right;
     }
   }
@@ -302,7 +301,7 @@ export default {
     .chains-container {
       align-items: center; 
     }
-    .chains-container .table td {
+    td {
       text-align: center;
     }
   }

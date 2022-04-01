@@ -131,7 +131,6 @@ export default {
   .skills-container {
     display: flex;
     justify-content: space-around;
-    /* flex-direction: column; */
   }
   .skills-container:before {
     height: var(--container-height);
@@ -146,12 +145,10 @@ export default {
     100% { opacity: 0.5; } 
   }
 
-  .skills-container p {
+  p {
     margin-bottom: 0;
   }
-  .skills-container p,
-  .skills-container label,
-  .skills-container table {
+  p, label, table {
     color: white;
   }
   .chain-bonus {
@@ -169,7 +166,6 @@ export default {
     background: #5c5c5c;
     color: black;
   }
-
   @media screen and (max-width: 1400px) {
     .skills-container {
       flex-direction: column;
@@ -186,5 +182,4 @@ export default {
       width: 100%;
     }
   }
-  
 </style>

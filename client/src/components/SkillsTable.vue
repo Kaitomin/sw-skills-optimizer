@@ -200,14 +200,14 @@ export default {
     min-width: 715px;
     margin: 0 1em;
   }
-  .skills-details .char-info {
+  .char-info {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-end;
     margin-bottom: 0.5em;
     color: white;
   }
-  .skills-details .dw-container {
+  .dw-container {
     display: block;
     position: relative;
     cursor: auto;
@@ -216,10 +216,10 @@ export default {
     -ms-user-select: none;
     user-select: none;
   }
-  .skills-details .dw-container p {
+  .dw-container p {
     margin-bottom: 0;
   }
-  .skills-details .dw-container .checkmark {
+  .checkmark {
     position: absolute;
     top: -20px;
     left: 40px;
@@ -227,8 +227,7 @@ export default {
     width: 20px;
     background-color: #eee;
   }
-
-  .skills-details .dw-container i {
+  .dw-container i {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -239,10 +238,10 @@ export default {
   .disabled {
     opacity: 0;
   }
-  .skills-details .tooltip-container {
+  .tooltip-container {
     position: relative;
   }
-  .skills-details .tooltip-msg {
+  .tooltip-msg {
     display: none;
     position: absolute;
     width: 200px;
@@ -254,17 +253,17 @@ export default {
     border: 1px solid white;
     background: #000000a1;
   }
-  .skills-details .table thead {
+  thead {
     position: sticky;
     top: -1px;
   }
-  .skills-details .table thead th {
+  th {
     border-bottom: 0;
     vertical-align: middle;
     width: 40px;
     border-top: 0;
   }
-  .skills-details .table td {
+  td {
     padding: 0.7rem 0 0.3rem 0;
     color: white;
     /* border-top: 0; */
@@ -273,30 +272,30 @@ export default {
     border-spacing: 0px;
     border: 1px solid white;
   }
-  .table-skills thead > tr > td:first-child,
-  .table-skills tbody > tr > td:first-child {
+  thead > tr > td:first-child,
+  tbody > tr > td:first-child {
     padding-left: 0.5rem;
   }
 
-  .table-skills tbody {
+  tbody {
     text-align: center;
     font-size: 15px;
   }
-  .table-skills img {
+  img {
     width: 50px;
   }
-  .table-skills th {
+  th {
     color: white;
     padding: 5px 0;
   }
-  .table-skills td {
+   td {
     vertical-align: middle;
   }
-  .table-skills th.separator-th {
+  th.separator-th {
     width: 1px !important;
     background: #ffffff7a;
   }
-  .table-skills .separator-td {
+  .separator-td {
     width: 1px;
     background: #ffffff7a;
   }
@@ -308,7 +307,7 @@ export default {
     .skills-details {
       min-width: 100%;
     }
-    .skills-details .tooltip-msg {
+    .tooltip-msg {
       width: 150px;
     }
   }
