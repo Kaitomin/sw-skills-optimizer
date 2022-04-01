@@ -34,9 +34,8 @@
 
 <script>
 
-import Rotation from '../components/Rotation.vue';
-import SkillsTable from '../components/SkillsTable.vue';
 import { v4 as uuidv4 } from 'uuid';
+import { defineAsyncComponent } from 'vue'
 
 export default {
   props: ['id', 'name'],
@@ -53,7 +52,10 @@ export default {
       containerH: ''
     }
   },
-  components: { Rotation, SkillsTable },
+  components: { 
+    Rotation: defineAsyncComponent(() => import('@/components/Rotation.vue')), 
+    SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue'))
+  },
   methods: {
     toggleDesire(skillsTable) {
       this.skills = skillsTable
