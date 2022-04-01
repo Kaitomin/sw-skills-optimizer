@@ -186,7 +186,7 @@ export default {
 
 <style scoped>
   h1 {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     color: white;
     border: 1px solid white;
     font-size: 2em;
@@ -204,7 +204,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     align-items: flex-end;
-    /* margin-bottom: 2em; */
+    margin-bottom: 0.5em;
     color: white;
   }
   .skills-details .dw-container {
@@ -215,6 +215,9 @@ export default {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+  .skills-details .dw-container p {
+    margin-bottom: 0;
   }
   .skills-details .dw-container .checkmark {
     position: absolute;
