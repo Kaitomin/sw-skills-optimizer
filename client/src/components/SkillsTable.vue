@@ -168,7 +168,6 @@ export default {
   },
   computed: {
     clientWidth() {
-      console.log(window.innerWidth)
       return window.innerWidth
     }
   },
