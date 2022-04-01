@@ -172,11 +172,6 @@ export default {
   .skills-rotation input {
     width: 50px;
   }
-  @media screen and (max-width: 750px) {
-    .skills-rotation {
-      width: 100%;
-    }
-  }
   @media screen and (max-width: 640px) {
     .rotations-container .actions {
       top: 15px;
