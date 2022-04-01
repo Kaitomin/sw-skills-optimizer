@@ -150,6 +150,9 @@ export default {
     color: white;
   }
   @media screen and (max-width: 640px) {
+    .rotations-container {
+      padding: 0 5px;
+    }
     .actions {
       top: 15px;
     }
