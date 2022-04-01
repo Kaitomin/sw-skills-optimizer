@@ -90,7 +90,8 @@ export default {
       checked: false,
       sortOrder: false,
       skillsTable: [],
-      skillsDefaultTable: []
+      skillsDefaultTable: [],
+      // clientWidth: ''
     }
   },
   methods: {
@@ -167,6 +168,7 @@ export default {
   },
   computed: {
     clientWidth() {
+      console.log(window.innerWidth)
       return window.innerWidth
     }
   },
@@ -180,7 +182,7 @@ export default {
       this.$emit('skills-table', this.skillsTable)
     })
     .catch(err => console.log('Error :', err));
-  }
+  },
 }
 </script>
 
