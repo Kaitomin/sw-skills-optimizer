@@ -7,13 +7,14 @@
         <div class="chains-container">
           <div class="chains-sub">
             <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s1">Skill 1</span>
                 <img v-else :src="getImgUrl(c1_s1.icon)" :alt="c1_s1.skillName + ' icon'" width="45" height="45">
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                  <li 
+                  class="dropdown-item"
                   v-for="skill in skills" 
                   :key="skill._id"
                   @click="c1_s1 = skill"
@@ -26,12 +27,13 @@
           </div>
           <div class="chains-sub">
             <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s2">Skill 2</span>
                 <img v-else :src="getImgUrl(c1_s2.icon)" :alt="c1_s2.skillName + ' icon'" width="45" height="45">
               <span class="caret"></span></button>
               <ul class="dropdown-menu">
-                 <li 
+                 <li
+                  class="dropdown-item"
                   v-for="skill in skills" 
                   :key="skill._id"
                   @click="c1_s2 = skill"
@@ -44,12 +46,13 @@
           </div>
           <div class="chains-sub">
             <div class="dropdown">
-              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+              <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s3">Skill 3</span>
                 <img v-else :src="getImgUrl(c1_s3.icon)" :alt="c1_s3.skillName + ' icon'" width="45" height="45">
               <span class="caret"></span></button>
               <ul class="dropdown-menu">
-                 <li 
+                 <li
+                  class="dropdown-item"
                   v-for="skill in skills" 
                   :key="skill._id"
                   @click="c1_s3 = skill"
@@ -263,12 +266,13 @@ export default {
     width: 72px;
   }
   ul.dropdown-menu {
+    padding: 0.2rem;
     min-width: 0;
   }
   ul.show {
     display: grid;
     grid-template-columns: repeat(4, 50px);
-    grid-gap: 5px 1px;
+    grid-gap: 1px 5px;
     background: #ffffff47;
     transform: translate3d(-120px, 38px, 0) !important;
     top: 25px !important;
