@@ -119,7 +119,7 @@ export default {
 
 <style scoped>
   h1 {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     color: white;
     border: 1px solid white;
     font-size: 2em;
