@@ -123,7 +123,7 @@ export default {
   .rotations-container {
     position: relative;
   }
-  .chains-container > div:first-child {
+  .chains-container > div {
     display: flex;
   }
   .actions {
