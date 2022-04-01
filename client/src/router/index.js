@@ -1,41 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CharactersList from '../views/CharactersList.vue'
-import CharacterDetails from '../views/CharacterDetails.vue'
-import AddNewChar from '../views/addNewCharacter.vue'
-import AddNewSkill from '../views/addNewSkill.vue'
-import Login from '../views/Login.vue'
+// import CharactersList from '../views/CharactersList.vue'
+// import CharacterDetails from '../views/CharacterDetails.vue'
+// import AddNewChar from '../views/addNewCharacter.vue'
+// import AddNewSkill from '../views/addNewSkill.vue'
+// import Login from '../views/Login.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     meta: { title: 'Soulworker | Skills optimizer' },
-    component: CharactersList
+    component: () => import('@/views/CharactersList.vue')
   },
   {
     path: '/character/:name',
     name: 'CharacterDetails',
     meta: { title: ' | skills infos' },
-    component: CharacterDetails,
+    component: () => import('@/views/CharacterDetails.vue'),
     props: true
   },
   {
     path: '/add-new-char',
     name: 'AddNewChar',
     meta: { title: 'New char' },
-    component: AddNewChar
+    component: () => import('@/views/addNewCharacter.vue')
   },
   {
     path: '/add-new-skill',
     name: 'AddNewSkill',
     meta: { title: 'New skill' },
-    component: AddNewSkill
+    component: () => import('@/views/addNewSkill.vue')
   },
   {
     path: '/login',
     name: 'Login',
     meta: { title: 'Login' },
-    component: Login
+    component: () => import('@/views/Login.vue')
   },
   {
     path: '/:pathMatch(.*)*',
