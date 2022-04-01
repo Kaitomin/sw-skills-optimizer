@@ -6,16 +6,17 @@
       </router-link>
       <div class="menu">
         <router-link to="/">All</router-link><div class="separator"></div>
-        <span v-if="userRole == 'ADMIN'"><div class="separator"></div>
-          <router-link to="/add-new-char"> | Add character</router-link>
-          <router-link to="/add-new-skill"> | Add skill</router-link>
-          <a @click="logout"> | Logout</a>
-        </span>
-        
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
         <router-link to="/character/Lily">Lily</router-link>
+        
       </div>
+       <div v-if="userRole == 'ADMIN'" class="edit">
+          <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
+          <router-link to="/add-new-skill">Add skill</router-link><div class="separator"></div>
+          <a class="logout" @click="logout">Logout</a>
+        </div>
     </div>
+    
     <hr>
     <router-view :key="$route.fullPath" />
   </div>
@@ -81,11 +82,21 @@ export default {
   width: 150px;
   margin: 0 auto;
 }
+.edit {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+}
 #nav a.router-link-exact-active {
   color: #42b983;
 }
 .separator {
   border-left: 1px solid white;
   height: 15px;
+}
+.logout:hover {
+  cursor: pointer;
 }
 </style>
