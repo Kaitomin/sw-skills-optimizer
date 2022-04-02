@@ -76,7 +76,6 @@ export default {
 }
 #nav > a {
   display: block;
-  margin-bottom: 1em;
 }
 .menu {
   display: flex;
