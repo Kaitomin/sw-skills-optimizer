@@ -42,8 +42,6 @@ app.get("*", (req, res) => {
 // DB connection
 mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
-      console.log('Server listening on port :', process.env.PORT || 8000);
-    })
+    app.listen(process.env.PORT || 8000)
   })
   .catch((err) => console.log(err))
