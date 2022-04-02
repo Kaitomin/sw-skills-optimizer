@@ -17,7 +17,7 @@
     </div>
     
     <div class="total-values">
-      <p>Total DMG/Cast - {{ totalDmgCast }}</p>
+      <p>Total DPS - {{ totalDps }}</p>
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
     </div>
 
@@ -76,10 +76,10 @@ export default {
     },
   },
   computed: {
-    totalDmgCast() {
+    totalDps() {
       return (this.totalValues.reduce((prev, curr) => {
         return prev + +curr.dmgCast;
-      }, 0)).toFixed(2);
+      }, 0));
     },
     totalDmgCd() {
       return (this.totalValues.reduce((prev, curr) => {
@@ -129,7 +129,7 @@ export default {
   .actions {
     position: absolute;
     top: 75px;
-    left: 10px;
+    left: 0;
     display: flex;
     flex-direction: column;
   }
