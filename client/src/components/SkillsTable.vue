@@ -16,16 +16,16 @@
         <table v-if="clientWidth > 550" class="table table-striped table-skills">
           <thead>
             <tr 
-              @mouseover="displayTooltips" 
+              @mouseover="displayTooltips"
               @mouseout="hideTooltips"
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Number of frames [205%  aspd - 60fps]</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] 205%  aspd - 60fps - Full animation</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cast')">DMG/Cast<span class="tooltip-msg">DMG% per frame aka DPS, the higher the better</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DPS<span class="tooltip-msg">DMG % per second</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR calculation. Generally the higher the more you should spam the skill when off CD</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Ratio between DMG & skill CD after character CDR & chain +15% CDR bonus calculation. Generally the higher the more you should spam the skill when off CD</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
@@ -37,11 +37,11 @@
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
-              <td>{{ skill.cast }}F</td>
+              <td>{{ (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
               <td>{{ calcCD(skill) }}s</td>
               <td>{{ calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
-              <td class="dmg-cast">{{ Math.round(skill.dmg/skill.cast) }}</td>
+              <td class="dps">{{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}</td>
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
               <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
             </tr>
@@ -54,8 +54,8 @@
               @mouseout="hideTooltips"
             >
               <th scope="col">Skill</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Number of frames [205%  aspd - 60fps] (DMG/Cast)</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in % (DPS)</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) 205%  aspd - 60fps - Full animation</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
             </tr>
@@ -66,8 +66,8 @@
                 <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
-              <td>{{ skill.dmg }}%</td>
-              <td>{{ skill.cast }}F <br>({{ Math.round(skill.dmg/skill.cast) }}%/F)</td>
+              <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }})</td>
+              <td>{{(skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
               <td>{{ calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
               <td>{{ calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
             </tr>
@@ -131,8 +131,8 @@ export default {
       this.sortOrder = !this.sortOrder;
 
       switch(criteria) {
-        case 'dmg-cast':
-          this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/a.cast) - Math.round(b.dmg/b.cast) : Math.round(b.dmg/b.cast) - Math.round(a.dmg/a.cast))
+        case 'dps':
+          this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/(a.cast/60).toFixed(2)) - Math.round(b.dmg/(b.cast/60).toFixed(2)) : Math.round(b.dmg/(b.cast/60).toFixed(2)) - Math.round(a.dmg/(a.cast/60).toFixed(2)))
           break;
         case 'dmg-cd':
           this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/this.calcCD(a)) - Math.round(b.dmg/this.calcCD(b)) : Math.round(b.dmg/this.calcCD(b)) - Math.round(a.dmg/this.calcCD(a)))
@@ -151,7 +151,7 @@ export default {
 
       tr.forEach(tr => tr.remove())
       tr.sort((a, b) => {
-        return a.querySelector('td.dmg-cast').textContent - b.querySelector('td.dmg-cast').textContent
+        return a.querySelector('td.dps').textContent - b.querySelector('td.dps').textContent
       })
       tr.forEach(tr => tbody.append(tr))
     },
