@@ -111,15 +111,14 @@ export default {
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
     }, 500)
-    // window.addEventListener("orientationchange", function() {
-      // Announce the new orientation number
-      // this.location.reload()
-      // this.$forceUpdate()
-    // }, false);
   },
   updated() {
     this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
   },
+  unmounted() {
+    this.components = null
+    this.rotationLimit = null
+  }
 }
 
 </script>
