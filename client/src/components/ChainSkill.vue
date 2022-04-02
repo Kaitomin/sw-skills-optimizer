@@ -72,14 +72,14 @@
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">Cast</th>
-      <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
+      <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}s</td>
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">CD</th>
       <td>{{ calcHighestCD(c1_s1.cd, c1_s2.cd, c1_s3.cd) }}s</td>
     </tr>
     <tr class="info">
-      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/Cast</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DPS</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
     </tr>
     <tr class="info">
@@ -128,14 +128,14 @@ export default {
           this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.cast;
           }, 0);
-        return this.totalCast;
+        return (this.totalCast/60).toFixed(2);
       }
     },
     calcDmgRatio(s1, s2, s3, value) {
       if (!s1 && !s2 && !s3) return this.dmgCast = this.dmgCd = 0;
 
       if (value === 'cast') {
-        this.dmgCast = (this.totalDmg / this.totalCast).toFixed(2);
+        this.dmgCast = Math.trunc((this.totalDmg / (this.totalCast/60)));
         return this.dmgCast;
       } else if (value === 'cd') {
         this.dmgCd = (this.totalDmg / this.highestCd).toFixed(2);
