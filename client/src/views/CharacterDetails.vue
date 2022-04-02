@@ -170,6 +170,12 @@ export default {
     background: #5c5c5c;
     color: black;
   }
+  .btn-info {
+    color: white;
+  }
+  .btn-info:hover {
+    color: none;
+  }
   @media screen and (max-width: 1400px) {
     .skills-container {
       flex-direction: column;
