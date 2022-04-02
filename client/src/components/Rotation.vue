@@ -128,7 +128,7 @@ export default {
   }
   .actions {
     position: absolute;
-    top: 60px;
+    top: 75px;
     left: 10px;
     display: flex;
     flex-direction: column;
@@ -154,7 +154,7 @@ export default {
       padding: 0 5px;
     }
     .actions {
-      top: 15px;
+      top: 20px;
     }
     .btn {
       height: 65px;
