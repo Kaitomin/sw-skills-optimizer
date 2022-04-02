@@ -21,7 +21,7 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] 205%  aspd - 60fps - Full animation</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps - Full animation</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
@@ -55,7 +55,7 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in % (DPS)</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) 205%  aspd - 60fps - Full animation</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}}%  aspd - 60fps - Full animation</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
             </tr>
@@ -91,6 +91,7 @@ export default {
       sortOrder: false,
       skillsTable: [],
       skillsDefaultTable: [],
+      aspd: ''
       // clientWidth: ''
     }
   },
@@ -181,6 +182,17 @@ export default {
       this.$emit('skills-table', this.skillsTable)
     })
     .catch(err => console.log('Error :', err));
+
+    switch(this.charName) {
+      case 'Lily': 
+        this.aspd = 205
+        break;
+      case 'Iris':
+        this.aspd = 200
+        break;
+      default :
+        this.aspd = 200
+    }
   },
 }
 </script>
