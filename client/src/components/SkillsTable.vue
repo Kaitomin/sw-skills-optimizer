@@ -33,7 +33,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'"  width="50" height="50">
+                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'"  width="45" height="45">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
@@ -281,9 +281,6 @@ export default {
   tbody {
     text-align: center;
     font-size: 15px;
-  }
-  img {
-    width: 50px;
   }
   th {
     color: white;
