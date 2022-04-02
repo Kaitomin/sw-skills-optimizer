@@ -7,9 +7,10 @@
 .skills-container.lily button.add-rotation {
   background-color: purple;
   border-radius: 5px;
+  transition: background-color 0.2s;
 }
 .skills-container.lily button.add-rotation:hover {
-  background-color: #620062;;
+  background-color: rgb(141, 0, 141);
 }
 .skills-container.lily .chains-container .dropdown-toggle {
   color: white;
