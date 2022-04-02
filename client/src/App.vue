@@ -2,13 +2,12 @@
   <div>
     <div id="nav">
       <router-link to="/">
-        <img src="@/assets/img/logo.webp" alt="soulworker logo" class="sw-logo" width="200" height="113">
+        <img src="@/assets/img/logo_200x113.webp" alt="soulworker logo" class="sw-logo" width="200" height="113">
       </router-link>
       <div class="menu">
         <router-link to="/">All</router-link><div class="separator"></div>
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
         <router-link to="/character/Lily">Lily</router-link>
-        
       </div>
        <div v-if="userRole == 'ADMIN'" class="edit">
           <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
@@ -25,6 +24,9 @@
 
 <script>
 
+import "@/assets/global.css";
+import "@/assets/theme_lily.css";
+import "@/assets/theme_iris.css";
 import UserService from './services/UserService';
 
 export default {
@@ -72,15 +74,21 @@ export default {
   color: #d9d9d9;
   text-decoration: none;
 }
-.sw-logo {
-  width: 200px;
+#nav > a {
+  display: block;
+  margin-bottom: 1em;
 }
-#nav .menu {
+.menu {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 150px;
+  width: 200px;
   margin: 0 auto;
+}
+.menu a {
+  display: block;
+  padding: 1em 0;
+  width: 70px;
 }
 .edit {
   display: flex;
