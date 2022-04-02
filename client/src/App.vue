@@ -15,8 +15,6 @@
           <a class="logout" @click="logout">Logout</a>
         </div>
     </div>
-    
-    <hr>
     <router-view :key="$route.fullPath" />
   </div>
   
@@ -75,6 +73,7 @@ export default {
   text-decoration: none;
 }
 #nav > a {
+  margin-top: 1em;
   display: block;
 }
 .menu {
