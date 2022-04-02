@@ -286,6 +286,9 @@ export default {
   li {
     font-size: 40px;
   }
+  .dropdown-item:hover {
+    background: none;
+  }
   .fa-ban {
     color: red;
   }
