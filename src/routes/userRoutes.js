@@ -44,7 +44,7 @@ router.post('/logout', (req, res) => {
 router.get('/session', getCurrUser, (req, res) => {
   if (res.locals.user) {
     return res.status(200).json({ 
-      user: res.locals.user._id, 
+      // user: res.locals.user._id, 
       role: res.locals.user.role 
     });
   }
