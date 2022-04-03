@@ -6,10 +6,6 @@ const skillSchema = new Schema({
     type: String,
     required: true
   },
-  // avatar: {
-  //   data: Buffer,
-  //   contentType: String,
-  // },
   icon: {
     type: String,
     required: true
@@ -19,6 +15,10 @@ const skillSchema = new Schema({
     required: true
   },
   cast: {
+    type: String,
+    required: true
+  },
+  castCancel: {
     type: String,
     required: true
   },
