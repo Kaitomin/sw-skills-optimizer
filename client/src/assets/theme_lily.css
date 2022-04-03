@@ -6,7 +6,6 @@
 }
 .skills-container.lily button.add-rotation {
   background-color: purple;
-  border-radius: 5px;
   transition: background-color 0.2s;
 }
 .skills-container.lily button.add-rotation:hover {
