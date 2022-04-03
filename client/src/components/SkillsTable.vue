@@ -301,6 +301,9 @@ export default {
   .tooltip-container {
     position: relative;
   }
+  .tooltip-container:hover {
+    cursor: pointer;
+  }
   .tooltip-msg {
     display: none;
     position: absolute;
