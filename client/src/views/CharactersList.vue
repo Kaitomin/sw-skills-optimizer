@@ -12,7 +12,7 @@
     </div>
   </div>
   <div class="contact">
-    <p>For any questions/bugs/typos, <br> you can contact me on discord : Kaitomin#6973</p>
+    <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
     <p>Special thanks to AFN, Yayathic</p>
   </div>
 </template>
