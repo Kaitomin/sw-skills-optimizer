@@ -35,6 +35,7 @@ router.post('/add-new-skill', upload.single('icon'), async (req, res) => {
       skillName: req.body.skillName,
       dmg: req.body.dmg,
       cast: req.body.cast,
+      castCancel: req.body.castCancel,
       cd: req.body.cd,
       character: req.body.character,
       avatar: final_img,
