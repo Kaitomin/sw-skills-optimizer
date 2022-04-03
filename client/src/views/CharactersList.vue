@@ -13,6 +13,7 @@
   </div>
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
+    <p>I'm also looking for more characters data, message me if you are willing to help </p>
     <p>Special thanks to AFN, Yayathic</p>
   </div>
 </template>
