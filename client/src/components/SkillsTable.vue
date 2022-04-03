@@ -60,7 +60,7 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in % (DPS)</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}}%  aspd - 60fps</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
             </tr>
@@ -367,6 +367,26 @@ export default {
     }
     .tooltip-msg {
       width: 150px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .char-info {
+      flex-direction: column;
+      align-items: center;
+      height: 200px;
+    }
+    .description {
+      margin-bottom: 0;
+    }
+    .dw-container,
+    .cast-container {
+      width: 160px;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: center;
+    }
+    .checkmark {
+      margin-right: 10px;
     }
   }
 </style>
