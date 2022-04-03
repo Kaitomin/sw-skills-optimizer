@@ -7,12 +7,12 @@
 
     <div class="chains-container">
       <div>
-        <ChainSkill :data="filteredChains[0]" :pos="0" :skills="skills" :charCD="charCD" :thValue="true" :reset="reset" @reset="reset = false" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
-        <ChainSkill :data="filteredChains[1]" :pos="1" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
-        <ChainSkill :data="filteredChains[2]" :pos="2" :skills="skills" :charCD="charCD" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
-        <ChainSkill :data="filteredChains[3]" :pos="3" :skills="skills" :charCD="charCD" :thValue640="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
-        <ChainSkill :data="filteredChains[4]" :pos="4" :skills="skills" :charCD="charCD" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
-        <ChainSkill :data="filteredChains[5]" :pos="5" :skills="skills" :charCD="charCD" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[0]" :pos="0" :skills="skills" :charCD="charCD" :castChecked="castChecked" :thValue="true" :reset="reset" @reset="reset = false" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[1]" :pos="1" :skills="skills" :charCD="charCD" :castChecked="castChecked" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[2]" :pos="2" :skills="skills" :charCD="charCD" :castChecked="castChecked" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[3]" :pos="3" :skills="skills" :charCD="charCD" :castChecked="castChecked" :thValue640="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[4]" :pos="4" :skills="skills" :charCD="charCD" :castChecked="castChecked" :thValue368="true" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
+        <ChainSkill :data="filteredChains[5]" :pos="5" :skills="skills" :charCD="charCD" :castChecked="castChecked" :reset="reset" @total-values="showTotal" @chains="getChains" :rotationId="id" :name="name" />
       </div>
     </div>
     
@@ -30,7 +30,7 @@
 import { defineAsyncComponent } from 'vue'
 
 export default {
-  props: ['skills', 'charCD', 'id', 'save', 'charId', 'name'],
+  props: ['skills', 'charCD', 'id', 'save', 'charId', 'name', 'castChecked'],
   data() {
     return {
       reset: false,
