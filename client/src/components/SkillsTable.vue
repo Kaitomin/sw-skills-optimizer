@@ -3,14 +3,19 @@
     <div class="skills-details">
       <h1>Skills</h1>
       <div v-if="char">
+        <p class="description"><i>{{ description }}</i></p>
         <div class="char-info">
           <div class="cdInput">
             <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
             <label id="cdInput" for="charCD">Character CDR : {{ charCD +'%' }}</label>
           </div>
-          <div class="dw-container">
+          <div class="dw-container" @click="toggleDesire">
             <p>Desire Worker</p>
-            <span class="checkmark dw-input" :checked="checked" @click="toggleDesire"><i class="fa-solid fa-check disabled"></i></span>
+            <span class="checkmark dw-input" :checked="checked"><i class="fa-solid fa-check disabled"></i></span>
+          </div>
+          <div class="cast-container" @click="toggleCastCancel">
+            <p>Animation cancel</p>
+            <span class="checkmark cast-input" :checked="castChecked"><i class="fa-solid fa-check disabled"></i></span>
           </div>
         </div>
         <table v-if="clientWidth > 550" class="table table-striped table-skills">
@@ -21,7 +26,7 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in %</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps - Full animation</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
@@ -37,11 +42,11 @@
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
-              <td>{{ (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
+              <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
               <td>{{ calcCD(skill) }}s</td>
               <td>{{ calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
-              <td class="dps">{{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}</td>
+              <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60).toFixed(2)) : Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%</td>
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
               <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
             </tr>
@@ -55,7 +60,7 @@
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Total DMG in % (DPS)</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}}%  aspd - 60fps - Full animation</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
             </tr>
@@ -66,8 +71,8 @@
                 <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
-              <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }})</td>
-              <td>{{(skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
+              <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
+              <td :class="(castChecked && (skill.castCancel < skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s  <br> [{{ skill.cast }}]</td>
               <td>{{ calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
               <td>{{ calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
             </tr>
@@ -88,10 +93,12 @@ export default {
       char: '',
       charCD: '44',
       checked: false,
+      castChecked: false,
       sortOrder: false,
       skillsTable: [],
       skillsDefaultTable: [],
-      aspd: ''
+      aspd: '',
+      description: ''
     }
   },
   methods: {
@@ -106,7 +113,7 @@ export default {
       this.checked = !this.checked;
       
       if (this.checked) {
-        document.querySelector('.fa-check').classList.remove('disabled')
+        document.querySelector('.dw-container .fa-check').classList.remove('disabled')
         document.querySelector('.dw-input').classList.add('checked')
 
         Array.from(this.skillsTable).map(skill => {
@@ -118,11 +125,24 @@ export default {
         })
         this.$emit('skills-table', this.skillsTable)
       } else {
-        document.querySelector('.fa-check').classList.add('disabled')
+        document.querySelector('.dw-container .fa-check').classList.add('disabled')
         document.querySelector('.dw-input').classList.remove('checked')
 
         this.skillsTable = JSON.parse(JSON.stringify(this.skillsDefaultTable))
         this.$emit('skills-table', this.skillsTable)
+      }
+    },
+    toggleCastCancel() {
+      this.castChecked = !this.castChecked;
+
+      if (this.castChecked) {
+        document.querySelector('.cast-container .fa-check').classList.remove('disabled')
+        document.querySelector('.cast-input').classList.add('checked')
+        this.$emit('cast-cancel', this.castChecked)
+      } else {
+        document.querySelector('.cast-container .fa-check').classList.add('disabled')
+        document.querySelector('.cast-input').classList.remove('checked')
+        this.$emit('cast-cancel', this.castChecked)
       }
     },
     calcCD(skill) {
@@ -136,13 +156,24 @@ export default {
 
       switch(criteria) {
         case 'dps':
-          this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/(a.cast/60).toFixed(2)) - Math.round(b.dmg/(b.cast/60).toFixed(2)) : Math.round(b.dmg/(b.cast/60).toFixed(2)) - Math.round(a.dmg/(a.cast/60).toFixed(2)))
+          if (this.castChecked) {
+            this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/(a.castCancel/60).toFixed(2)) - Math.round(b.dmg/(b.castCancel/60).toFixed(2)) : Math.round(b.dmg/(b.castCancel/60).toFixed(2)) - Math.round(a.dmg/(a.castCancel/60).toFixed(2)))
+          } else {
+            this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/(a.cast/60).toFixed(2)) - Math.round(b.dmg/(b.cast/60).toFixed(2)) : Math.round(b.dmg/(b.cast/60).toFixed(2)) - Math.round(a.dmg/(a.cast/60).toFixed(2)))
+          }
           break;
         case 'dmg-cd':
           this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/this.calcCD(a)) - Math.round(b.dmg/this.calcCD(b)) : Math.round(b.dmg/this.calcCD(b)) - Math.round(a.dmg/this.calcCD(a)))
           break;
         case 'dmg-cd15':
           this.skillsTable.sort((a, b) => this.sortOrder ? Math.round(a.dmg/this.calcCD15(a)) - Math.round(b.dmg/this.calcCD15(b)) : Math.round(b.dmg/this.calcCD15(b)) - Math.round(a.dmg/this.calcCD15(a)))
+          break;
+        case 'cast':
+          if (this.castChecked) {
+            this.skillsTable.sort((a, b) => this.sortOrder ? +a.castCancel - +b.castCancel : +b.castCancel - +a.castCancel)
+          } else {
+            this.skillsTable.sort((a, b) => this.sortOrder ? +a.cast - +b.cast : +b.cast - +a.cast)
+          }
           break;
         default:
           this.skillsTable.sort((a, b) => this.sortOrder ? +a[criteria] - +b[criteria] : +b[criteria] - +a[criteria])
@@ -188,9 +219,11 @@ export default {
 
     switch(this.charName) {
       case 'Lily': 
+        this.description = "Data gathered from KR ver. S2 rebalance [23/03/2022]"
         this.aspd = 205
         break;
       case 'Iris':
+        this.description = "Data gathered from EN ver. [03/04/2022]"
         this.aspd = 200
         break;
       default :
@@ -208,6 +241,9 @@ export default {
     font-size: 2em;
     padding: 5px 0;
   }
+  .description {
+    color: white;
+  }
   .checked {
     background-color: #0064e1 !important;
   }
@@ -223,8 +259,14 @@ export default {
     margin-bottom: 0.5em;
     color: white;
   }
-  .dw-container {
-    display: block;
+  .cancel-active {
+    color: #00fdce;
+  }
+  .dw-container,
+  .cast-container {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;;
     position: relative;
     cursor: auto;
     -webkit-user-select: none;
@@ -232,22 +274,24 @@ export default {
     -ms-user-select: none;
     user-select: none;
   }
-  .dw-container p {
+  .dw-container p,
+  .cast-container p {
     margin-bottom: 0;
   }
   .checkmark {
-    position: absolute;
-    top: -20px;
-    left: 40px;
+    position: relative;
+    /* top: -20px; */
+    /* left: 40px; */
     height: 20px;
     width: 20px;
     background-color: #eee;
   }
-  .dw-container i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  .dw-container i,
+  .cast-container i {
+    /* position: absolute; */
+    /* top: 50%; */
+    /* left: 50%; */
+    /* transform: translate(-50%, -50%); */
     font-size: 18px;
     color: white;
   }
@@ -278,6 +322,7 @@ export default {
     vertical-align: middle;
     width: 40px;
     border-top: 0;
+    font-size: 0.9em;
   }
   td {
     padding: 0.7rem 0 0.3rem 0;
