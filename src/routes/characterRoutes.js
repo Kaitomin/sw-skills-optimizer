@@ -32,8 +32,8 @@ router.get('/', async (req, res) => {
 
 // Add character
 router.post('/add-new-char', upload.single('avatar'), async (req, res) => {
+  if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
   try {
-
     let img = fs.readFileSync(req.file.path);
     let encode_img = img.toString('base64');
     const final_img = {
