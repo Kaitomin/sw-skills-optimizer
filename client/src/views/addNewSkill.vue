@@ -18,6 +18,11 @@
       </div>
 
       <div>
+        <label>Cast Cancel</label>
+        <input type="text" v-model="castCancel">
+      </div>
+
+      <div>
         <label>CD</label>
         <input type="text" v-model="cd">
       </div>
@@ -51,6 +56,7 @@ export default {
       skillName: '',
       dmg: '',
       cast: '',
+      castCancel: '',
       cd: '',
       character: '',
       characters: [],
@@ -79,6 +85,7 @@ export default {
         formData.append('skillName', this.skillName);
         formData.append('dmg', this.dmg);
         formData.append('cast', this.cast);
+        formData.append('castCancel', this.castCancel);
         formData.append('cd', this.cd);
         formData.append('character', this.character);
 
