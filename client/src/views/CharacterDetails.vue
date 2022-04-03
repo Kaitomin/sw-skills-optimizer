@@ -5,6 +5,7 @@
       :charName="name"
       @skills-table="toggleDesire"
       @char-cdr="currentCDR"
+      @cast-cancel="toggleCastCancel"
     />
     <!-- Rotations -->
     <div class="skills-rotation">
@@ -19,6 +20,7 @@
         :key="component[0]"
         :id="component[0]"
         :skills="skills"
+        :castChecked="castChecked"
         :charCD="charCD"
         :save="save"
         :charId="id"
@@ -44,6 +46,7 @@ export default {
       char: '',
       charCD: '44',
       skills: [],
+      castChecked: false,
       components: new Map(),
       rotationLimit: 0,
       deleteId: [],
@@ -59,6 +62,9 @@ export default {
   methods: {
     toggleDesire(skillsTable) {
       this.skills = skillsTable
+    },
+    toggleCastCancel(cast) {
+      this.castChecked = cast
     },
     currentCDR(charCDR) {
       this.charCD = charCDR
