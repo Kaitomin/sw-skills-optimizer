@@ -17,7 +17,7 @@
     </div>
     
     <div class="total-values">
-      <p>Total DPS - {{ totalDps }}</p>
+      <p>Total DPS - {{ totalDps }}%</p>
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
     </div>
 
