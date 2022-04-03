@@ -80,7 +80,7 @@
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DPS</th>
-      <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}</td>
+      <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}%</td>
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DMG/CD</th>
