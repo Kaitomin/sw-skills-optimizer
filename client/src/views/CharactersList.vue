@@ -63,6 +63,7 @@ export default {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
     max-width: 500px;
     margin: 0 auto;
     margin-bottom: 5em;
@@ -94,6 +95,7 @@ export default {
   @media screen and (max-width: 500px) {
     .contact {
       max-width: 90%;
+      text-align: center;
     }
   }
 </style>
