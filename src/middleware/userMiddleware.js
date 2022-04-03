@@ -15,14 +15,12 @@ const getCurrUser = (req, res, next) => {
         User.findOne({ _id: id })
         .then((user) => {
           res.locals.user = {role: user.role};
-          // console.log('res.locals.user :', res.locals.user)
           next();
         })
       }
     });
   } else {
     res.locals.user = null;
-    // console.log('res.locals.user :', res.locals.user)
     next();
   }
 }
