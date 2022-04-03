@@ -11,6 +11,10 @@
       </router-link>
     </div>
   </div>
+  <div class="contact">
+    <p>For any questions/bugs/typos, <br> you can contact me on discord : Kaitomin#6973</p>
+    <p>Special thanks to AFN, Yayathic</p>
+  </div>
 </template>
 
 <script>
@@ -57,9 +61,10 @@ export default {
     align-items: center;
     max-width: 500px;
     margin: 0 auto;
+    margin-bottom: 5em;
   }
   .characters-list > div {
-    border: 1px solid white;
+    border: 1px solid #ffffff3d;
     opacity: 1;
     transition: opacity 0.2s;
   }
@@ -69,5 +74,22 @@ export default {
   .characters-list img {
     width: 150px;
     height: auto;
+  }
+  .contact {
+    max-width: 400px;
+    margin: 0 auto;
+    border-top: 1px solid white;
+    color: white;
+    padding-top: 10px;
+    text-align: left;
+  }
+  .contact p {
+    margin-bottom: 0;
+    padding: 10px 5px;
+  }
+  @media screen and (max-width: 500px) {
+    .contact {
+      max-width: 90%;
+    }
   }
 </style>
