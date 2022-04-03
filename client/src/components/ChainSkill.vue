@@ -72,7 +72,7 @@
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">Cast</th>
-      <td>{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}s</td>
+      <td :class="castChecked && (c1_s1.castCancel < c1_s1.cast || c1_s2.castCancel < c1_s2.cast || c1_s3.castCancel < c1_s3.cast) ? 'cancel-active' : ''">{{ calcTotal(c1_s1, c1_s2, c1_s3, 'cast') }}s</td>
     </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">CD</th>
@@ -95,7 +95,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name'],
+  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'castChecked'],
   data() {
     return {
       chainId: '',
@@ -124,8 +124,13 @@ export default {
           return +prev + +curr.dmg;
         }, 0);
         return this.totalDmg;
-      } else if (val === 'cast') {
+      } else if (this.castChecked && val === 'cast') {
           this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+            return +prev + +curr.castCancel;
+          }, 0);
+        return (this.totalCast/60).toFixed(2);
+      } else if (val === 'cast') {
+        this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.cast;
           }, 0);
         return (this.totalCast/60).toFixed(2);
@@ -135,7 +140,7 @@ export default {
       if (!s1 && !s2 && !s3) return this.dmgCast = this.dmgCd = 0;
 
       if (value === 'cast') {
-        this.dmgCast = Math.trunc((this.totalDmg / (this.totalCast/60)));
+        this.dmgCast = Math.round(this.totalDmg / (this.totalCast/60));
         return this.dmgCast;
       } else if (value === 'cd') {
         this.dmgCd = (this.totalDmg / this.highestCd).toFixed(2);
@@ -291,6 +296,9 @@ export default {
   }
   .fa-ban {
     color: red;
+  }
+  .cancel-active {
+    color: #00fdce;
   }
   @media screen and (max-width: 640px) { 
     .chains-container {
