@@ -53,7 +53,7 @@ export default {
       }
     }
   },
-  async created() {
+  beforeCreate() {
     if (!this.$root.userRole) this.$router.push('/')
   },
 }
