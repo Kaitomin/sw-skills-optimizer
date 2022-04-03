@@ -1,12 +1,12 @@
 <template>
   <div class="characters-list">
-    <div v-for="char in charList" :key="char._id">
+    <div :class="char.name == 'Haru' ? 'hidden' : ''"  v-for="char in charList" :key="char._id">
       <router-link :to="'/character/' + char.name">
-        <img 
+        <img
           :src="getImgUrl(char.icon)"
           :alt="char.name + ' icon'"
           width="150"
-          height="150"       
+          height="150"
         >
       </router-link>
     </div>
@@ -56,6 +56,9 @@ export default {
 </script>
 
 <style scoped>
+  .hidden {
+    display: none;
+  }
   .characters-list {
     display: flex;
     justify-content: space-around;
