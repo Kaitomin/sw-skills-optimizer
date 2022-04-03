@@ -56,7 +56,6 @@ export default {
       this.handleErrors(this.username, this.password)
 
       if (!this.error.username && !this.error.password) {
-        console.log('TRY')
         try {
           const res = await UserService.login({
             username: this.username.toLowerCase(),
