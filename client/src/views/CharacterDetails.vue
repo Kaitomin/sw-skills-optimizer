@@ -38,6 +38,7 @@
 
 import { v4 as uuidv4 } from 'uuid';
 import { defineAsyncComponent } from 'vue'
+import Rotation from '@/components/Rotation.vue'
 
 export default {
   props: ['id', 'name'],
@@ -56,7 +57,8 @@ export default {
     }
   },
   components: { 
-    Rotation: defineAsyncComponent(() => import('@/components/Rotation.vue')), 
+    // Rotation: defineAsyncComponent(() => import('@/components/Rotation.vue')), 
+    Rotation,
     SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue'))
   },
   methods: {
@@ -71,7 +73,7 @@ export default {
     },
     addRotation() {
       if (this.rotationLimit <= 2) {
-        this.components.set(uuidv4(), this.Rotation)
+        this.components.set(uuidv4(), Rotation)
         this.rotationLimit += 1;
       }
     },
@@ -89,6 +91,7 @@ export default {
         name: this.name, 
         rotations: JSON.stringify(Array.from(this.components.entries()))
       });
+      this.$router.go()
     },
     // Reset save props after saveTemplate()
     setSave() {
