@@ -174,6 +174,7 @@ export default {
     color: white;
     border: 0;
     margin-bottom: 1em;
+    border-radius: 5px;
   }
   button.disabled-rotation {
     background: #5c5c5c;
@@ -181,6 +182,8 @@ export default {
   }
   .btn-info {
     color: white;
+    background-color: #0064e1 !important;
+    border-color: #0064e1 !important
   }
   .btn-info:hover {
     color: none;
