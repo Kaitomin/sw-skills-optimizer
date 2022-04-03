@@ -17,11 +17,12 @@ const upload = multer({ storage: storage });
 
 
 // Add new skill
-router.get('/add-new-skill', (req, res) => {
-  if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
-  return res.send(201);
-})
+// router.get('/add-new-skill', (req, res) => {
+//   if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
+//   return res.send(201);
+// })
 router.post('/add-new-skill', upload.single('icon'), async (req, res) => {
+  if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
   try {
     let img = fs.readFileSync(req.file.path);
     let encode_img = img.toString('base64');
