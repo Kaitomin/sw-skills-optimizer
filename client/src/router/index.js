@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/character/:name',
     name: 'CharacterDetails',
-    meta: { title: ' | skills infos', content: ' skills table and rotation templates' },
+    meta: { title: ' | skills & rotations', content: ' skills table and rotation templates' },
     component: lazyLoad('CharacterDetails'),
     props: true
   },
