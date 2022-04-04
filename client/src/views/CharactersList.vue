@@ -38,7 +38,7 @@ export default {
       }
     },
     getImgUrl(iconUrl) {
-      return require('@/assets/uploads/characters/' + iconUrl.split('.')[0] + '.webp')
+      return require('@/assets/uploads/characters/' + iconUrl.split('.')[0] + '.png')
     },
     updatePoints(points){
       this.$store.commit('updatePoints', points)
