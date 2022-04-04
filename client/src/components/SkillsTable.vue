@@ -104,7 +104,7 @@ export default {
   methods: {
     getImgUrl(iconUrl) {
       try {
-        return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
+        return require('@/assets/uploads/skills/' + iconUrl)
       } catch (e) {
         return 
       }
