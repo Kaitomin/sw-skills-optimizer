@@ -73,8 +73,10 @@ export default {
   text-decoration: none;
 }
 #nav > a {
-  margin-top: 1em;
   display: block;
+  width: max-content;
+  margin: 0 auto;
+  margin-top: 1em;
 }
 .menu {
   display: flex;
