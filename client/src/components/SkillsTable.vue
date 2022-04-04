@@ -38,7 +38,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="45" height="45">
+                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
@@ -104,7 +104,7 @@ export default {
   methods: {
     getImgUrl(iconUrl) {
       try {
-        return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.webp')
+        return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
       } catch (e) {
         return 
       }
