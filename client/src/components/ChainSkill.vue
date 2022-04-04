@@ -112,7 +112,11 @@ export default {
   },
   methods: {
     getImgUrl(iconUrl) {
-      return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
+      try {
+        return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
+      } catch (e) {
+        return
+      }
     },
     calcTotal(s1, s2, s3, val) {
       // Filter undefined skills & dupes
