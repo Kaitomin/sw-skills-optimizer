@@ -1,6 +1,6 @@
 <template>
   <div class="characters-list">
-    <div :class="(char.name == 'Haru' || char.name == 'Stella') ? 'hidden' : ''"  v-for="char in charList" :key="char._id">
+    <div :class="(char.name == 'Haru') ? 'hidden' : ''"  v-for="char in charList" :key="char._id">
       <router-link :to="'/character/' + char.name">
         <img
           :src="getImgUrl(char.icon)"
@@ -67,6 +67,7 @@ export default {
     max-width: 500px;
     margin: 0 auto;
     margin-bottom: 5em;
+    gap: 10px;
   }
   .characters-list > div {
     border: 1px solid #ffffff3d;
