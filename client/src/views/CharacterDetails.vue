@@ -116,6 +116,13 @@ export default {
         this.components = this.$store.getters.irisRotations;
         this.rotationLimit = Array.from(this.components).length
         break;
+      case 'Stella':
+        this.components = this.$store.getters.stellaRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
+      default: 
+        this.components = null
+        this.rotationLimit = null
     }
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
