@@ -131,6 +131,7 @@ export default {
     text-align: left;
     font-weight: 600;
     margin-bottom: 2px;
+    color: white;
   }
   .add-skill div {
     margin: 10px 0;
