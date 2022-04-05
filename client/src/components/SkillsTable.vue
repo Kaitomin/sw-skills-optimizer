@@ -215,7 +215,7 @@ export default {
       this.displayTooltips
       this.$emit('skills-table', this.skillsTable)
     })
-    .catch(err => console.log('Error :', err));
+    .catch(err => this.$router.push('/'));
 
     switch(this.charName) {
       case 'Lily': 
@@ -225,6 +225,10 @@ export default {
       case 'Iris':
         this.description = "Data gathered from EN ver. [03/04/2022]"
         this.aspd = 200
+        break;
+      case 'Stella':
+        this.description = "Data gathered from EN ver. [05/04/2022]"
+        this.aspd = 205
         break;
       default :
         this.aspd = 200
