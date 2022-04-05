@@ -7,7 +7,8 @@
       <div class="menu">
         <router-link to="/">All</router-link><div class="separator"></div>
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
-        <router-link to="/character/Lily">Lily</router-link>
+        <router-link to="/character/Lily">Lily</router-link><div class="separator"></div>
+        <router-link to="/character/Stella">Stella</router-link>
       </div>
        <div v-if="userRole == 'ADMIN'" class="edit">
           <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
@@ -25,6 +26,7 @@
 import "@/assets/global.css";
 import "@/assets/theme_lily.css";
 import "@/assets/theme_iris.css";
+import "@/assets/theme_stella.css";
 import UserService from './services/UserService';
 
 export default {
@@ -82,7 +84,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 200px;
+  width: 275px;
   margin: 0 auto;
 }
 .menu a {
