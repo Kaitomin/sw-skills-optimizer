@@ -105,6 +105,11 @@ export default {
       }
     },
   },
+  created() {
+    if (this.name == 'Haru') {
+      this.$router.push('/')
+    }
+  },
   mounted() {
     // Get rotations templates
     switch (this.name) {
@@ -123,6 +128,7 @@ export default {
       default: 
         this.components = null
         this.rotationLimit = null
+        
     }
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
