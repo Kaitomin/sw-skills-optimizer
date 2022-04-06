@@ -118,7 +118,7 @@ export default {
 
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg * 1.6)
+            skill.dmg = Math.round(skill.dmg * 1.58)
           } else {
             skill.dmg = Math.round(skill.dmg * 1.2)
           }
