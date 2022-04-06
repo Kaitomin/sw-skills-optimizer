@@ -274,7 +274,7 @@ export default {
     width: 72px;
   }
   ul.dropdown-menu {
-    padding: 0.2rem;
+    padding: 0.2rem 0.5rem;
     min-width: 0;
   }
   ul.show {
