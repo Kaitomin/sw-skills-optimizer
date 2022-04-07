@@ -6,10 +6,12 @@ const store = createStore({
     lilyChains: JSON.parse(localStorage.getItem('lily-chains')) ?? [],
     irisChains: JSON.parse(localStorage.getItem('iris-chains')) ?? [],
     stellaChains: JSON.parse(localStorage.getItem('stella-chains')) ?? [],
+    haruChains: JSON.parse(localStorage.getItem('haru-chains')) ?? [],
     rotations: new Map(JSON.parse(localStorage.getItem('rotations'))),
     lilyRotations: new Map(JSON.parse(localStorage.getItem('lily-rotations'))),
     irisRotations: new Map(JSON.parse(localStorage.getItem('iris-rotations'))),
-    stellaRotations: new Map(JSON.parse(localStorage.getItem('stella-rotations')))
+    stellaRotations: new Map(JSON.parse(localStorage.getItem('stella-rotations'))),
+    haruRotations: new Map(JSON.parse(localStorage.getItem('haru-rotations')))
   },
   mutations: {
     saveChains(state, template) {
@@ -40,6 +42,15 @@ const store = createStore({
           localStorage.setItem('stella-chains', JSON.stringify(state.stellaChains))
         }
       }
+      if (template.name == 'Haru') {
+        if (template.ids.length > 0) {
+          state.haruChains = state.haruChains.filter(c => !template.ids.includes(c.chains[0]))
+          localStorage.setItem('haru-chains', JSON.stringify(state.haruChains))
+        } else {
+          state.haruChains = template.chains
+          localStorage.setItem('haru-chains', JSON.stringify(state.haruChains))
+        }
+      }
     },
     saveRotations(state, template) {
       if (template.name == 'Lily') {
@@ -55,6 +66,11 @@ const store = createStore({
       if (template.name == 'Stella') {
         state.stellaRotations = template.rotations
         localStorage.setItem('stella-rotations', state.stellaRotations);
+        return
+      }
+      if (template.name == 'Haru') {
+        state.haruRotations = template.rotations
+        localStorage.setItem('haru-rotations', state.haruRotations);
         return
       }
     },
@@ -75,6 +91,9 @@ const store = createStore({
     stellaChains (state) {
       return state.stellaChains;
     },
+    haruChains (state) {
+      return state.haruChains;
+    },
     lilyRotations (state) {
       return state.lilyRotations;
     },
@@ -83,6 +102,9 @@ const store = createStore({
     },
     stellaRotations (state) {
       return state.stellaRotations;
+    },
+    haruRotations (state) {
+      return state.haruRotations;
     }
   }
 })
