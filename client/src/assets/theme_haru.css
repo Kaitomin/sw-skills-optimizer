@@ -1,0 +1,35 @@
+.skills-container.haru .skills-details .table-skills th {
+  background-color: #ab6105;
+}
+.skills-container.haru .skills-details .table {
+  background-color: #ab61051a;
+}
+.skills-container.haru button.add-rotation {
+  background-color: #ab6105;
+  transition: background-color 0.2s;
+}
+.skills-container.haru button.add-rotation:hover {
+  background-color: #b96803;
+}
+.skills-container.haru .chains-container .dropdown-toggle {
+  color: white;
+  border: 1px solid white;
+  background-color: #ab60053d;
+}
+.skills-container.haru .chains-container .dropdown-toggle:hover {
+  background-color: #ab600557;
+}
+.skills-container.haru:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: -999;
+  opacity: 0.5;
+  background: url(./img/haru_2400x2386.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 100px 20px black inset;
+}
