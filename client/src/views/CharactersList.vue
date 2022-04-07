@@ -1,6 +1,6 @@
 <template>
   <div class="characters-list">
-    <div :class="(char.name == 'Haru') ? 'hidden' : ''"  v-for="char in charList" :key="char._id">
+    <div v-for="char in charList" :key="char._id">
       <router-link :to="'/character/' + char.name">
         <img
           :src="getImgUrl(char.icon)"
