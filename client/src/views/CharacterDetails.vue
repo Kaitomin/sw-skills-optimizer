@@ -105,11 +105,11 @@ export default {
       }
     },
   },
-  created() {
-    if (this.name == 'Haru') {
-      this.$router.push('/')
-    }
-  },
+  // created() {
+  //   if (this.name == 'Haru') {
+  //     this.$router.push('/')
+  //   }
+  // },
   mounted() {
     // Get rotations templates
     switch (this.name) {
@@ -125,10 +125,13 @@ export default {
         this.components = this.$store.getters.stellaRotations;
         this.rotationLimit = Array.from(this.components).length
         break;
+      case 'Haru':
+        this.components = this.$store.getters.haruRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
       default: 
         this.components = null
         this.rotationLimit = null
-        
     }
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
