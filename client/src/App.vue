@@ -8,6 +8,7 @@
         <router-link to="/">All</router-link><div class="separator"></div>
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
         <router-link to="/character/Lily">Lily</router-link><div class="separator"></div>
+        <router-link to="/character/Haru">Haru</router-link><div class="separator"></div>
         <router-link to="/character/Stella">Stella</router-link>
       </div>
        <div v-if="userRole == 'ADMIN'" class="edit">
@@ -27,6 +28,7 @@ import "@/assets/global.css";
 import "@/assets/theme_lily.css";
 import "@/assets/theme_iris.css";
 import "@/assets/theme_stella.css";
+import "@/assets/theme_haru.css";
 import UserService from './services/UserService';
 
 export default {
@@ -82,9 +84,11 @@ export default {
 }
 .menu {
   display: flex;
-  justify-content: space-around;
+  /* grid-template-columns: repeat(9, 1fr); */
   align-items: center;
-  width: 275px;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* width: 375px; */
   margin: 0 auto;
 }
 .menu a {
@@ -108,5 +112,12 @@ export default {
 }
 .logout:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 400px) {
+  /* .menu {
+    grid-template-columns: repeat(5, 1fr);
+    width: 275px;
+  } */
 }
 </style>
