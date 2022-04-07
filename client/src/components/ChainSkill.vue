@@ -300,6 +300,7 @@ export default {
   }
   .fa-ban {
     color: red;
+    font-size: 48px;
   }
   .cancel-active {
     color: #00fdce;
