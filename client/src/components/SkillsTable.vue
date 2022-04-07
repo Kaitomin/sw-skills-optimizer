@@ -3,7 +3,7 @@
     <div class="skills-details">
       <h1>Skills</h1>
       <div v-if="char">
-        <p class="description"><i>{{ description }} <br>(sort the table by clicking on criteria)</i></p>
+        <p class="description"><i>{{ description }} <br>(click on criteria to sort the table)</i></p>
         <div class="char-info">
           <div class="cdInput">
             <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
@@ -31,7 +31,7 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dps')">DPS<span class="tooltip-msg">Damage % per second</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ charCD }}%]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DPS</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
           </thead>
@@ -46,7 +46,7 @@
               <td>{{ calcCD(skill) }}s</td>
               <td>{{ calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
-              <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60).toFixed(2)) : Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%</td>
+              <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
               <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
             </tr>
@@ -229,6 +229,10 @@ export default {
       case 'Stella':
         this.description = "Data gathered from EN ver. [05/04/2022]"
         this.aspd = 205
+        break;
+      case 'Haru':
+        this.description = "Data gathered from EN ver. [06/04/2022]"
+        this.aspd = 200
         break;
       default :
         this.aspd = 200
