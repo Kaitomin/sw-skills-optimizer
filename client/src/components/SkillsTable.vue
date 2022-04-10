@@ -96,7 +96,6 @@ export default {
       castChecked: false,
       sortOrder: false,
       skillsTable: [],
-      skillsDefaultTable: [],
       aspd: '',
       description: ''
     }
@@ -119,7 +118,7 @@ export default {
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg * 1.58)
-          } else if (!skill.ex) {
+          } else {
             skill.dmg = Math.round(skill.dmg * 1.2)
           }
         })
@@ -128,7 +127,13 @@ export default {
         document.querySelector('.dw-container .fa-check').classList.add('disabled')
         document.querySelector('.dw-input').classList.remove('checked')
 
-        this.skillsTable = JSON.parse(JSON.stringify(this.skillsDefaultTable))
+        Array.from(this.skillsTable).map(skill => {
+          if (skill.dwBoost) {
+            skill.dmg = Math.round(skill.dmg / 1.58)
+          } else {
+            skill.dmg = Math.round(skill.dmg / 1.2)
+          }
+        })
         this.$emit('skills-table', this.skillsTable)
       }
     },
@@ -213,7 +218,6 @@ export default {
     .then(res => {
       this.char = res.data.character;
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
-      this.skillsDefaultTable = JSON.parse(JSON.stringify(res.data.skills));
       this.displayTooltips
       this.$emit('skills-table', this.skillsTable)
     })
