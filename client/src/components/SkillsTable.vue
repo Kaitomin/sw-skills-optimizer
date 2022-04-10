@@ -119,7 +119,7 @@ export default {
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg * 1.58)
-          } else {
+          } else if (!skill.ex) {
             skill.dmg = Math.round(skill.dmg * 1.2)
           }
         })
@@ -146,6 +146,8 @@ export default {
       }
     },
     calcCD(skill) {
+      // if (skill.cd == 0) return '0'
+      // console.log(typeof (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2))
       return (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2);
     },
     calcCD15(skill) {
