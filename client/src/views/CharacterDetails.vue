@@ -105,11 +105,11 @@ export default {
       }
     },
   },
-  // created() {
-  //   if (this.name == 'Haru') {
-  //     this.$router.push('/')
-  //   }
-  // },
+  created() {
+    if (this.name == 'Ephnel') {
+      this.$router.push('/')
+    }
+  },
   mounted() {
     // Get rotations templates
     switch (this.name) {
