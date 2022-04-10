@@ -8,13 +8,13 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    meta: { title: 'Soulworker | Skills optimizer', content: 'Soulworker skills details and optimization' },
+    meta: { title: 'Soulworker | Skills Optimizer', content: 'Soulworker skills details and rotations optimization' },
     component: lazyLoad('CharactersList')
   },
   {
     path: '/character/:name',
     name: 'CharacterDetails',
-    meta: { title: ' | skills & rotations', content: ' skills table and rotation templates' },
+    meta: { title: ' | Skills & Rotations', content: ' skills table and rotation templates' },
     component: lazyLoad('CharacterDetails'),
     props: true
   },
@@ -48,8 +48,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  
-
   if (to.params.name) {
     document.querySelector('meta[name=description]').content = to.params.name + to.meta.content
     document.title = to.params.name + to.meta.title
