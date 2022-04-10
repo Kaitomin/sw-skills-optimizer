@@ -43,8 +43,8 @@
               </td>
               <td>{{ skill.dmg }}%</td>
               <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
-              <td>{{ calcCD(skill) }}s</td>
-              <td>{{ calcCD15(skill) }}s</td>
+              <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
+              <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
               <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
@@ -73,8 +73,8 @@
               </td>
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
               <td :class="(castChecked && (skill.castCancel < skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s  <br> [{{ skill.cast }}]</td>
-              <td>{{ calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
-              <td>{{ calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
+              <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
+              <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
             </tr>
           </tbody>
         </table>
@@ -146,11 +146,11 @@ export default {
       }
     },
     calcCD(skill) {
-      // if (skill.cd == 0) return '0'
-      // console.log(typeof (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2))
+      if (skill.cd == 0) return Infinity
       return (+skill.cd - (+skill.cd * this.charCD/100)).toFixed(2);
     },
     calcCD15(skill) {
+      if (skill.cd == 0) return Infinity
       return (+skill.cd - ((+skill.cd * this.charCD/100) + (+skill.cd * 0.15))).toFixed(2);
     },
     sortBy(criteria) {

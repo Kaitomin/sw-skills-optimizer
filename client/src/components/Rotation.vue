@@ -130,6 +130,14 @@ export default {
           this.filteredChains[tmp[i].pos] = tmp[i]    
         }
         break;
+      case 'Ephnel':
+        this.allChains = this.$store.getters.ephnelChains
+        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
+        for (let i = 0; i < 6; i++) {
+          if (!tmp[i]) continue
+          this.filteredChains[tmp[i].pos] = tmp[i]    
+        }
+        break;
     }
   },
 }

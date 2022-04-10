@@ -129,6 +129,10 @@ export default {
         this.components = this.$store.getters.haruRotations;
         this.rotationLimit = Array.from(this.components).length
         break;
+      case 'Ephnel':
+        this.components = this.$store.getters.ephnelRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
       default: 
         this.components = null
         this.rotationLimit = null

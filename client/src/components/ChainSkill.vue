@@ -147,6 +147,7 @@ export default {
         this.dmgCast = Math.round(this.totalDmg / (this.totalCast/60));
         return this.dmgCast;
       } else if (value === 'cd') {
+        if (this.highestCd == 0) return '0'
         this.dmgCd = (this.totalDmg / this.highestCd).toFixed(2);
         return this.dmgCd;
       }

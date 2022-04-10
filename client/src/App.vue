@@ -29,6 +29,7 @@ import "@/assets/theme_lily.css";
 import "@/assets/theme_iris.css";
 import "@/assets/theme_stella.css";
 import "@/assets/theme_haru.css";
+import "@/assets/theme_ephnel.css";
 import UserService from './services/UserService';
 
 export default {
