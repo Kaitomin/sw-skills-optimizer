@@ -1,3 +1,6 @@
+.skills-container.iris h1 {
+  background: #800000;
+}
 .skills-container.iris .skills-details .table-skills th {
   background-color: #800000;
 }
@@ -27,5 +30,5 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  box-shadow: 0 0 100px 20px black inset;
+  box-shadow: 0 0 100px 50px black inset;
 }

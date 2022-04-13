@@ -1,3 +1,6 @@
+.skills-container.stella h1 {
+  background: #490080;
+}
 .skills-container.stella .skills-details .table-skills th {
   background-color: #490080;
 }
@@ -31,5 +34,5 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  box-shadow: 0 0 100px 20px black inset;
+  box-shadow: 0 0 100px 50px black inset;
 }

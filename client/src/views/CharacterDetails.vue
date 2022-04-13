@@ -4,6 +4,7 @@
     <SkillsTable 
       :charName="name"
       @skills-table="toggleDesire"
+      @ephnel-dmg="toggleEphDmg"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
@@ -19,6 +20,7 @@
         v-for="component in components"
         :key="component[0]"
         :id="component[0]"
+        :ephDmg="ephDmg"
         :skills="skills"
         :castChecked="castChecked"
         :charCD="charCD"
@@ -53,7 +55,8 @@ export default {
       deleteId: [],
       save: { save: false, deleteId: this.deleteId },
       sortOrder: false,
-      containerH: ''
+      containerH: '',
+      ephDmg: ''
     }
   },
   components: { 
@@ -76,6 +79,9 @@ export default {
         this.components.set(uuidv4(), Rotation)
         this.rotationLimit += 1;
       }
+    },
+    toggleEphDmg(val) {
+      this.ephDmg = val
     },
     deleteComponent(c) {
       // Add component id to delete to array
@@ -105,11 +111,11 @@ export default {
       }
     },
   },
-  created() {
-    if (this.name == 'Ephnel') {
-      this.$router.push('/')
-    }
-  },
+  // created() {
+  //   if (this.name == 'Ephnel') {
+  //     this.$router.push('/')
+  //   }
+  // },
   mounted() {
     // Get rotations templates
     switch (this.name) {
@@ -192,21 +198,24 @@ export default {
     width: 120px;
     height: 40px;
     color: white;
-    border: 0;
     margin-bottom: 1em;
-    border-radius: 5px;
+    border: 1px solid white;
   }
   button.disabled-rotation {
     background: #5c5c5c;
     color: black;
+    cursor: default;
   }
   .btn-info {
     color: white;
-    background-color: #0064e1 !important;
-    border-color: #0064e1 !important
+    border-radius: 0;
+    background-color: transparent;
+    border-color: #ffffff !important;
   }
   .btn-info:hover {
-    color: none;
+    cursor: pointer;
+    background-color: white;
+    color: black;
   }
   @media screen and (max-width: 1400px) {
     .skills-container {

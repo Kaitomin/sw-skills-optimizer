@@ -1,15 +1,18 @@
+.skills-container.ephnel h1 {
+  background: #00561e;
+}
 .skills-container.ephnel .skills-details .table-skills th {
-  background-color: #00802d;
+  background-color: #00561e;
 }
 .skills-container.ephnel .skills-details .table {
   background-color: #08800030;
 }
 .skills-container.ephnel button.add-rotation {
-  background-color: #00802d;
+  background-color: #00561e;
   transition: background-color 0.2s;
 }
 .skills-container.ephnel button.add-rotation:hover {
-  background-color: #029736;
+  background-color: #006423;
 }
 .skills-container.ephnel .chains-container .dropdown-toggle {
   color: white;
@@ -31,5 +34,41 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  box-shadow: 0 0 100px 20px black inset;
+  box-shadow: 0 0 100px 50px black inset;
+}
+.skills-container.ephnel .ephnel-buff {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  margin-bottom: 1em;
+  border-top: 1px solid white;
+  padding-top: 1em;
+}
+.skills-container.ephnel .ephnel-buff p {
+  margin-bottom: 0;
+}
+.skills-container.ephnel .ephnel-buff > div {
+  /* display: flex; */
+  padding: 0.5em 2em;
+  border: 1px solid white;
+  background: #ffffff08;
+  box-sizing: border-box;
+}
+.skills-container.ephnel .ephnel-buff > div:hover {
+  cursor: pointer;
+  background: #ffffff2b;
+}
+.active-dmg{
+  border: 1px solid white !important;
+  background: #00802d7d !important;
+}
+@media screen and (max-width: 500px) {
+  .ephnel-buff {
+    flex-direction: column;
+    height: 150px;
+  }
+  .ephnel-buff > div {
+    width: 240px;
+  }
 }

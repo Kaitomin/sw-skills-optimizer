@@ -1,6 +1,6 @@
 <template>
   <div class="characters-list">
-    <div :class="char.name == 'Ephnel' ? 'hidden' : ''" v-for="char in charList" :key="char._id">
+    <div :class="char.name == 'Chii' ? 'hidden' : ''" v-for="char in charList" :key="char._id">
       <router-link :to="'/character/' + char.name">
         <img
           :src="getImgUrl(char.icon)"
@@ -14,7 +14,7 @@
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
     <p>I'm also looking for more characters data, message me if you are willing to help </p>
-    <p>Special thanks to AFN, Yayathic, Eden & jumpi</p>
+    <p>Special thanks to AFN, Yayathic, Eden, jumpi, Tatufo & Kitai</p>
   </div>
 </template>
 

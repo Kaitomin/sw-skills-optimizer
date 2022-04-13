@@ -1,15 +1,16 @@
 <template>
   <div>
     <div id="nav">
-      <router-link to="/">
+      <router-link to="/" class="logo">
         <img src="@/assets/img/logo_200x113.webp" alt="soulworker logo" width="200" height="113">
       </router-link>
       <div class="menu">
-        <router-link to="/">All</router-link><div class="separator"></div>
+        <!-- <router-link to="/">All</router-link><div class="separator"></div> -->
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
         <router-link to="/character/Lily">Lily</router-link><div class="separator"></div>
         <router-link to="/character/Haru">Haru</router-link><div class="separator"></div>
-        <router-link to="/character/Stella">Stella</router-link>
+        <router-link to="/character/Stella">Stella</router-link><div class="separator"></div>
+        <router-link to="/character/Ephnel">Ephnel</router-link>
       </div>
        <div v-if="userRole == 'ADMIN'" class="edit">
           <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
@@ -90,11 +91,11 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   /* width: 375px; */
-  margin: 0 auto;
+  margin: 1em 0;
 }
 .menu a {
   display: block;
-  padding: 1em 0;
+  padding: 0.5em 0;
   width: 70px;
 }
 .edit {

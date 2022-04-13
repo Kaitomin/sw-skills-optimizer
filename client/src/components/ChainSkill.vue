@@ -95,7 +95,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'castChecked'],
+  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'castChecked', 'ephDmg'],
   data() {
     return {
       chainId: '',
@@ -123,22 +123,59 @@ export default {
       const filteredSkills = [s1, s2, s3].filter(s => s);
       const arrSkills = [...new Set([...filteredSkills])];
 
-      if (val === 'dmg') {
-        this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
-          return +prev + +curr.dmg;
-        }, 0);
+      if (this.name != 'Ephnel') {
+        if (val === 'dmg') {
+          this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+            return +prev + +curr.dmg;
+          }, 0);
+          return this.totalDmg;
+        } else if (this.castChecked && val === 'cast') {
+            this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.castCancel;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        } else if (val === 'cast') {
+          this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.cast;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        }
+      }
+
+      if (this.name == 'Ephnel') {     
+        if (val === 'dmg') {
+          switch (this.ephDmg) {
+            case 'release':
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                return +prev + +curr.dmgRelease;
+              }, 0);
+              break;
+            case 'bullet':
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                return +prev + +curr.dmgBullet;
+              }, 0);
+              break;
+            default :
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                return +prev + +curr.dmg;
+              }, 0);
+              break;
+          }
         return this.totalDmg;
-      } else if (this.castChecked && val === 'cast') {
+
+        } else if (this.castChecked && val === 'cast') {
           this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.castCancel;
           }, 0);
-        return (this.totalCast/60).toFixed(2);
-      } else if (val === 'cast') {
-        this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
-            return +prev + +curr.cast;
-          }, 0);
-        return (this.totalCast/60).toFixed(2);
+          return (this.totalCast/60).toFixed(2);
+        } else if (val === 'cast') {
+          this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.cast;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        }
       }
+
     },
     calcDmgRatio(s1, s2, s3, value) {
       if (!s1 && !s2 && !s3) return this.dmgCast = this.dmgCd = 0;
