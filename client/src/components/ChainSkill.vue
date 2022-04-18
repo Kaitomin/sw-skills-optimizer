@@ -78,6 +78,10 @@
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">CD</th>
       <td>{{ calcHighestCD(c1_s1.cd, c1_s2.cd, c1_s3.cd) }}s</td>
     </tr>
+    <tr v-if="name == 'Chii'" class="info">
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">Marks</th>
+      <td>{{ calcMarks(c1_s1, c1_s2, c1_s3) }}</td>
+    </tr>
     <tr class="info">
       <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DPS</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}%</td>
@@ -194,6 +198,16 @@ export default {
 
       this.highestCd = Math.max(...newCd).toFixed(2);
       return this.highestCd;
+    },
+    // Chii marks count
+    calcMarks(s1, s2, s3) {
+      if (!s1 && !s2 && !s3) return 0;
+
+      let tmp = new Set([s1, s2, s3])
+
+      let arrCount = Array.from(tmp).reduce((prev, curr) => +prev + (curr.mark ? +curr.mark : 0), 0);
+
+      return arrCount
     },
     applyCdr(arr) {
       arr.forEach((val, index) => {

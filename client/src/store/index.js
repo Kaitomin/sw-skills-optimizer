@@ -2,18 +2,22 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
+    // Chains
     chainsArray: JSON.parse(localStorage.getItem('chains')) ?? [],
     lilyChains: JSON.parse(localStorage.getItem('lily-chains')) ?? [],
     irisChains: JSON.parse(localStorage.getItem('iris-chains')) ?? [],
     stellaChains: JSON.parse(localStorage.getItem('stella-chains')) ?? [],
     haruChains: JSON.parse(localStorage.getItem('haru-chains')) ?? [],
     ephnelChains: JSON.parse(localStorage.getItem('ephnel-chains')) ?? [],
+    chiiChains: JSON.parse(localStorage.getItem('chii-chains')) ?? [],
+    // Rotations
     rotations: new Map(JSON.parse(localStorage.getItem('rotations'))),
     lilyRotations: new Map(JSON.parse(localStorage.getItem('lily-rotations'))),
     irisRotations: new Map(JSON.parse(localStorage.getItem('iris-rotations'))),
     stellaRotations: new Map(JSON.parse(localStorage.getItem('stella-rotations'))),
     haruRotations: new Map(JSON.parse(localStorage.getItem('haru-rotations'))),
-    ephnelRotations: new Map(JSON.parse(localStorage.getItem('ephnel-rotations')))
+    ephnelRotations: new Map(JSON.parse(localStorage.getItem('ephnel-rotations'))),
+    chiiRotations: new Map(JSON.parse(localStorage.getItem('chii-rotations'))),
   },
   mutations: {
     saveChains(state, template) {
@@ -62,6 +66,15 @@ const store = createStore({
           localStorage.setItem('ephnel-chains', JSON.stringify(state.ephnelChains))
         }
       }
+      if (template.name == 'Chii') {
+        if (template.ids.length > 0) {
+          state.chiiChains = state.chiiChains.filter(c => !template.ids.includes(c.chains[0]))
+          localStorage.setItem('chii-chains', JSON.stringify(state.chiiChains))
+        } else {
+          state.chiiChains = template.chains
+          localStorage.setItem('chii-chains', JSON.stringify(state.chiiChains))
+        }
+      }
     },
     saveRotations(state, template) {
       if (template.name == 'Lily') {
@@ -89,6 +102,11 @@ const store = createStore({
         localStorage.setItem('ephnel-rotations', state.ephnelRotations);
         return
       }
+      if (template.name == 'Chii') {
+        state.chiiRotations = template.rotations
+        localStorage.setItem('chii-rotations', state.chiiRotations);
+        return
+      }
     },
   },
   getters: {
@@ -113,6 +131,9 @@ const store = createStore({
     ephnelChains (state) {
       return state.ephnelChains;
     },
+    chiiChains (state) {
+      return state.chiiChains;
+    },
     lilyRotations (state) {
       return state.lilyRotations;
     },
@@ -127,6 +148,9 @@ const store = createStore({
     },
     ephnelRotations (state) {
       return state.ephnelRotations;
+    },
+    chiiRotations (state) {
+      return state.chiiRotations;
     }
   }
 })

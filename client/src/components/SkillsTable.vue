@@ -633,7 +633,8 @@ export default {
   .tooltip-msg {
     display: none;
     position: absolute;
-    width: 200px;
+    max-width: 200px;
+    width: max-content;
     z-index: 999;
     top: 50px;
     right: 0;

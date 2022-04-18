@@ -1,0 +1,38 @@
+.skills-container.chii h1 {
+  background: #80003b;
+}
+.skills-container.chii .skills-details .table-skills th {
+  background-color: #80003b;
+}
+.skills-container.chii .skills-details .table {
+  background-color: #80003c2b;
+}
+.skills-container.chii button.add-rotation {
+  background-color: #80003b;
+  transition: background-color 0.2s;
+}
+.skills-container.chii button.add-rotation:hover {
+  background-color: #a9004e;
+}
+.skills-container.chii .chains-container .dropdown-toggle {
+  color: white;
+  border: 1px solid white;
+  background-color: #80003c2b;
+}
+.skills-container.chii .chains-container .dropdown-toggle:hover {
+  background-color: #cf00612b;
+}
+.skills-container.chii:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: -999;
+  opacity: 0.5;
+  background: url(./img/chii_2400x2238.webp);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 100px 50px black inset;
+}

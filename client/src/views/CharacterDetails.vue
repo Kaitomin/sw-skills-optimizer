@@ -2,9 +2,17 @@
   <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
     <!-- Skills table -->
     <SkillsTable 
+      v-if="name != 'Chii'"
       :charName="name"
       @skills-table="toggleDesire"
       @ephnel-dmg="toggleEphDmg"
+      @char-cdr="currentCDR"
+      @cast-cancel="toggleCastCancel"
+    />
+    <ChiiTable 
+      v-else
+      :charName="name"
+      @skills-table="toggleDesire"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
@@ -62,7 +70,8 @@ export default {
   components: { 
     // Rotation: defineAsyncComponent(() => import('@/components/Rotation.vue')), 
     Rotation,
-    SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue'))
+    SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue')),
+    ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue'))
   },
   methods: {
     toggleDesire(skillsTable) {
@@ -111,11 +120,11 @@ export default {
       }
     },
   },
-  created() {
-    if (this.name == 'Chii') {
-      this.$router.push('/')
-    }
-  },
+  // created() {
+  //   if (this.name == 'Chii') {
+  //     this.$router.push('/')
+  //   }
+  // },
   mounted() {
     // Get rotations templates
     switch (this.name) {
@@ -137,6 +146,10 @@ export default {
         break;
       case 'Ephnel':
         this.components = this.$store.getters.ephnelRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
+      case 'Chii':
+        this.components = this.$store.getters.chiiRotations;
         this.rotationLimit = Array.from(this.components).length
         break;
       default: 

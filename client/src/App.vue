@@ -5,12 +5,12 @@
         <img src="@/assets/img/logo_200x113.webp" alt="soulworker logo" width="200" height="113">
       </router-link>
       <div class="menu">
-        <!-- <router-link to="/">All</router-link><div class="separator"></div> -->
         <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
         <router-link to="/character/Lily">Lily</router-link><div class="separator"></div>
         <router-link to="/character/Haru">Haru</router-link><div class="separator"></div>
         <router-link to="/character/Stella">Stella</router-link><div class="separator"></div>
-        <router-link to="/character/Ephnel">Ephnel</router-link>
+        <router-link to="/character/Ephnel">Ephnel</router-link><div class="separator"></div>
+        <router-link to="/character/Chii">Chii</router-link>
       </div>
        <div v-if="userRole == 'ADMIN'" class="edit">
           <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
@@ -31,6 +31,7 @@ import "@/assets/theme_iris.css";
 import "@/assets/theme_stella.css";
 import "@/assets/theme_haru.css";
 import "@/assets/theme_ephnel.css";
+import "@/assets/theme_chii.css";
 import UserService from './services/UserService';
 
 export default {
