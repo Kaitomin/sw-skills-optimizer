@@ -13,8 +13,8 @@
   </div>
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
-    <p>I'm also looking for more characters data, message me if you are willing to help </p>
     <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai & Yukawa</p>
+    <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></i></p>
   </div>
 </template>
 
@@ -92,6 +92,9 @@ export default {
   .contact p {
     margin-bottom: 0;
     padding: 10px 5px;
+  }
+  .copyrights a {
+    text-decoration: none;
   }
   @media screen and (max-width: 500px) {
     .contact {
