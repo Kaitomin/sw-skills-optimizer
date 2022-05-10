@@ -3,8 +3,6 @@ const Character = require('../models/Character');
 const Skill = require('../models/Skills');
 const multer = require('multer');
 const fs = require("fs");
-const { getCurrUser } = require('../middleware/userMiddleware');
-
 
 // Set Multer storage to upload images
 const storage = multer.diskStorage({
