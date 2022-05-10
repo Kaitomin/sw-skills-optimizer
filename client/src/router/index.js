@@ -51,12 +51,12 @@ router.beforeEach((to, from, next) => {
   if (to.params.name) {
     document.querySelector("meta[name='description']").content = to.params.name + to.meta.content
     // document.querySelector('meta[property=og:image]').content = `<%= BASE_URL %>${to.params.name}.png`
-    document.querySelector("meta[property='og:image']").content = '<%= BASE_URL %>' + (to.params.name).toLowerCase() + '.png'
+    document.querySelector("meta[property='og:image:secure_url']").content = 'https://tests-testsw.onrender.com/' + (to.params.name).toLowerCase() + '.png'
     document.title = to.params.name + to.meta.title
     next();
   } else {
     document.querySelector("meta[name='description']").content = to.meta.content
-    document.querySelector("meta[property='og:image']").content = 'https://tests-testsw.onrender.com/logo.png'
+    document.querySelector("meta[property='og:image:secure_url']").content = 'https://tests-testsw.onrender.com/logo.png'
     document.title = to.meta.title
     next();
   }
