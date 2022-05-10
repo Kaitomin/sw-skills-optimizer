@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     document.querySelector("meta[name='description']").content = to.meta.content
-    document.querySelector("meta[property='og:image']").content = 'logo.png'
+    document.querySelector("meta[property='og:image']").content = 'https://tests-testsw.onrender.com/logo.png'
     document.title = to.meta.title
     next();
   }
