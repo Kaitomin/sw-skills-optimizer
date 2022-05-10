@@ -58,12 +58,13 @@ router.post('/add-new-char', upload.single('avatar'), async (req, res) => {
 // Get character skills information
 router.get('/character/:name', async (req, res) => {
   try {
+
+    // updateMetaTags(req, res)
+
     const character = await Character.findOne({ name: req.params.name});
     const skills = await Skill.find({ character: character.name });
 
-    const ogImg = await updateMetaTags(req, res)
-
-    return res.status(201).json({ ogImg, character, skills });
+    return res.status(201).json({ character, skills });
   } catch (error) {
     return res.status(400).send('Unexpected error');
   }
@@ -75,6 +76,7 @@ router.get('/character/:name', async (req, res) => {
 //   else if (/\/character\//.test(req.originalUrl)) updateMetaTags(req, res);
 //   else res.sendFile(`${__dirname}/client/dist/index.html`);
 // });
+
 
 async function updateMetaTags(req, res) {
 
@@ -88,22 +90,27 @@ async function updateMetaTags(req, res) {
   const characterObj = charactersArr.find(char => char.name == characterName)
 
   // Update the meta tag properties in the built bundle
-  // const baseSrc = path.join(__dirname, '../../client/public/index.html')
-  // const baseHTML = await fs.promises.readFile(baseSrc, 'utf8')
+  // const baseSrc = path.join(__dirname, '../../client/dist/index.html')
+  const baseSrc = path.join(__dirname, '../../client/public/index.html')
+  const baseHTML = await fs.promises.readFile(baseSrc, 'utf8')
+  const $ = cheerio.load(baseHTML)
 
   // let $url = $('meta[property=og\\:url]')
-  // let $image = $('meta[property=og\\:image]')
-  // let $imageSecure = $('meta[property=og\\:image\\:secure_url]')
+  let $image = $('meta[property=og\\:image]')
+  let $imageSecure = $('meta[property=og\\:image\\:secure_url]')
   // $url.attr('content', `https://${req.get('host')}${req.originalUrl}`)
-  // $image.attr('content', characterObj.ogImage)
-  // $imageSecure.attr('content', characterObj.ogImage)
+  $image.attr('content', characterObj.ogImage)
+  $imageSecure.attr('content', characterObj.ogImage)
 
   // console.log($url)
   // console.log($image)
+  console.log($.html())
 
   // Send the modified HTML as the response
   // return $.html()
-  return characterObj.ogImage
+  res.send($.html())
+
+  // fs.writeFileSync(path.join(__dirname, '../../client/public/index.html'), $.html())
 }
 
 

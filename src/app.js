@@ -34,7 +34,7 @@ app.use('/api', charRoutes);
 app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 
-// Serve file after each request - Heroku
+// Serve file after refresh page
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 // });
