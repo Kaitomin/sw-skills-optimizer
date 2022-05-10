@@ -534,6 +534,9 @@ export default {
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
       this.displayTooltips
       this.$emit('skills-table', this.skillsTable)
+
+      document.querySelector("meta[property='og:image']").setAttribute('content', res.data.ogImg)
+      document.querySelector("meta[property='og:image:secure_url']").setAttribute('content', res.data.ogImg)
     })
     .catch(err => this.$router.push('/'));
 
