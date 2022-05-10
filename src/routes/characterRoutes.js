@@ -3,8 +3,6 @@ const Character = require('../models/Character');
 const Skill = require('../models/Skills');
 const multer = require('multer');
 const fs = require("fs");
-const path = require("path")
-const cheerio = require('cheerio');
 const { getCurrUser } = require('../middleware/userMiddleware');
 
 
