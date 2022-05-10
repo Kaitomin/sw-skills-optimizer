@@ -3,6 +3,8 @@ const Character = require('../models/Character');
 const Skill = require('../models/Skills');
 const multer = require('multer');
 const fs = require("fs");
+const path = require("path")
+const cheerio = require('cheerio');
 const { getCurrUser } = require('../middleware/userMiddleware');
 
 
@@ -58,11 +60,52 @@ router.get('/character/:name', async (req, res) => {
   try {
     const character = await Character.findOne({ name: req.params.name});
     const skills = await Skill.find({ character: character.name });
-    return res.status(201).json({ character, skills });
+
+    const ogImg = await updateMetaTags(req, res)
+
+    return res.status(201).json({ ogImg, character, skills });
   } catch (error) {
     return res.status(400).send('Unexpected error');
   }
 });
+
+// Change meta OG tags dynamically 
+// app.use('/*', (req, res, next) => {
+//   if (/^\/api\//.test(req.originalUrl)) next();
+//   else if (/\/character\//.test(req.originalUrl)) updateMetaTags(req, res);
+//   else res.sendFile(`${__dirname}/client/dist/index.html`);
+// });
+
+async function updateMetaTags(req, res) {
+
+  // Get and parse products array from app src
+  const charactersSrc = path.join(__dirname, '../../client/src/og.json')
+  const charactersText = await fs.promises.readFile(charactersSrc, 'utf8')
+  const charactersArr = JSON.parse(charactersText).characters
+
+  // Retrieve product object that includes the current URL item id
+  const characterName = req.originalUrl.split('/')[3];
+  const characterObj = charactersArr.find(char => char.name == characterName)
+
+  // Update the meta tag properties in the built bundle
+  // const baseSrc = path.join(__dirname, '../../client/public/index.html')
+  // const baseHTML = await fs.promises.readFile(baseSrc, 'utf8')
+
+  // let $url = $('meta[property=og\\:url]')
+  // let $image = $('meta[property=og\\:image]')
+  // let $imageSecure = $('meta[property=og\\:image\\:secure_url]')
+  // $url.attr('content', `https://${req.get('host')}${req.originalUrl}`)
+  // $image.attr('content', characterObj.ogImage)
+  // $imageSecure.attr('content', characterObj.ogImage)
+
+  // console.log($url)
+  // console.log($image)
+
+  // Send the modified HTML as the response
+  // return $.html()
+  return characterObj.ogImage
+}
+
 
 
 module.exports = router
