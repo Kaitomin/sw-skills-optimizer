@@ -120,11 +120,11 @@ export default {
       }
     },
   },
-  // created() {
-  //   if (this.name == 'Chii') {
-  //     this.$router.push('/')
-  //   }
-  // },
+  created() {
+    if (this.name == 'Nabi') {
+      this.$router.push('/')
+    }
+  },
   mounted() {
     // Get rotations templates
     switch (this.name) {
