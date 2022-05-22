@@ -13,7 +13,7 @@
   </div>
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
-    <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai & Yukawa</p>
+    <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa & Restia</p>
     <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></i></p>
   </div>
 </template>
