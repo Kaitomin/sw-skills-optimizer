@@ -11,9 +11,6 @@
       </router-link>
     </div>
   </div>
-  <div class="calculator">
-    <router-link to="/calculator">Calc</router-link>
-  </div>
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
     <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa & Restia</p>
@@ -71,6 +68,7 @@ export default {
     margin: 0 auto;
     margin-bottom: 5em;
     gap: 10px;
+    padding-top: 3em;
   }
   .characters-list > div {
     border: 1px solid #ffffff3d;

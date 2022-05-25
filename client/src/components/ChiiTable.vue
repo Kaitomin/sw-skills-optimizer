@@ -335,6 +335,7 @@ export default {
   .skills-details {
     min-width: 715px;
     margin: 0 1em;
+    padding-top: 3em;
   }
   .char-info {
     display: flex;
