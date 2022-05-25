@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const charRoutes = require('./routes/characterRoutes');
 const skillsRoutes = require('./routes/skillsRoutes');
 const userRoutes = require('./routes/userRoutes');
+const targetRoutes = require('./routes/targetRoutes');
 const cookieParser = require("cookie-parser");
 const { getCurrUser } = require('./middleware/userMiddleware');
 const path = require('path');
@@ -33,6 +34,7 @@ app.use(getCurrUser);
 app.use('/api', charRoutes);
 app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
+app.use('/api', targetRoutes);
 
 // Serve file after refresh page
 app.get("*", (req, res) => {
