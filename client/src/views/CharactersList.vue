@@ -11,6 +11,9 @@
       </router-link>
     </div>
   </div>
+  <div class="calculator">
+    <router-link to="/calculator">Calc</router-link>
+  </div>
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
     <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa & Restia</p>

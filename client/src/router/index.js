@@ -37,9 +37,16 @@ const routes = [
     component: lazyLoad('Login')
   },
   {
+    path: '/calculator',
+    name: 'Calculator',
+    meta: { title: 'Calculator', content: 'Skill dmg comparison'},
+    component: lazyLoad('Calculator')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: "/"
   }
+  
 ]
 
 const router = createRouter({
