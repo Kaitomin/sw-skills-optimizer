@@ -188,6 +188,9 @@ export default {
     height: var(--container-height);
     animation: 2s ease-in 0s fadeIn;
   }
+  .skills-rotation {
+    padding-top: 3em;
+  }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
     100% { opacity: 0.5; }  
@@ -196,7 +199,6 @@ export default {
     0% { opacity: 0; }
     100% { opacity: 0.5; } 
   }
-
   p {
     margin-bottom: 0;
   }

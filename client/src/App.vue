@@ -12,15 +12,17 @@
         <router-link to="/character/Ephnel">Ephnel</router-link><div class="separator"></div>
         <router-link to="/character/Chii">Chii</router-link>
       </div>
-       <div v-if="userRole == 'ADMIN'" class="edit">
-          <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
-          <router-link to="/add-new-skill">Add skill</router-link><div class="separator"></div>
-          <a class="logout" @click="logout">Logout</a>
-        </div>
+      <div>
+        <router-link to="/calculator">Calculator</router-link>
+      </div>
+      <div v-if="userRole == 'ADMIN'" class="edit">
+        <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
+        <router-link to="/add-new-skill">Add skill</router-link><div class="separator"></div>
+        <a class="logout" @click="logout">Logout</a>
+      </div>
     </div>
     <router-view :key="$route.fullPath" />
   </div>
-  
 </template>
 
 <script>
@@ -71,7 +73,9 @@ export default {
   color: #2c3e50;
 }
 #nav {
+  background: #ffffff12;
   padding: 10px 0;
+  border-bottom: 1px solid white;
 }
 #nav a {
   font-size: 1.2em;
@@ -83,16 +87,15 @@ export default {
   display: block;
   width: max-content;
   margin: 0 auto;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 .menu {
   display: flex;
-  /* grid-template-columns: repeat(9, 1fr); */
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  /* width: 375px; */
-  margin: 1em 0;
+  margin: 0;
+  border-top: 1px solid white;
 }
 .menu a {
   display: block;
@@ -107,7 +110,7 @@ export default {
   margin: 0 auto;
 }
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #00ffff8f;
 }
 .separator {
   border-left: 1px solid white;
