@@ -459,6 +459,84 @@ export default {
   .active-mark {
     background: #80003cde;
   }
+  /* input range */
+  input[type=range]#charCD {
+    -webkit-appearance: none;     /*nécessaire pour Chrome */
+    padding: 0;                   /* nécessaire pour IE */
+    font: inherit;                /* même rendu suivant font document */
+    outline: none;
+    color: #069;                  /* sert pour couleur de référence, via currentColor, pour le curseur */
+    opacity: .8;
+    height: 15px;                
+    background: #CCC;             /* sert pour couleur de fond de la zone de déplacement */
+    box-sizing: border-box;       /* même modèle de boîte pour tous */
+    transition: opacity .2s;
+    cursor: pointer;
+    width: 100%;
+  }
+  input[type=range]#charCD:hover {
+    background: white;
+  }
+
+  /* Chrome */
+  input[type=range]#charCD::-webkit-slider-runnable-track {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;  /* supprimé définie sur l'input */
+  }
+  input[type=range]#charCD::-webkit-slider-thumb {
+    -webkit-appearance: none;       
+    width: 1em;
+    height: inherit;
+    border: none;
+    border-radius: 0;               
+    background: currentColor;       
+  }
+  /* Firefox */
+  input[type=range].custom-slider::-moz-range-track {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;  /* supprimé définie sur l'input */
+  }
+  input[type=range].custom-slider::-moz-range-thumb {
+    width: 1em;
+    height: inherit;                /* s'adapte à la hauteur de l'input */
+    border: none;                   /* supprimer la bordure */
+    border-radius: 0;               /* supprimer le rayon */
+    background: currentColor;
+  }
+  input[type=range].custom-slider::-moz-range-progress {
+    height: 0;
+    background: transparent;        /* supprime barre progression avant */
+  }
+
+  /* Edge */
+  input[type=range].custom-slider::-ms-track {
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    color: transparent;             /* supprime les graduations pour IE */
+    background-color: transparent;  /* supprimé définie sur l'input */
+  }
+  input[type=range].custom-slider::-ms-thumb {
+    width: 1em;
+    height: inherit;                /* s'adapte à la hauteur de l'input */
+    border: none;                   /* supprimer la bordure */
+    border-radius: 0;               /* supprimer le rayon */
+    background: currentColor;
+  }
+  input[type=range].custom-slider::-ms-tooltip {
+    display: none;                  /* supprime l'affichage de la valeur au survol */
+  }
+  input[type=range].custom-slider::-ms-fill-lower {
+    background: transparent;
+  }
+  input[type=range].custom-slider::-ms-fill-upper {
+    background: transparent;
+  }
+
 
   @media screen and (max-width: 768px) {
     .skills-details {
