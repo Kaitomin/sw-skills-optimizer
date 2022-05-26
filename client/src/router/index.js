@@ -39,7 +39,7 @@ const routes = [
   {
     path: '/calculator',
     name: 'Calculator',
-    meta: { title: 'Skill | Calculator', content: 'Skill dmg comparison' },
+    meta: { title: 'Skill | Calculator', content: 'Skill dmg comparison', keepAlive: true },
     component: lazyLoad('Calculator')
   },
   {
