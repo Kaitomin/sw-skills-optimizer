@@ -17,6 +17,9 @@
           </div>
 
           <div class="target-container" @click="assignTarget">
+            <div data-target="aculus_edgar">Aculus/Edgar N</div>
+            <div data-target="junk_queen">Junk Queen N</div>
+            <div data-target="junk_queen_h">Junk Queen H</div>
             <div data-target="flemma_p1" class="selected-target">Flemma P1</div>
             <div data-target="flemma_p2">Flemma P2</div>
             <div data-target="flemma_p3">Flemma P3</div>
