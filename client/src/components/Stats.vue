@@ -57,7 +57,7 @@ export default {
       const targetDef = this.enemyDefRate(this.target, this.ab)
 
       // Final dmg 
-      this.dmg = (this.atk + this.cdmg) * (1 - targetDef) * (this.skill / 100) * (1 + this.bdmg / 100) * (1 - +this.target.dmgReduction)
+      this.dmg = (this.atk + this.cdmg) * (1 - targetDef) * (this.skill / 100) * (1 + this.bdmg / 100) * (1 - +this.target.dmgReduction / 100)
       this.$emit('total-dmg', {id: this.id, dmg: this.dmg, color: this.color});
     },
     enemyDefRate(enemy, ab) {
