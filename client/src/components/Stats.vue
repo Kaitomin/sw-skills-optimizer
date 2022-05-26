@@ -21,7 +21,7 @@
       <label>Skill</label>
       <input type="number" min="0" max="40000" v-model="skill" @keypress="sanitizeValues($event)">
     </div>
-    <div>
+    <div class="color-picker">
       <input type="color" name="color" v-model="color">
     </div>
   </div>
@@ -47,11 +47,11 @@ export default {
     calculateDmg() {
 
       // Check inputs
-      this.atk = this.checkInput(this.atk, 1, 150000)
+      this.atk = this.checkInput(this.atk, 0, 150000)
       this.cdmg = this.checkInput(this.cdmg, 0, 200000)
       this.ab = this.checkInput(this.ab, 0, 100)
       this.bdmg = this.checkInput(this.bdmg, 0, 350)
-      this.skill = this.checkInput(this.skill, 1, 40000)
+      this.skill = this.checkInput(this.skill, 0, 40000)
 
       // Calculate target defense rate
       const targetDef = this.enemyDefRate(this.target, this.ab)
@@ -76,9 +76,6 @@ export default {
   updated() {
     this.calculateDmg(this.atk, this.cdmg, this.ab, this.bdmg, this.skill)
   },
-  unmounted() {
-    console.log("unmounted")
-  }
 }
 </script>
 
@@ -115,7 +112,7 @@ export default {
   }
   .stats > div input{ 
     border: 0;
-    border-bottom: 1px solid #555;  
+    border-bottom: 1px solid rgba(255, 255, 255, 0);  
     background: #ffffff2e;
     padding: 8px 0 5px 0;
     font-size: 16px;
@@ -135,6 +132,9 @@ export default {
   }
   .stats input[type='color']:hover {
     cursor: pointer;
+  }
+  .color-picker {
+    text-align: left;
   }
 
   /* Chrome, Safari, Edge, Opera */

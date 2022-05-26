@@ -1,7 +1,6 @@
 <template>
   <!-- Skills -->
     <div class="skills-details">
-      <h1>Skills</h1>
       <div v-if="char">
         <p class="description"><i>{{ description }} <br>(click on criteria to sort the table)</i></p>
         <div class="char-info">
@@ -314,13 +313,6 @@ export default {
 </script>
 
 <style scoped>
-  h1 {
-    margin-bottom: 2rem;
-    color: white;
-    border: 1px solid white;
-    font-size: 2em;
-    padding: 5px 0;
-  }
   .description {
     color: white;
   }

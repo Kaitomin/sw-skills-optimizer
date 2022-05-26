@@ -43,8 +43,8 @@
 
           <div class="info">
             <div>
-              {{ this.chartData.datasets[0].data[0] ? this.chartData.datasets[0].data[0].toLocaleString(undefined, { minimumFractionDigits: 2 }) : '' }} │
-              {{ this.chartData.datasets[0].data[0] ? this.chartData.datasets[0].data[1].toLocaleString(undefined, { minimumFractionDigits: 2 }) : '' }}
+              {{ this.chartData.datasets[0].data[0] ? this.chartData.datasets[0].data[0].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }} │
+              {{ this.chartData.datasets[0].data[1] ? this.chartData.datasets[0].data[1].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }}
             </div>
             <p>Raw difference = <span :class="setupDiff >= 0 ? 'positive' : 'negative'">{{ setupDiff.toLocaleString(undefined, { minimumFractionDigits: 2 }) }}</span></p>
             <p>Ratio = <span :class="setupRatio >= 1 ? 'positive' : 'negative'">{{ setupRatio }}</span></p>
@@ -54,7 +54,7 @@
         <div class="notes">
           <p>⬥ ATK = max attack (DW context)</p>
           <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
-          <p>⬥ Difference & ratio are calculated with Setup 1 as reference</p>
+          <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does X more/less dmg than Setup 2")</p>
           <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
           <p>⬥ Boss infos table (credits to Eden) <br><br><img src="@/assets/img/bTable.png" alt="boss table" width="450" height="300"></p>      
         </div>
@@ -190,7 +190,9 @@ export default {
       return (this.chartData.datasets[0].data[0] - this.chartData.datasets[0].data[1])
     },
     setupRatio() {
-      return ((this.chartData.datasets[0].data[0] / this.chartData.datasets[0].data[1]).toFixed(6))
+      const ratio = ((this.chartData.datasets[0].data[0] / this.chartData.datasets[0].data[1]))
+      if (ratio <= 0 || !isFinite(ratio)) return 0
+      return ratio.toFixed(6)
     },
     containerHeight () {
       return {
@@ -228,8 +230,8 @@ export default {
     width: 100%;
     height: var(--container-height);
     z-index: -999;
-    opacity: 0.3;
-    background: url('../assets/img/bg_3840.png');
+    opacity: 0.4;
+    background: url('../assets/img/bg_3840.webp');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -238,11 +240,11 @@ export default {
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.3; }  
+    100% { opacity: 0.4; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.3; } 
+    100% { opacity: 0.4; } 
   }
   .calculator {
     display: grid;
@@ -329,10 +331,10 @@ export default {
     background: #00ffff38 !important;
   }
   .positive {
-    color: #00d939;
+    color: #00ff14;
   }
   .negative {
-    color: red;
+    color: #fff700;
   }
 
   @media screen and (max-width: 1080px) {
@@ -350,5 +352,17 @@ export default {
       margin-bottom: 1em;
     }
   }
-  
+
+  @media screen and (max-width: 568px) {
+    .stats-container {
+      flex-direction: column;
+    }
+    .stats {
+      width: 90%;
+      margin: 0 auto;
+    }
+    .notes {
+      text-align: center;
+    }
+  }
 </style>

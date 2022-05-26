@@ -18,7 +18,6 @@
     />
     <!-- Rotations -->
     <div class="skills-rotation">
-      <h1>Rotations</h1>
       <div class="chain-bonus">
         <p><i>3rd row automatically takes into account 15% CDR chain bonus</i></p>
         <p><i>No selectable 2nd row bonus nor 3rd row DMG% bonus for now</i></p>
@@ -172,13 +171,6 @@ export default {
 </script>
 
 <style scoped>
-  h1 {
-    margin-bottom: 2rem;
-    color: white;
-    border: 1px solid white;
-    font-size: 2em;
-    padding: 5px 0;
-  }
   /* Skills container */
   .skills-container {
     display: flex;

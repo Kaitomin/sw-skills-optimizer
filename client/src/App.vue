@@ -2,18 +2,30 @@
   <div>
     <div id="nav">
       <router-link to="/" class="logo">
-        <img src="@/assets/img/logo_200x113.webp" alt="soulworker logo" width="200" height="113">
+        <img src="@/assets/img/logo_130x70.png" alt="soulworker logo" width="130" height="70">
       </router-link>
       <div class="menu">
-        <router-link to="/character/Iris">Iris</router-link><div class="separator"></div>
-        <router-link to="/character/Lily">Lily</router-link><div class="separator"></div>
-        <router-link to="/character/Haru">Haru</router-link><div class="separator"></div>
-        <router-link to="/character/Stella">Stella</router-link><div class="separator"></div>
-        <router-link to="/character/Ephnel">Ephnel</router-link><div class="separator"></div>
-        <router-link to="/character/Chii">Chii</router-link>
+        <router-link to="/character/Iris">
+          <img src="@/assets/img/iris_nav.png" alt="iris nav icon" width="120" height="50">
+        </router-link>
+        <router-link to="/character/Lily">
+          <img src="@/assets/img/lily_nav.png" alt="lily nav icon" width="120" height="50">
+        </router-link>
+        <router-link to="/character/Haru">
+          <img src="@/assets/img/haru_nav.png" alt="haru nav icon" width="120" height="50">
+        </router-link>
+        <router-link to="/character/Stella">
+          <img src="@/assets/img/stella_nav.png" alt="stella nav icon" width="120" height="50">
+        </router-link>
+        <router-link to="/character/Ephnel">
+          <img src="@/assets/img/ephnel_nav.png" alt="ephnel nav icon" width="120" height="50">
+        </router-link>
+        <router-link to="/character/Chii">
+          <img src="@/assets/img/chii_nav.png" alt="chii nav icon" width="120" height="50">
+          </router-link>
       </div>
       <div>
-        <router-link to="/calculator">Calculator</router-link>
+        <router-link to="/calculator"><i class="fa-solid fa-calculator"></i> Calculator</router-link>
       </div>
       <div v-if="userRole == 'ADMIN'" class="edit">
         <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
@@ -73,12 +85,16 @@ export default {
   color: #2c3e50;
 }
 #nav {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* flex-direction: column; */
   background: #ffffff12;
-  padding: 10px 0;
+  padding: 10px 25px;
   border-bottom: 1px solid white;
 }
 #nav a {
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: bold;
   color: #d9d9d9;
   text-decoration: none;
@@ -86,8 +102,8 @@ export default {
 #nav > a {
   display: block;
   width: max-content;
-  margin: 0 auto;
-  margin-top: 0.5em;
+  /* margin: 0 auto; */
+  /* margin-top: 0.5em; */
 }
 .menu {
   display: flex;
@@ -95,12 +111,12 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0;
-  border-top: 1px solid white;
+  /* border-top: 1px solid white; */
 }
 .menu a {
   display: block;
   padding: 0.5em 0;
-  width: 70px;
+  /* width: 100px; */
 }
 .edit {
   display: flex;
@@ -120,10 +136,9 @@ export default {
   cursor: pointer;
 }
 
-@media screen and (max-width: 400px) {
-  /* .menu {
-    grid-template-columns: repeat(5, 1fr);
-    width: 275px;
-  } */
+@media screen and (max-width: 1150px) {
+  #nav {
+    flex-direction: column;
+  }
 }
 </style>
