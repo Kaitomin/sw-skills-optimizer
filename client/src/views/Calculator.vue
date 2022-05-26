@@ -230,21 +230,21 @@ export default {
     width: 100%;
     height: var(--container-height);
     z-index: -999;
-    opacity: 0.4;
+    opacity: 0.5;
     background: url('../assets/img/bg_3840.webp');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     animation: 2s ease-in 0s fadeIn;
-    box-shadow: 0 30px 50px -10px black inset;
+    /* box-shadow: 0 30px 50px -10px black inset; */
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.4; }  
+    100% { opacity: 0.5; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.4; } 
+    100% { opacity: 0.5; } 
   }
   .calculator {
     display: grid;
@@ -326,6 +326,10 @@ export default {
   }
   .notes p {
     margin-bottom: 0;
+  }
+  .notes a {
+    color: #0de7fd;
+    text-decoration: none;
   }
   .selected-target {
     background: #00ffff38 !important;
