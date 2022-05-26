@@ -56,7 +56,7 @@
           <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
           <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does X more/less dmg than Setup 2")</p>
           <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
-          <p>⬥ Boss infos table (credits to Eden) <br><br><img src="@/assets/img/bTable.png" alt="boss table" width="450" height="300"></p>      
+          <p>⬥ Boss infos table (credits to Eden) <br><br><img src="@/assets/img/bTable.png" alt="boss table" width="450" height="250"></p>      
         </div>
       
       </div>
