@@ -586,6 +586,7 @@ export default {
     justify-content: space-evenly;
     margin-bottom: 1em;
     color: white;
+    align-items: flex-start;
   }
   .cancel-active {
     color: #00fdce;
