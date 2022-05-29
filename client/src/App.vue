@@ -22,7 +22,10 @@
         </router-link>
         <router-link to="/character/Chii">
           <img src="@/assets/img/chii_nav.png" alt="chii nav icon" width="120" height="50">
-          </router-link>
+        </router-link>
+        <router-link to="/character/Nabi">
+          <img src="@/assets/img/nabi_nav.png" alt="nabi nav icon" width="120" height="50">
+        </router-link>
       </div>
       <div>
         <router-link to="/calculator"><i class="fa-solid fa-calculator"></i> Calculator</router-link>
@@ -54,6 +57,7 @@ import "@/assets/theme_stella.css";
 import "@/assets/theme_haru.css";
 import "@/assets/theme_ephnel.css";
 import "@/assets/theme_chii.css";
+import "@/assets/theme_nabi.css";
 import UserService from './services/UserService';
 
 export default {

@@ -2,7 +2,11 @@
   <!-- Skills -->
     <div class="skills-details">
       <div v-if="char">
-        <p class="description"><i>{{ description }} <br>(click on criteria to sort the table)</i></p>
+        <p class="description">
+          <i>{{ description }}<br>(click on criteria to sort the table) <br> <span v-if="charName=='Nabi'" class="nabi-note">Only [Close Quarter (Full)] includes Light Injury stacks damage</span>
+</i>
+        </p>
+        <!-- <span v-if="charName=='Nabi'" class="nabi-note">Only Close Quarter (Full) includes Light Injury stacks damage</span> -->
         <div class="char-info">
           <div class="cdInput">
             <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
@@ -557,6 +561,10 @@ export default {
         this.description = "Data gathered from EN ver. [12/04/2022]"
         this.aspd = 200
         break;
+      case 'Nabi':
+        this.description = "Data gathered from EN ver. [29/05/2022]"
+        this.aspd = 200
+        break;
       default :
         this.aspd = 200
     }
@@ -567,6 +575,10 @@ export default {
 <style scoped>
   .description {
     color: white;
+  }
+  .nabi-note {
+    font-style: italic;
+    color: cyan;
   }
   .checked {
     background-color: #0064e1 !important;

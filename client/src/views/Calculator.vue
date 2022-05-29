@@ -27,6 +27,7 @@
             <div data-target="tenebrisN_p2">Tenebris N P2</div>
             <div data-target="tenebrisH">Tenebris H</div>
             <div data-target="raphakumba">Raphakumba</div>
+            <div data-target="flemma_solo">Flemma Solo</div>
           </div>
         </div>
 

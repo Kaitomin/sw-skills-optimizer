@@ -10,6 +10,7 @@ const store = createStore({
     haruChains: JSON.parse(localStorage.getItem('haru-chains')) ?? [],
     ephnelChains: JSON.parse(localStorage.getItem('ephnel-chains')) ?? [],
     chiiChains: JSON.parse(localStorage.getItem('chii-chains')) ?? [],
+    nabiChains: JSON.parse(localStorage.getItem('nabi-chains')) ?? [],
     // Rotations
     rotations: new Map(JSON.parse(localStorage.getItem('rotations'))),
     lilyRotations: new Map(JSON.parse(localStorage.getItem('lily-rotations'))),
@@ -18,6 +19,7 @@ const store = createStore({
     haruRotations: new Map(JSON.parse(localStorage.getItem('haru-rotations'))),
     ephnelRotations: new Map(JSON.parse(localStorage.getItem('ephnel-rotations'))),
     chiiRotations: new Map(JSON.parse(localStorage.getItem('chii-rotations'))),
+    nabiRotations: new Map(JSON.parse(localStorage.getItem('nabi-rotations')))
   },
   mutations: {
     saveChains(state, template) {
@@ -75,6 +77,15 @@ const store = createStore({
           localStorage.setItem('chii-chains', JSON.stringify(state.chiiChains))
         }
       }
+      if (template.name == 'Nabi') {
+        if (template.ids.length > 0) {
+          state.nabiChains = state.nabiChains.filter(c => !template.ids.includes(c.chains[0]))
+          localStorage.setItem('nabi-chains', JSON.stringify(state.nabiChains))
+        } else {
+          state.nabiChains = template.chains
+          localStorage.setItem('nabi-chains', JSON.stringify(state.nabiChains))
+        }
+      }
     },
     saveRotations(state, template) {
       if (template.name == 'Lily') {
@@ -107,6 +118,11 @@ const store = createStore({
         localStorage.setItem('chii-rotations', state.chiiRotations);
         return
       }
+      if (template.name == 'Nabi') {
+        state.nabiRotations = template.rotations
+        localStorage.setItem('nabi-rotations', state.nabiRotations);
+        return
+      }
     },
   },
   getters: {
@@ -134,6 +150,9 @@ const store = createStore({
     chiiChains (state) {
       return state.chiiChains;
     },
+    nabiChains (state) {
+      return state.nabiChains;
+    },
     lilyRotations (state) {
       return state.lilyRotations;
     },
@@ -151,6 +170,9 @@ const store = createStore({
     },
     chiiRotations (state) {
       return state.chiiRotations;
+    },
+    nabiRotations (state) {
+      return state.nabiRotations;
     }
   }
 })
