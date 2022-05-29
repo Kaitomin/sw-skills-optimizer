@@ -21,6 +21,7 @@
       <div class="chain-bonus">
         <p><i>3rd row automatically takes into account 15% CDR chain bonus</i></p>
         <p><i>No selectable 2nd row bonus nor 3rd row DMG% bonus for now</i></p>
+        <p v-if="name=='Nabi'" class="nabi-note">Enter number of bombs detonated below each chain</p>
       </div>
       <button v-if="rotationLimit > 0" class="btn btn-info btn-save" @click="saveRotations">Save templates</button>
       <Rotation
@@ -119,11 +120,11 @@ export default {
       }
     },
   },
-  created() {
-    if (this.name == 'Nabi') {
-      this.$router.push('/')
-    }
-  },
+  // created() {
+  //   if (this.name == 'Nabi') {
+  //     this.$router.push('/')
+  //   }
+  // },
   mounted() {
     // Get rotations templates
     switch (this.name) {
@@ -149,6 +150,10 @@ export default {
         break;
       case 'Chii':
         this.components = this.$store.getters.chiiRotations;
+        this.rotationLimit = Array.from(this.components).length
+        break;
+      case 'Nabi':
+        this.components = this.$store.getters.nabiRotations;
         this.rotationLimit = Array.from(this.components).length
         break;
       default: 
@@ -197,6 +202,10 @@ export default {
   p, label, table {
     color: white;
   }
+  p.nabi-note {
+    font-style: italic;
+    color: cyan;
+  }
   .chain-bonus {
     margin-bottom: 1em;
   }
@@ -221,8 +230,7 @@ export default {
   }
   .btn-info:hover {
     cursor: pointer;
-    background-color: white;
-    color: black;
+    background: #ffffff2b;
   }
   @media screen and (max-width: 1400px) {
     .skills-container {

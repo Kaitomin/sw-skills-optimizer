@@ -5,6 +5,11 @@
       <!-- Chain -->
       <td>
         <div class="chains-container">
+
+          <div v-if="name=='Nabi'">
+            <input type="number" min="0" max="15" v-model="bomb" @keypress="sanitizeValues($event)">
+          </div>
+
           <div class="chains-sub">
             <div class="dropdown">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,7 +116,9 @@ export default {
       highestCd: 0,
       dmgCast: 0,
       dmgCd: 0,
-      chains: []
+      bomb: 0,
+      chains: [],
+      keysAllowed: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     }
   },
   methods: {
@@ -127,11 +134,13 @@ export default {
       const filteredSkills = [s1, s2, s3].filter(s => s);
       const arrSkills = [...new Set([...filteredSkills])];
 
+      this.bomb = this.checkInput(this.bomb, 0, 15)
+
       if (this.name != 'Ephnel') {
         if (val === 'dmg') {
           this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.dmg;
-          }, 0);
+          }, 0) + (this.bomb * 300);
           return this.totalDmg;
         } else if (this.castChecked && val === 'cast') {
             this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
@@ -219,6 +228,15 @@ export default {
       })
       return arr;
     },
+    sanitizeValues(e) {
+      if (!this.keysAllowed.includes(e.key)) e.preventDefault()
+    },
+    checkInput(val, min, max) {
+      if (val < min) return min
+      if (val > max) return max
+
+      return val
+    }
   },
   computed: {
     skillValue() {
@@ -307,7 +325,12 @@ export default {
     flex-direction: column-reverse;
   }
   input {
-    width: 50px;
+    width: 100%;
+    background: #006b8073;
+    border: 0;
+    color: white;
+    text-align: center;
+    border-radius: 0.25rem;
   }
   .chains-sub {
     display: flex;
@@ -318,9 +341,6 @@ export default {
   button.dropdown-toggle::after {
     content: none;
   }
-  /* .chains-container .chains-sub img {
-    width: 45px;
-  } */
   .btn {
     height: 72px;
     width: 72px;
@@ -357,6 +377,18 @@ export default {
   .cancel-active {
     color: #00fdce;
   }
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  /* Responsive */
   @media screen and (max-width: 640px) { 
     .chains-container {
       align-items: end; 
