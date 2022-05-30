@@ -82,7 +82,7 @@ export default {
       const res = await UserService.getCurrentUser()
       this.userRole = res.data.role
     } catch (error) {
-      console.log(error)
+      console.log("Error during retrieving user")
     }
   },
 }
@@ -100,7 +100,6 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  /* flex-direction: column; */
   background: #ffffff12;
   padding: 10px 25px;
   border-bottom: 1px solid white;
@@ -114,8 +113,6 @@ export default {
 #nav > a {
   display: block;
   width: max-content;
-  /* margin: 0 auto; */
-  /* margin-top: 0.5em; */
 }
 .menu {
   display: flex;
@@ -123,12 +120,10 @@ export default {
   justify-content: center;
   flex-wrap: wrap;
   margin: 0;
-  /* border-top: 1px solid white; */
 }
 .menu a {
   display: block;
   padding: 0.5em 0;
-  /* width: 100px; */
 }
 .edit {
   display: flex;
@@ -148,6 +143,7 @@ export default {
   cursor: pointer;
 }
 
+/* Responsive */
 @media screen and (max-width: 1150px) {
   #nav {
     flex-direction: column;
