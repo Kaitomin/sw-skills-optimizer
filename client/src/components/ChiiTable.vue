@@ -54,19 +54,13 @@
                 <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
                 <p>{{ skill.skillName }} <span v-if="skill.mark > 0">[{{ skill.mark }}]</span> </p>
               </td>
-
               <td>{{ skill.dmg }}%</td>
-
               <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
-
-              
               <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
-              
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
-             
               <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
             </tr>
           </tbody>
@@ -90,13 +84,9 @@
                 <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
-
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
-
               <td :class="(castChecked && (skill.castCancel < skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
-
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
-
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
             </tr>
           </tbody>
@@ -459,85 +449,8 @@ export default {
   .active-mark {
     background: #80003cde;
   }
-  /* input range */
-  input[type=range]#charCD {
-    -webkit-appearance: none;     /*nécessaire pour Chrome */
-    padding: 0;                   /* nécessaire pour IE */
-    font: inherit;                /* même rendu suivant font document */
-    outline: none;
-    color: #069;                  /* sert pour couleur de référence, via currentColor, pour le curseur */
-    opacity: .8;
-    height: 15px;                
-    background: #CCC;             /* sert pour couleur de fond de la zone de déplacement */
-    box-sizing: border-box;       /* même modèle de boîte pour tous */
-    transition: opacity .2s;
-    cursor: pointer;
-    width: 100%;
-  }
-  input[type=range]#charCD:hover {
-    background: white;
-  }
 
-  /* Chrome */
-  input[type=range]#charCD::-webkit-slider-runnable-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range]#charCD::-webkit-slider-thumb {
-    -webkit-appearance: none;       
-    width: 1em;
-    height: inherit;
-    border: none;
-    border-radius: 0;               
-    background: currentColor;       
-  }
-  /* Firefox */
-  input[type=range].custom-slider::-moz-range-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range].custom-slider::-moz-range-thumb {
-    width: 1em;
-    height: inherit;                /* s'adapte à la hauteur de l'input */
-    border: none;                   /* supprimer la bordure */
-    border-radius: 0;               /* supprimer le rayon */
-    background: currentColor;
-  }
-  input[type=range].custom-slider::-moz-range-progress {
-    height: 0;
-    background: transparent;        /* supprime barre progression avant */
-  }
-
-  /* Edge */
-  input[type=range].custom-slider::-ms-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    color: transparent;             /* supprime les graduations pour IE */
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range].custom-slider::-ms-thumb {
-    width: 1em;
-    height: inherit;                /* s'adapte à la hauteur de l'input */
-    border: none;                   /* supprimer la bordure */
-    border-radius: 0;               /* supprimer le rayon */
-    background: currentColor;
-  }
-  input[type=range].custom-slider::-ms-tooltip {
-    display: none;                  /* supprime l'affichage de la valeur au survol */
-  }
-  input[type=range].custom-slider::-ms-fill-lower {
-    background: transparent;
-  }
-  input[type=range].custom-slider::-ms-fill-upper {
-    background: transparent;
-  }
-
-
+  /* Responsive */
   @media screen and (max-width: 768px) {
     .skills-details {
       min-width: 100%;
