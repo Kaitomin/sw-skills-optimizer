@@ -101,64 +101,16 @@ export default {
     },
   },
   created() {
-    let tmp;
-    switch (this.name) {
-      case 'Lily':
-        this.allChains = this.$store.getters.lilyChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Iris':
-        this.allChains = this.$store.getters.irisChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Stella':
-        this.allChains = this.$store.getters.stellaChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Haru':
-        this.allChains = this.$store.getters.haruChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Ephnel':
-        this.allChains = this.$store.getters.ephnelChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Chii':
-        this.allChains = this.$store.getters.chiiChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
-      case 'Nabi':
-        this.allChains = this.$store.getters.nabiChains
-        tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
-        for (let i = 0; i < 6; i++) {
-          if (!tmp[i]) continue
-          this.filteredChains[tmp[i].pos] = tmp[i]    
-        }
-        break;
+    // Get character chains from store
+    const charChains = `${this.name.toLowerCase()}Chains`
+
+    this.allChains = this.$store.getters.getChains(charChains)
+
+    let tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
+
+    for (let i = 0; i < 6; i++) {
+      if (!tmp[i]) continue
+      this.filteredChains[tmp[i].pos] = tmp[i]
     }
   },
 }

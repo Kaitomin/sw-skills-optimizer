@@ -68,7 +68,6 @@ export default {
     }
   },
   components: { 
-    // Rotation: defineAsyncComponent(() => import('@/components/Rotation.vue')), 
     Rotation,
     SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue')),
     ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue'))
@@ -120,46 +119,23 @@ export default {
       }
     },
   },
-  // created() {
-  //   if (this.name == 'Nabi') {
-  //     this.$router.push('/')
-  //   }
-  // },
-  mounted() {
-    // Get rotations templates
-    switch (this.name) {
-      case 'Lily':
-        this.components = this.$store.getters.lilyRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Iris':
-        this.components = this.$store.getters.irisRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Stella':
-        this.components = this.$store.getters.stellaRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Haru':
-        this.components = this.$store.getters.haruRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Ephnel':
-        this.components = this.$store.getters.ephnelRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Chii':
-        this.components = this.$store.getters.chiiRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      case 'Nabi':
-        this.components = this.$store.getters.nabiRotations;
-        this.rotationLimit = Array.from(this.components).length
-        break;
-      default: 
-        this.components = null
-        this.rotationLimit = null
+  created() {
+    // if (this.name == '') {
+    //   this.$router.push('/')
+    // }
+
+    // Get character rotations from store
+    try {
+      const charRotations = `${this.name.toLowerCase()}Rotations`
+    
+      this.components = this.$store.getters.getRotations(charRotations)
+      this.rotationLimit = Array.from(this.components).length
+    } catch {
+      this.$router.push('/')
     }
+  },
+  mounted() {
+    // Get client window Y to set background height
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
     }, 500)
