@@ -7,7 +7,7 @@
         <div class="chains-container">
 
           <div v-if="name=='Nabi'">
-            <input type="number" min="0" max="15" v-model="bomb" @keypress="sanitizeValues($event)">
+            <input type="number" min="0" max="15" v-model="nabiBomb" @keypress="sanitizeValues($event)">
           </div>
 
           <div class="chains-sub">
@@ -116,7 +116,7 @@ export default {
       highestCd: 0,
       dmgCast: 0,
       dmgCd: 0,
-      bomb: 0,
+      nabiBomb: 0,
       chains: [],
       keysAllowed: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
     }
@@ -134,13 +134,13 @@ export default {
       const filteredSkills = [s1, s2, s3].filter(s => s);
       const arrSkills = [...new Set([...filteredSkills])];
 
-      this.bomb = this.checkInput(this.bomb, 0, 15)
+      this.nabiBomb = this.checkInput(this.nabiBomb, 0, 15)
 
       if (this.name != 'Ephnel') {
         if (val === 'dmg') {
           this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.dmg;
-          }, 0) + (this.bomb * 300);
+          }, 0) + (this.nabiBomb * 300);
           return this.totalDmg;
         } else if (this.castChecked && val === 'cast') {
             this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
@@ -243,7 +243,9 @@ export default {
       return {
         c1_s1: this.c1_s1,
         c1_s2: this.c1_s2,
-        c1_s3: this.c1_s3
+        c1_s3: this.c1_s3,
+        nabiBomb: this.nabiBomb
+
       }
     },
     clientWidth() {
@@ -254,12 +256,17 @@ export default {
     reset() {
       if (this.reset) {
         this.c1_s1 = this.c1_s2 = this.c1_s3 = ''
+        this.nabiBomb = 0
         this.$emit('reset');
       }
     },
     skillValue() {
-     this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
-     this.$emit('chains', {chains: this.chains, pos: this.pos})
+      if (this.name == 'Nabi') {
+        this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3, this.nabiBomb]]
+      } else {
+        this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
+      }
+      this.$emit('chains', {chains: this.chains, pos: this.pos})
     },
     skills() {
       this.skills.forEach(skill => {
@@ -278,12 +285,20 @@ export default {
   created() {
     if (!this.data) {
       this.chainId = uuidv4()
-      this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
+      if (this.name == 'Nabi') {
+        this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3, this.nabiBomb]]
+      } else {
+        this.chains = [this.rotationId, this.name, [this.chainId, this.c1_s1, this.c1_s2, this.c1_s3]]
+      }
     } else {
       this.chainId = this.data.chains[2][0]
       this.c1_s1 = this.data.chains[2][1]
       this.c1_s2 = this.data.chains[2][2]
       this.c1_s3 = this.data.chains[2][3]
+      // Nabi bomb
+      if (this.data.chains[2][4]) {
+        this.nabiBomb = this.data.chains[2][4]
+      }
 
       // Copy array by reference (reference is lost using JSON.parse in Vuex)
       if (this.c1_s1._id == this.c1_s2._id) {
