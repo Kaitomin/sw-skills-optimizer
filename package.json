@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "installDependencies": "npm install && cd client && npm install && npm run build",
-    "buildSSR": "cd client && npm run buildSSR",
     "start": "node src/app"
   },
   "author": "",
