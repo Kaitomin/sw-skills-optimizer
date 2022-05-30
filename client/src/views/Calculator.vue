@@ -7,13 +7,19 @@
             <Stats 
               :target=selectedTarget
               :id="0"
+              :save=save
               @total-dmg="displayGraph"
+              @saveSetup=setSave
+              
             />
             <Stats 
               :target=selectedTarget
               :id="1"
+              :save=save
               @total-dmg="displayGraph"
+              @saveSetup=setSave
             />
+            <button class="btn-save" @click="saveSetups">Save setups</button>
           </div>
 
           <div class="target-container" @click="assignTarget">
@@ -56,11 +62,14 @@
         </div>
 
         <div class="notes">
-          <p>⬥ ATK = max attack (DW context)</p>
-          <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
-          <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does X more/less dmg than Setup 2")</p>
-          <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
-          <p>⬥ Boss infos table (credits to Eden) <br><br><img src="@/assets/img/bTable.png" alt="boss table" width="450" height="250"></p>      
+          <div>
+            <p>⬥ ATK = max attack (DW context)</p>
+            <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
+            <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does X more/less dmg than Setup 2")</p>
+            <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
+            <p>⬥ Boss infos table (credits to Eden)</p>
+          </div>  
+          <img src="@/assets/img/bTable.png" alt="boss table" width="450" height="250">
         </div>
       
       </div>
@@ -157,14 +166,15 @@ export default {
           },
         }
       },
+      setups: [],
       containerH: '',
       target: 'flemma_p1',
       selectedTarget: '',
+      save: false
     }
   },
   methods: {
     assignTarget(e) {
-      
       if (!e.target.dataset.target) return 
 
       const div = document.querySelectorAll('.target-container > div')
@@ -178,7 +188,6 @@ export default {
     },
     async getTarget(t) {
       const res = await TargetService.getTargetInfo(t)
-
       this.selectedTarget = res.data.target
     },
     displayGraph(event) {
@@ -188,6 +197,13 @@ export default {
       this.chartData.datasets[0].data[index] = event.dmg
       this.chartData.datasets[0].backgroundColor[index] = event.color
     },
+    saveSetups() {
+      this.save = true
+      this.$router.go()
+    },
+    setSave() {
+      this.save = false
+    }
   },
   computed: {
     setupDiff() {
@@ -240,7 +256,6 @@ export default {
     background-size: cover;
     background-repeat: no-repeat;
     animation: 2s ease-in 0s fadeIn;
-    /* box-shadow: 0 30px 50px -10px black inset; */
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
@@ -267,9 +282,34 @@ export default {
     margin: 0 auto;
   }
   .stats-container {
-    display: flex;
-    justify-content: center;
+    display: grid;
     padding: 0 0 1em 0;
+    grid-template-areas: "setup1 setup2"
+                          "save save";
+  }
+  .stats-container > div:first-child {
+    grid-area: setup1;
+    border-right: 0;
+  }
+  .stats-container > div:nth-child(2) {
+    grid-area: setup2
+  }
+  .stats-container > button.btn-save {
+    grid-area: save;
+    color: white;
+    padding: 5px 0;
+    background: #ffffff21;
+    border-left: 1px solid white;
+    border-top: 0;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+  .stats-container > button.btn-save:hover {
+    background: #ffffff47;
+    /* -webkit-transition: background 0.1s linear;
+    -ms-transition: background 0.1s linear;
+    transition: background 0.1s linear; */
+
   }
   .target-container {
     display: grid;
@@ -286,6 +326,7 @@ export default {
   }
   .target-container > div:hover {
     cursor: pointer;
+    background: #ffffff47;
   }
   .target-container label {
     font-size: 16px;
@@ -325,8 +366,13 @@ export default {
     color: white;
     border-top: 1px dashed white;
     margin-top: 3em;
-    padding-top: 2em;
+    padding-top: 1em;
     text-align: left;
+  }
+  .notes > div {
+    padding: 10px;
+    background: #ffffff21;
+    margin-bottom: 1em;
   }
   .notes p {
     margin-bottom: 0;
@@ -361,13 +407,13 @@ export default {
     }
   }
 
-  @media screen and (max-width: 568px) {
+  @media screen and (max-width: 566px) {
     .stats-container {
       flex-direction: column;
     }
     .stats {
-      width: 90%;
-      margin: 0 auto;
+      /* width: 100%; */
+      /* margin: 0 auto; */
     }
     .notes {
       text-align: center;
