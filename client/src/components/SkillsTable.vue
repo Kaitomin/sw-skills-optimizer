@@ -172,7 +172,7 @@ export default {
     return {
       char: '',
       charCD: '44',
-      checked: false,
+      dwChecked: false,
       castChecked: false,
       sortOrder: false,
       skillsTable: [],
@@ -191,9 +191,9 @@ export default {
       }
     },
     toggleDesire() {
-      this.checked = !this.checked;
-      
-      if (this.checked) {
+      this.dwChecked = !this.dwChecked;
+
+      if (this.dwChecked) {
         document.querySelector('.dw-container').classList.add('active')
 
         Array.from(this.skillsTable).map(skill => {
@@ -204,7 +204,10 @@ export default {
           }
         })
 
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       } else {
         document.querySelector('.dw-container').classList.remove('active')
 
@@ -215,15 +218,18 @@ export default {
             skill.dmg = Math.round(skill.dmg / 1.2)
           }
         })
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       }
     },
     toggleEphnelDesire() {
-      this.checked = !this.checked;
+      this.dwChecked = !this.dwChecked;
       this.ephnelDW()
     },
     ephnelDW() {
-      if (this.checked) {
+      if (this.dwChecked) {
         document.querySelector('.dw-container').classList.add('active')
 
         if (this.ephnelRelease) {
@@ -306,7 +312,7 @@ export default {
         // Disable Ephnel Release checkbox
         document.querySelector('.ephnel-release').classList.remove('active-dmg')
 
-        if (this.checked && !this.ephnelRelease) {
+        if (this.dwChecked && !this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg / 1.58)
@@ -316,7 +322,7 @@ export default {
           })
         }
 
-        if (this.checked && this.ephnelRelease) {
+        if (this.dwChecked && this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.58)
@@ -329,12 +335,12 @@ export default {
         this.ephnelRelease = false
         this.$emit('ephnel-dmg', 'bullet')
 
-        if (this.checked) this.ephnelDW()
+        if (this.dwChecked) this.ephnelDW()
 
       } else {
         document.querySelector('.ephnel-bullet').classList.remove('active-dmg')
 
-        if (this.checked) {
+        if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.58)
@@ -357,7 +363,7 @@ export default {
         // Disable Ephnel Bullet checkbox
         document.querySelector('.ephnel-bullet').classList.remove('active-dmg')
         
-        if (this.checked && !this.ephnelBullet) {
+        if (this.dwChecked && !this.ephnelBullet) {
           Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg / 1.58)
@@ -367,7 +373,7 @@ export default {
           })
         }
 
-        if (this.checked && this.ephnelBullet) {
+        if (this.dwChecked && this.ephnelBullet) {
           Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.58)
@@ -380,12 +386,12 @@ export default {
         this.ephnelBullet = false
         this.$emit('ephnel-dmg', 'release')
 
-        if (this.checked) this.ephnelDW()
+        if (this.dwChecked) this.ephnelDW()
 
       } else {
         document.querySelector('.ephnel-release').classList.remove('active-dmg')
 
-        if (this.checked) {
+        if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
             if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.58)
@@ -536,7 +542,10 @@ export default {
       this.char = res.data.character;
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
       this.displayTooltips
-      this.$emit('skills-table', this.skillsTable)
+      this.$emit('skills-table', {
+        skillsTable: this.skillsTable,
+        dwChecked: this.dwChecked
+      })
     })
     .catch(err => this.$router.push('/'));
 
