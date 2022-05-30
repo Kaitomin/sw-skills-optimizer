@@ -16,7 +16,7 @@
   background-color: #48000054;
 }
 .skills-container.iris .chains-container .dropdown-toggle:hover {
-  background-color: #ff000038;
+  background-color: #af000038;
 }
 .skills-container.iris:before {
   content: ' ';
@@ -30,5 +30,4 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  /* box-shadow: 0 0 100px 50px black inset; */
 }
