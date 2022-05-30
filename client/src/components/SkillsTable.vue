@@ -6,20 +6,20 @@
           <i>{{ description }}<br>(click on criteria to sort the table) <br> <span v-if="charName=='Nabi'" class="nabi-note">Only [Close Quarter (Full)] includes Light Injury stacks damage</span>
 </i>
         </p>
-        <!-- <span v-if="charName=='Nabi'" class="nabi-note">Only Close Quarter (Full) includes Light Injury stacks damage</span> -->
         <div class="char-info">
           <div class="cdInput">
             <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
             <label id="cdInput" for="charCD">Character CDR : {{ charCD +'%' }}</label>
           </div>
 
+          <!-- Ephnel desire -->
           <div v-if="charName == 'Ephnel'" class="dw-container" @click="toggleEphnelDesire">
             <p>Desire Worker</p>
           </div>
+          <!-- Common desire -->
           <div v-else class="dw-container" @click="toggleDesire">
             <p>Desire Worker</p>
           </div>
-
           <div class="cast-container" @click="toggleCastCancel">
             <p>Animation cancel</p>
           </div>
@@ -195,7 +195,6 @@ export default {
       
       if (this.checked) {
         document.querySelector('.dw-container').classList.add('active')
-        
 
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
@@ -204,6 +203,7 @@ export default {
             skill.dmg = Math.round(skill.dmg * 1.2)
           }
         })
+
         this.$emit('skills-table', this.skillsTable)
       } else {
         document.querySelector('.dw-container').classList.remove('active')
@@ -664,7 +664,6 @@ export default {
   td {
     padding: 0.7rem 0 0.3rem 0;
     color: white;
-    /* border-top: 0; */
   }
   .table-skills { 
     border-spacing: 0px;
@@ -675,7 +674,6 @@ export default {
   tbody > tr > td:first-child {
     padding-left: 0.5rem;
   }
-
   tbody {
     text-align: center;
     font-size: 15px;
@@ -697,84 +695,6 @@ export default {
   }
   .table-skills p {
     margin: 0;
-  }
-
-  /* input range */
-  input[type=range]#charCD {
-    -webkit-appearance: none;     /*nécessaire pour Chrome */
-    padding: 0;                   /* nécessaire pour IE */
-    font: inherit;                /* même rendu suivant font document */
-    outline: none;
-    color: #069;                  /* sert pour couleur de référence, via currentColor, pour le curseur */
-    opacity: .8;
-    height: 15px;                
-    background: #CCC;             /* sert pour couleur de fond de la zone de déplacement */
-    box-sizing: border-box;       /* même modèle de boîte pour tous */
-    transition: opacity .2s;
-    cursor: pointer;
-    width: 100%;
-  }
-  input[type=range]#charCD:hover {
-    background: white;
-  }
-
-  /* Chrome */
-  input[type=range]#charCD::-webkit-slider-runnable-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range]#charCD::-webkit-slider-thumb {
-    -webkit-appearance: none;       
-    width: 1em;
-    height: inherit;
-    border: none;
-    border-radius: 0;               
-    background: currentColor;       
-  }
-  /* Firefox */
-  input[type=range].custom-slider::-moz-range-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range].custom-slider::-moz-range-thumb {
-    width: 1em;
-    height: inherit;                /* s'adapte à la hauteur de l'input */
-    border: none;                   /* supprimer la bordure */
-    border-radius: 0;               /* supprimer le rayon */
-    background: currentColor;
-  }
-  input[type=range].custom-slider::-moz-range-progress {
-    height: 0;
-    background: transparent;        /* supprime barre progression avant */
-  }
-
-  /* Edge */
-  input[type=range].custom-slider::-ms-track {
-    height: 100%;
-    border: none;
-    border-radius: 0;
-    color: transparent;             /* supprime les graduations pour IE */
-    background-color: transparent;  /* supprimé définie sur l'input */
-  }
-  input[type=range].custom-slider::-ms-thumb {
-    width: 1em;
-    height: inherit;                /* s'adapte à la hauteur de l'input */
-    border: none;                   /* supprimer la bordure */
-    border-radius: 0;               /* supprimer le rayon */
-    background: currentColor;
-  }
-  input[type=range].custom-slider::-ms-tooltip {
-    display: none;                  /* supprime l'affichage de la valeur au survol */
-  }
-  input[type=range].custom-slider::-ms-fill-lower {
-    background: transparent;
-  }
-  input[type=range].custom-slider::-ms-fill-upper {
-    background: transparent;
   }
 
   /* Responsive */
