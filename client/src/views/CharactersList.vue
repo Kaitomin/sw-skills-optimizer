@@ -41,15 +41,15 @@ export default {
     getImgUrl(iconUrl) {
       return require('@/assets/uploads/characters/' + iconUrl.split('.')[0] + '.png')
     },
-    updatePoints(points){
-      this.$store.commit('updatePoints', points)
-    }
+    // updatePoints(points){
+    //   this.$store.commit('updatePoints', points)
+    // }
   },
-  computed: {
-    points() {
-      return this.$store.state.points;
-    }
-  },
+  // computed: {
+  //   points() {
+  //     return this.$store.state.points;
+  //   }
+  // },
   created() {
     this.getAllCharacters();
   }
