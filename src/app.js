@@ -1,5 +1,4 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const charRoutes = require('./routes/characterRoutes');
@@ -36,7 +35,7 @@ app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 app.use('/api', targetRoutes);
 
-// Serve file after refresh page
+// Serve file after page refresh
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
 });
