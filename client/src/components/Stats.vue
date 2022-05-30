@@ -30,7 +30,7 @@
 <script>
 
 export default {
-  props: ['target', 'id'],
+  props: ['target', 'id', 'save'],
   data() {
     return {
       atk: 50000,
@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     calculateDmg() {
-
       // Check inputs
       this.atk = this.checkInput(this.atk, 0, 150000)
       this.cdmg = this.checkInput(this.cdmg, 0, 200000)
@@ -73,6 +72,41 @@ export default {
       return val
     }
   },
+  watch: {
+    save() {
+      if (this.save) {
+        !this.atk ? this.atk = 0 : this.atk
+        !this.cdmg ? this.cdmg = 0 : this.cdmg
+        !this.ab ? this.ab = 0 : this.ab
+        !this.bdmg ? this.bdmg = 0 : this.bdmg
+        !this.skill ? this.skill = 0 : this.skill
+
+        this.$store.commit('saveSetup', {
+          id: this.id,
+          atk: this.atk,
+          cdmg: this.cdmg,
+          ab: this.ab,
+          bdmg: this.bdmg,
+          skill: this.skill,
+          color: this.color
+        })
+        
+        this.$emit('saveSetup')
+      }
+    },
+  },
+  created() {
+    const setup = this.$store.getters.getSetup(this.id)
+
+    if (!setup) return
+
+    this.atk = setup.atk
+    this.cdmg = setup.cdmg
+    this.ab = setup.ab
+    this.bdmg = setup.bdmg
+    this.skill = setup.skill
+    this.color = setup.color    
+  },
   updated() {
     this.calculateDmg(this.atk, this.cdmg, this.ab, this.bdmg, this.skill)
   },
@@ -84,7 +118,7 @@ export default {
     border-bottom: 1px solid;
     padding-bottom: 0.5em;
     color: white;
-    font-size: 1.25rem;
+    font-size: 1.10rem;
   }
   .stats {
     padding: 1em 2em;
@@ -96,6 +130,8 @@ export default {
   label {
     color: white;
     width: 125px;
+    font-size: 16px;
+    text-align: left;
   }
   input {
     width: 85px;
@@ -105,12 +141,7 @@ export default {
     position: relative;
     margin-bottom: 15px;
   }
-  .stats > div label{
-    font-size: 16px;
-    color: #fff;
-    text-align: left;
-  }
-  .stats > div input{ 
+  .stats > div input { 
     border: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0);  
     background: #ffffff2e;
@@ -118,10 +149,11 @@ export default {
     font-size: 16px;
     color: #fff;
   }
-  .stats > div input:focus{ 
+  .stats > div input:focus { 
     border: none;	
     outline: none;
-    border-bottom: 1px solid #3ce7d7;	
+    border-bottom: 1px solid #3ce7d7;
+    background: #ffffff47;
   }
   .stats input[type='color'] {
     width: 65px;
@@ -135,6 +167,7 @@ export default {
   }
   .color-picker {
     text-align: left;
+    margin-bottom: 0!important;
   }
 
   /* Chrome, Safari, Edge, Opera */
@@ -146,6 +179,18 @@ export default {
   /* Firefox */
   input[type=number] {
     -moz-appearance: textfield;
+  }
+
+  /* Responsive */
+  @media screen and (max-width: 1080px) {
+    .color-picker {
+      text-align: center;
+    }
+  }
+  @media screen and (max-width: 566px) {
+    .stats {
+      padding: 1em 0;
+    }
   }
 
 </style>
