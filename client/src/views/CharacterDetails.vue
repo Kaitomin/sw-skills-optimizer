@@ -30,6 +30,7 @@
         :id="component[0]"
         :ephDmg="ephDmg"
         :skills="skills"
+        :dwChecked="dwChecked"
         :castChecked="castChecked"
         :charCD="charCD"
         :save="save"
@@ -57,6 +58,7 @@ export default {
       char: '',
       charCD: '44',
       skills: [],
+      dwChecked: false,
       castChecked: false,
       components: new Map(),
       rotationLimit: 0,
@@ -73,8 +75,9 @@ export default {
     ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue'))
   },
   methods: {
-    toggleDesire(skillsTable) {
-      this.skills = skillsTable
+    toggleDesire(payload) {
+      this.skills = payload.skillsTable
+      this.dwChecked = payload.dwChecked
     },
     toggleCastCancel(cast) {
       this.castChecked = cast
