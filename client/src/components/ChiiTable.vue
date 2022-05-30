@@ -105,7 +105,7 @@ export default {
     return {
       char: '',
       charCD: '44',
-      checked: false,
+      dwChecked: false,
       castChecked: false,
       sortOrder: false,
       marksCount: '0',
@@ -124,9 +124,9 @@ export default {
       }
     },
     toggleDesire() {
-      this.checked = !this.checked;
+      this.dwChecked = !this.dwChecked;
       
-      if (this.checked) {
+      if (this.dwChecked) {
         document.querySelector('.dw-container').classList.add('active')
         
         Array.from(this.skillsTable).map(skill => {
@@ -136,7 +136,10 @@ export default {
             skill.dmg = Math.round(skill.dmg * 1.2)
           }
         })
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       } else {
         document.querySelector('.dw-container').classList.remove('active')
 
@@ -147,7 +150,10 @@ export default {
             skill.dmg = Math.round(skill.dmg / 1.2)
           }
         })
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       }
     },
     toggleCastCancel() {
@@ -177,7 +183,7 @@ export default {
       // Remove previous marks
       this.skillsTable.forEach(skill => {
         if (skill.skillName == "Claws Out") {
-          if (this.checked) {
+          if (this.dwChecked) {
             skill.dmg = Math.round(skill.dmg / 1.2)
             skill.dmg = +skill.dmg - (this.marksCountTmp * 606)
           } else {
@@ -185,7 +191,7 @@ export default {
           }
         }
         if (skill.skillName == "Soul Strike") {
-          if (this.checked) {
+          if (this.dwChecked) {
             skill.dmg = Math.round(skill.dmg / 1.2)
             skill.dmg = +skill.dmg - (this.marksCountTmp * 422)
           } else {
@@ -197,7 +203,7 @@ export default {
       // Add marks
       this.skillsTable.forEach(skill => {
         if (skill.skillName == "Claws Out") {
-          if (this.checked) {
+          if (this.dwChecked) {
             skill.dmg = +skill.dmg + (this.marksCount * 606)
             skill.dmg = Math.round(skill.dmg * 1.2)
           } else {
@@ -205,7 +211,7 @@ export default {
           }
         }
         if (skill.skillName == "Soul Strike") {
-          if (this.checked) {
+          if (this.dwChecked) {
             skill.dmg = +skill.dmg + (this.marksCount * 422)
             skill.dmg = Math.round(skill.dmg * 1.2)
           } else {
@@ -215,7 +221,10 @@ export default {
       })
 
       this.marksCountTmp = count;
-      this.$emit('skills-table', this.skillsTable)
+      this.$emit('skills-table', {
+        skillsTable: this.skillsTable,
+        dwChecked: this.dwChecked
+      })
     },
     calcCD(skill) {
       if (skill.cd == 0) return Infinity
@@ -286,7 +295,10 @@ export default {
       this.char = res.data.character;
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
       this.displayTooltips
-      this.$emit('skills-table', this.skillsTable)
+      this.$emit('skills-table', {
+        skillsTable: this.skillsTable,
+        dwChecked: this.dwChecked
+      })
     })
     .catch(err => this.$router.push('/'));
 
