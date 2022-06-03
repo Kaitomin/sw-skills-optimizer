@@ -1,8 +1,9 @@
 <template>
   <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
     <!-- Skills table -->
-    <SkillsTable 
-      v-if="name != 'Chii'"
+    
+    <EphnelTable 
+      v-if="name == 'Ephnel'"
       :charName="name"
       @skills-table="toggleDesire"
       @ephnel-dmg="toggleEphDmg"
@@ -10,9 +11,17 @@
       @cast-cancel="toggleCastCancel"
     />
     <ChiiTable 
+      v-else-if="name == 'Chii'"
+      :charName="name"
+      @skills-table="toggleDesire"
+      @char-cdr="currentCDR"
+      @cast-cancel="toggleCastCancel"
+    />
+    <SkillsTable 
       v-else
       :charName="name"
       @skills-table="toggleDesire"
+      @ephnel-dmg="toggleEphDmg"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
@@ -72,7 +81,8 @@ export default {
   components: { 
     Rotation,
     SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue')),
-    ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue'))
+    ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue')),
+    EphnelTable: defineAsyncComponent(() => import('@/components/EphnelTable.vue')),
   },
   methods: {
     toggleDesire(payload) {
