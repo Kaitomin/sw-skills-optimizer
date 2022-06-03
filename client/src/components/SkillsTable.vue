@@ -234,7 +234,9 @@ export default {
 
         if (this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgRelease = Math.round(skill.dmgRelease * 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease * 1.58)
             } else {
               skill.dmgRelease = Math.round(skill.dmgRelease * 1.2)
@@ -242,7 +244,9 @@ export default {
           })
         } else if (this.ephnelBullet) {
            Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgBullet = Math.round(skill.dmgBullet * 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet * 1.58)
             } else {
               skill.dmgBullet = Math.round(skill.dmgBullet * 1.2)
@@ -250,7 +254,9 @@ export default {
           })
         } else {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmg = Math.round(skill.dmg * 1.32)
+            } else if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg * 1.58)
             } else {
               skill.dmg = Math.round(skill.dmg * 1.2)
@@ -258,13 +264,18 @@ export default {
           })
         }
 
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       } else {
         document.querySelector('.dw-container').classList.remove('active')
 
         if (this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgRelease = Math.round(skill.dmgRelease / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.58)
             } else {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.2)
@@ -272,7 +283,9 @@ export default {
           })
         } else if (this.ephnelBullet) {
            Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgBullet = Math.round(skill.dmgBullet / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.58)
             } else {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.2)
@@ -280,14 +293,19 @@ export default {
           })
         } else {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmg = Math.round(skill.dmg / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg / 1.58)
             } else {
               skill.dmg = Math.round(skill.dmg / 1.2)
             }
           })
         }
-        this.$emit('skills-table', this.skillsTable)
+        this.$emit('skills-table', {
+          skillsTable: this.skillsTable,
+          dwChecked: this.dwChecked
+        })
       }
     },
     toggleCastCancel() {
@@ -314,7 +332,9 @@ export default {
 
         if (this.dwChecked && !this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmg = Math.round(skill.dmg / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg / 1.58)
             } else {
               skill.dmg = Math.round(skill.dmg / 1.2)
@@ -324,7 +344,9 @@ export default {
 
         if (this.dwChecked && this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgRelease = Math.round(skill.dmgRelease / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.58)
             } else {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.2)
@@ -342,7 +364,9 @@ export default {
 
         if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgBullet = Math.round(skill.dmgBullet / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.58)
             } else {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.2)
@@ -365,7 +389,9 @@ export default {
         
         if (this.dwChecked && !this.ephnelBullet) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmg = Math.round(skill.dmg / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmg = Math.round(skill.dmg / 1.58)
             } else {
               skill.dmg = Math.round(skill.dmg / 1.2)
@@ -375,7 +401,9 @@ export default {
 
         if (this.dwChecked && this.ephnelBullet) {
           Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgBullet = Math.round(skill.dmgBullet / 1.32)
+            } else if (skill.dwBoost) {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.58)
             } else {
               skill.dmgBullet = Math.round(skill.dmgBullet / 1.2)
@@ -393,7 +421,9 @@ export default {
 
         if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
+            if (skill.dwBoost && skill.skillName.toLowerCase().includes("supernova")) {
+              skill.dmgRelease = Math.round(skill.dmgRelease / 1.32)
+            }else if (skill.dwBoost) {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.58)
             } else {
               skill.dmgRelease = Math.round(skill.dmgRelease / 1.2)
