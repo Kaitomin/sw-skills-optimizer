@@ -259,6 +259,10 @@ export default {
         this.description = "Data gathered from EN ver. [29/05/2022]"
         this.aspd = 200
         break;
+      case 'Erwin':
+        this.description = "Data gathered from EN ver. [08/06/2022]"
+        this.aspd = 200
+        break;
       default :
         this.aspd = 200
     }
