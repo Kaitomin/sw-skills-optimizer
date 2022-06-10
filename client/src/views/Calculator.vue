@@ -48,7 +48,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #ffffff21; border: 1px solid white"
+            style="background-color: #00000047; border: 1px solid white"
           />
 
           <div class="info">
@@ -65,11 +65,94 @@
           <div>
             <p>⬥ ATK = max attack (DW context)</p>
             <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
-            <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does X more/less dmg than Setup 2")</p>
+            <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does more/less dmg than Setup 2")</p>
             <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
             <p>⬥ Boss infos table (credits to Eden)</p>
           </div>  
-          <img src="@/assets/img/bTable.png" alt="boss table" width="450" height="250">
+          <table class="table boss-table" border="1">
+            <thead>
+              <tr>
+                <th>Enemy</th>
+                <th>Level</th>
+                <th>Defense</th>
+                <th colspan="">Reduction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Raphakumba</td>
+                <td>68</td>
+                <td>2060</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Aculus N (LF)</td>
+                <td>72</td>
+                <td>1074</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Edgar N (LF)</td>
+                <td>72</td>
+                <td>1074</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Junk Queen N</td>
+                <td>72</td>
+                <td>2423</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Junk Queen H</td>
+                <td>77</td>
+                <td>4505</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Flemma P1</td>
+                <td>76</td>
+                <td>2676</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>Flemma P2</td>
+                <td>77</td>
+                <td>3306</td>
+                <td>10</td>
+              </tr>
+              <tr>
+                <td>Flemma P3</td>
+                <td>77</td>
+                <td>4505</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Flemma Solo</td>
+                <td>68</td>
+                <td>2440</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Tenebris N P1</td>
+                <td>80</td>
+                <td>2800</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Tenebris N P2</td>
+                <td>80</td>
+                <td>3430</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Tenebris H</td>
+                <td>81</td>
+                <td>4630</td>
+                <td>0</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       
       </div>
@@ -250,7 +333,7 @@ export default {
     width: 100%;
     height: var(--container-height);
     z-index: -999;
-    opacity: 0.5;
+    opacity: 0.6;
     background: url('../assets/img/bg_3840.webp');
     background-position: center;
     background-size: cover;
@@ -298,14 +381,14 @@ export default {
     grid-area: save;
     color: white;
     padding: 5px 0;
-    background: #ffffff21;
+    background: #00000047;
     border-left: 1px solid white;
     border-top: 0;
     border-right: 1px solid white;
     border-bottom: 1px solid white;
   }
   .stats-container > button.btn-save:hover {
-    background: #ffffff47;
+    background: #00000000;
     /* -webkit-transition: background 0.1s linear;
     -ms-transition: background 0.1s linear;
     transition: background 0.1s linear; */
@@ -322,11 +405,11 @@ export default {
     border: 1px solid white;
     padding: 5px 10px;
     cursor: default;
-    background: #ffffff21;
+    background: #00000047;
   }
   .target-container > div:hover {
     cursor: pointer;
-    background: #ffffff47;
+    background: #00000000;
   }
   .target-container label {
     font-size: 16px;
@@ -356,7 +439,7 @@ export default {
     border-left: 1px solid white;
     border-bottom: 1px solid white;
     border-right: 1px solid white;
-    background: #ffffff21;
+    background: #00000047;
   }
   .info p {
     margin-bottom: 0;
@@ -371,7 +454,7 @@ export default {
   }
   .notes > div {
     padding: 10px;
-    background: #ffffff21;
+    background: #00000047;
     margin-bottom: 1em;
   }
   .notes p {
@@ -389,6 +472,16 @@ export default {
   }
   .negative {
     color: #fff700;
+  }
+  .boss-table {
+    margin: 0;
+    width: 500px;
+    text-align: center;
+    color: white;
+    background: #00000073;
+  }
+  .boss-table thead {
+    background: #0000006b;
   }
 
   @media screen and (max-width: 1080px) {

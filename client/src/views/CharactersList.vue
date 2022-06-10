@@ -2,6 +2,7 @@
   <div class="characters-list">
     <!-- <div :class="char.name == 'Nabi' ? 'hidden' : ''" v-for="char in charList" :key="char._id"> -->
     <div :class="(char.name == 'Dana' || char.name == 'Erwin') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
+    <!-- <div :class="(char.name == 'Dana') ? 'hidden' : ''" v-for="char in charList" :key="char._id"> -->
       <router-link :to="'/character/' + char.name">
         <img
           :src="getImgUrl(char.icon)"
@@ -15,7 +16,7 @@
   <div class="contact">
     <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
     <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa & Restia</p>
-    <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/">CC BY-NC-SA 3.0</a></i></p>
+    <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/" target="_blank">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a></i></p>
   </div>
 </template>
 
