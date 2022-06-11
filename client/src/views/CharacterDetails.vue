@@ -133,9 +133,9 @@ export default {
     },
   },
   created() {
-    if (this.name == 'Erwin') {
-      this.$router.push('/')
-    }
+    // if (this.name == 'Erwin') {
+    //   this.$router.push('/')
+    // }
 
     // Get character rotations from store
     try {
