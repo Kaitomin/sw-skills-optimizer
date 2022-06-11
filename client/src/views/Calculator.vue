@@ -86,13 +86,7 @@
                 <td>0</td>
               </tr>
               <tr>
-                <td>Aculus N (LF)</td>
-                <td>72</td>
-                <td>1074</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Edgar N (LF)</td>
+                <td>Aculus/Edgar N (LF)</td>
                 <td>72</td>
                 <td>1074</td>
                 <td>0</td>
@@ -113,13 +107,13 @@
                 <td>Flemma P1</td>
                 <td>76</td>
                 <td>2676</td>
-                <td>10</td>
+                <td>10%</td>
               </tr>
               <tr>
                 <td>Flemma P2</td>
                 <td>77</td>
                 <td>3306</td>
-                <td>10</td>
+                <td>10%</td>
               </tr>
               <tr>
                 <td>Flemma P3</td>
@@ -141,7 +135,7 @@
               </tr>
               <tr>
                 <td>Tenebris N P2</td>
-                <td>80</td>
+                <td>81</td>
                 <td>3430</td>
                 <td>0</td>
               </tr>
