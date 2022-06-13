@@ -67,7 +67,7 @@
             <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
             <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does more/less dmg than Setup 2")</p>
             <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
-            <p>⬥ Boss infos table (credits to Eden)</p>
+            <p>⬥ Boss infos table (credits to FeAr & AFN)</p>
           </div>  
           <table class="table boss-table" border="1">
             <thead>
@@ -75,7 +75,8 @@
                 <th>Enemy</th>
                 <th>Level</th>
                 <th>Defense</th>
-                <th colspan="">Reduction</th>
+                <th>Evasion</th>
+                <th>Reduction</th>
               </tr>
             </thead>
             <tbody>
@@ -83,66 +84,77 @@
                 <td>Raphakumba</td>
                 <td>68</td>
                 <td>2060</td>
+                <td>807</td>
                 <td>0</td>
               </tr>
               <tr>
-                <td>Aculus/Edgar N (LF)</td>
+                <td>Aculus/Edgar N</td>
                 <td>72</td>
-                <td>1074</td>
+                <td>1440</td>
+                <td>1098</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Junk Queen N</td>
                 <td>72</td>
-                <td>2423</td>
+                <td>2847</td>
+                <td>1098</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Junk Queen H</td>
                 <td>77</td>
-                <td>4505</td>
+                <td>4510</td>
+                <td>1199</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Flemma P1</td>
                 <td>76</td>
-                <td>2676</td>
+                <td>2680</td>
+                <td>1198</td>
                 <td>10%</td>
               </tr>
               <tr>
                 <td>Flemma P2</td>
                 <td>77</td>
-                <td>3306</td>
+                <td>3310</td>
+                <td>1199</td>
                 <td>10%</td>
               </tr>
               <tr>
                 <td>Flemma P3</td>
                 <td>77</td>
-                <td>4505</td>
+                <td>4510</td>
+                <td>1199</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Flemma Solo</td>
                 <td>68</td>
                 <td>2440</td>
+                <td>1193</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Tenebris N P1</td>
                 <td>80</td>
                 <td>2800</td>
+                <td>1201</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Tenebris N P2</td>
                 <td>81</td>
                 <td>3430</td>
+                <td>1201</td>
                 <td>0</td>
               </tr>
               <tr>
                 <td>Tenebris H</td>
                 <td>81</td>
                 <td>4630</td>
+                <td>1501</td>
                 <td>0</td>
               </tr>
             </tbody>
