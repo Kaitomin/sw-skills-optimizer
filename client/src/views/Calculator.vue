@@ -23,7 +23,7 @@
           </div>
 
           <div class="target-container" @click="assignTarget">
-            <div data-target="aculus_edgar">Aculus/Edgar N</div>
+            <div data-target="aculus_edgar">Arculus/Edgar N</div>
             <div data-target="junk_queen">Junk Queen N</div>
             <div data-target="junk_queen_h">Junk Queen H</div>
             <div data-target="flemma_p1" class="selected-target">Flemma P1</div>
@@ -31,7 +31,13 @@
             <div data-target="flemma_p3">Flemma P3</div>
             <div data-target="tenebrisN_p1">Tenebris N P1</div>
             <div data-target="tenebrisN_p2">Tenebris N P2</div>
-            <div data-target="tenebrisH">Tenebris H</div>
+            <div data-target="tenebrisH">Tenebris H</div>     
+            <div data-target="ferdelanceN_p1">Ferdelance N P1</div>
+            <div data-target="ferdelanceN_p2">Ferdelance N P2</div>
+            <div data-target="ferdelanceH_p1">Ferdelance H P1</div>
+            <div data-target="ferdelanceH_p2">Ferdelance H P2</div>
+            <div data-target="ferdelanceM_p1">Ferdelance M P1</div>
+            <div data-target="ferdelanceM_p2">Ferdelance M P2</div>
             <div data-target="raphakumba">Raphakumba</div>
             <div data-target="flemma_solo">Flemma Solo</div>
           </div>
@@ -88,7 +94,7 @@
                 <td>0</td>
               </tr>
               <tr>
-                <td>Aculus/Edgar N</td>
+                <td>Arculus/Edgar N</td>
                 <td>72</td>
                 <td>1440</td>
                 <td>1098</td>
@@ -155,6 +161,48 @@
                 <td>81</td>
                 <td>4630</td>
                 <td>1501</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance N P1</td>
+                <td>83</td>
+                <td>2890</td>
+                <td>1503</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance N P2</td>
+                <td>84</td>
+                <td>3520</td>
+                <td>1503</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance H P1</td>
+                <td>83</td>
+                <td>2890</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance H P2</td>
+                <td>84</td>
+                <td>3520</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance M P1</td>
+                <td>83</td>
+                <td>2890</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Ferdelance M P2</td>
+                <td>84</td>
+                <td>3520</td>
+                <td>0</td>
                 <td>0</td>
               </tr>
             </tbody>
@@ -388,6 +436,8 @@ export default {
     color: white;
     padding: 5px 0;
     background: #00000047;
+    height: 50px;
+    font-weight: 900;
     border-left: 1px solid white;
     border-top: 0;
     border-right: 1px solid white;
@@ -503,6 +553,9 @@ export default {
     }
     .target-container {
       margin-bottom: 1em;
+    }
+    .boss-table {
+      margin: 0 auto;
     }
   }
 
