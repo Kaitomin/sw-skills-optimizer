@@ -1,7 +1,6 @@
 <template>
   <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
     <!-- Skills table -->
-    
     <EphnelTable 
       v-if="name == 'Ephnel'"
       :charName="name"
@@ -133,10 +132,6 @@ export default {
     },
   },
   created() {
-    // if (this.name == 'Erwin') {
-    //   this.$router.push('/')
-    // }
-
     // Get character rotations from store
     try {
       const charRotations = `${this.name.toLowerCase()}Rotations`
