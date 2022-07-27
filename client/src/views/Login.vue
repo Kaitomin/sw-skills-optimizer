@@ -56,7 +56,7 @@ export default {
           });
           this.$router.go();
         } catch (error) {
-          console.log("Login error :", error);
+          // console.log("Login error :", error);
         }
       }
     }
