@@ -30,12 +30,12 @@ const routes = [
     meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
     component: lazyLoad('addNewSkill')
   },
-  // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   meta: { title: 'Login', content: 'Login to access edit feature' },
-  //   component: lazyLoad('Login')
-  // },
+  {
+    path: '/login',
+    name: 'Login',
+    meta: { title: 'Login', content: 'Login to access edit feature' },
+    component: lazyLoad('Login')
+  },
   {
     path: '/calculator',
     name: 'Calculator',
