@@ -33,7 +33,7 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DPS<span class="tooltip-msg">Damage % per second</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Cast time efficiency. Skill damage divided by casting time. If the attack duration is equal to cast time, consider it as the effective DPS</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DPS</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
@@ -257,6 +257,10 @@ export default {
         break;
       case 'Nabi':
         this.description = "Data gathered from EN ver. [29/05/2022]"
+        this.aspd = 200
+        break;
+      case 'Dana':
+        this.description = "Data gathered by Yukawa from KR ver. [01/08/2022]"
         this.aspd = 200
         break;
       case 'Erwin':
