@@ -35,24 +35,12 @@
     <div>
       <router-link to="/calculator"><i class="fa-solid fa-calculator"></i> Calculator</router-link>
     </div>
-    <div v-if="userRole === 'ADMIN'" class="edit">
-      <router-link to="/add-new-char" >Add character</router-link><div class="separator"></div>
-      <router-link to="/add-new-skill">Add skill</router-link><div class="separator"></div>
-      <a class="logout" @click="logout">Logout</a>
-    </div>
   </div>
 </template>
 
 <script>
 
-export default {
-  props: ['userRole'],
-  methods: {
-    logout() {
-      this.$emit('logout');
-    }
-  }
-}
+export default {}
 </script>
 
 <style scoped>
