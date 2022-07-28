@@ -59,11 +59,9 @@ export default {
   mounted() {
     // Get client window Y to set background height
     const pageY = document.querySelector('.characters-container')
-    // setTimeout(() => {
       this.containerH = (pageY.offsetHeight > window.innerHeight) ?
       document.querySelector('.characters-container').offsetHeight + 'px' :
       window.innerHeight + 'px'
-    // }, 200)
   },
 }
 </script>
@@ -81,18 +79,8 @@ export default {
     z-index: -999;
     opacity: 0.4;
     background: url('../assets/img/homepage.webp');
-    /* background-position: center; */
     background-repeat: no-repeat;
     height: var(--container-height);
-    /* animation: 2s ease-in 0s fadeIn; */
-  }
-  @-webkit-keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.5; }  
-  }
-  @keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.5; } 
   }
   .characters-container {
     max-width: 500px;
@@ -108,12 +96,11 @@ export default {
     padding-top: 3em
   }
   .characters-list > div {
-    border: 1px solid #ffffff3d;
     opacity: 1;
     transition: opacity 0.2s;
   }
-  .characters-list > div :hover {
-    opacity: 0.9;
+  .characters-list > div:hover {
+    opacity: 0.8;
   }
   .characters-list img {
     width: 150px;
