@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-
 // Add new skill
 // router.get('/add-new-skill', (req, res) => {
 //   if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
@@ -47,5 +46,15 @@ router.post('/add-new-skill', upload.single('icon'), async (req, res) => {
     return res.status(400).send({ error: error.message });
   }
 });
+
+router.put('/skills', async (req, res) => {
+  try {
+    await Skill.findByIdAndUpdate(req.body._id, req.body)
+    res.end()
+  } catch (err) {
+    console.log(err)
+  }
+  // console.log(req.body)
+})
 
 module.exports = router
