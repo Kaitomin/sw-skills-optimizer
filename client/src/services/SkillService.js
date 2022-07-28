@@ -7,4 +7,7 @@ export default {
   addNewSkill(data) {
     return Api().post('add-new-skill', data);
   },
+  updateSkill(skill) {
+    return Api().put('/skills', skill)
+  }
 }
