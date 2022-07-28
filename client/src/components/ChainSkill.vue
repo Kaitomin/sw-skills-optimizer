@@ -88,7 +88,7 @@
       <td>{{ calcMarks(c1_s1, c1_s2, c1_s3) }}</td>
     </tr>
     <tr class="info">
-      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DPS</th>
+      <th v-if="thValue || (thValue640 && (clientWidth > 368 && clientWidth <= 640)) || (thValue368 && (clientWidth <= 368))">DPS/Cast</th>
       <td>{{ calcDmgRatio(c1_s1, c1_s2, c1_s3, 'cast') }}%</td>
     </tr>
     <tr class="info">

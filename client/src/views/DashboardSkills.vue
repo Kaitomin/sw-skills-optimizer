@@ -1,20 +1,22 @@
 <template>
   <div class="dashboard">
-    <div class="characters">
-      <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)">
-        <img
-          :src="getCharIcon(char.icon)"
-          :alt="char.name + ' icon'"
-          width="150"
-          height="150"
-        >
+    <div>
+      <div class="characters">
+        <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)">
+          <img
+            :src="getCharIcon(char.icon)"
+            :alt="char.name + ' icon'"
+            width="150"
+            height="150"
+          >
+        </div>
       </div>
-    </div>
-    <div class="skills">
-      <button>
+      <button class="addChar">
         <router-link to="/add-new-skill">Add skill</router-link>
       </button>
-      <table class="table table-dark">
+    </div>
+    <div class="skills">
+      <table class="table table-dark table-striped">
         <thead>
           <tr>
             <th scope="col">Icon</th>
@@ -139,11 +141,11 @@ export default {
       if (!skill.dwBoost) {
         delete skillObj.dwBoost
       }
-      
+
       console.log(skillObj)
 
       try {
-        // await SkillService.updateSkill(skillObj)
+        await SkillService.updateSkill(skillObj)
         await this.getCharacterSkills(this.currentCharacter)
 
         inputs.forEach(input => {
@@ -186,12 +188,18 @@ export default {
     width: 95%;
     margin: 2em auto 4em auto;
   }
+  .dashboard > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 30px 0;
+    width: 435px;
+  }
   .characters {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     height: fit-content;
     gap: 10px;
-    width: 500px;
   }
   .characters img {
     width: 100px;
@@ -204,16 +212,16 @@ export default {
   .skills {
     min-width: 1000px;
   }
-  .skills button {
+  button.addChar {
     float: left;
     padding: 0.2em 0.5em;
     background: none;
     border: 2px solid white;
   }
-  .skills button:hover {
-    background: rgba(255, 255, 255, 0.445);
+  button.addChar:hover {
+    background: #ffffff21
   }
-  .skills button > a {
+  button.addChar > a {
     text-decoration: none;
     color: white;
   }

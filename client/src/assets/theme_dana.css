@@ -2,13 +2,13 @@
   background: #80003b;
 }
 .skills-container.dana .skills-details .table-skills th {
-  background-color: #2f0080;
+  background-color: #21005a;
 }
 .skills-container.dana .skills-details .table {
-  background-color: #0b00801c;
+  background-color: #21005a30;
 }
 .skills-container.dana button.add-rotation {
-  background-color: #2f0080;
+  background-color: #21005a;
   transition: background-color 0.2s;
 }
 .skills-container.dana button.add-rotation:hover {
@@ -17,7 +17,7 @@
 .skills-container.dana .chains-container .dropdown-toggle {
   color: white;
   border: 1px solid white;
-  background-color: #0b00802b;
+  background-color: #21005a30;
 }
 .skills-container.dana .chains-container .dropdown-toggle:hover {
   background-color: #0b00805e;

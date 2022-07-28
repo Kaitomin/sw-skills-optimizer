@@ -33,8 +33,8 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th class="separator-th"></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Cast time efficiency. Skill damage divided by casting time. If the attack duration is equal to cast time, consider it as the effective DPS</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DPS</span><br>[{{ charCD }}%]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
           </thead>
