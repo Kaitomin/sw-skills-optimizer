@@ -1,30 +1,32 @@
 <template>
   <div>
-    <Nav :userRole=userRole @logout=logout />
+    <Nav />
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="$route.fullPath" v-if="$route.meta.keepAlive"></component>
       </keep-alive>
       <component :is="Component" :key="$route.fullPath" v-if="!$route.meta.keepAlive"></component>
     </router-view>
+    <NavAdmin :userRole=userRole @logout=logout />
   </div>
 </template>
 
 <script>
-
 import Nav from '@/components/Nav.vue'
+import NavAdmin from './components/NavAdmin.vue'
+import UserService from './services/UserService';
 
 import "@/assets/global.css";
-import "@/assets/theme_lily.css";
-import "@/assets/theme_iris.css";
-import "@/assets/theme_stella.css";
-import "@/assets/theme_haru.css";
-import "@/assets/theme_ephnel.css";
-import "@/assets/theme_chii.css";
-import "@/assets/theme_nabi.css";
-import "@/assets/theme_dana.css";
-import "@/assets/theme_erwin.css";
-import UserService from './services/UserService';
+// import "@/assets/theme_lily.css";
+// import "@/assets/theme_iris.css";
+// import "@/assets/theme_stella.css";
+// import "@/assets/theme_haru.css";
+// import "@/assets/theme_ephnel.css";
+// import "@/assets/theme_chii.css";
+// import "@/assets/theme_nabi.css";
+// import "@/assets/theme_dana.css";
+// import "@/assets/theme_erwin.css";
+
 
 export default {
   data() {
@@ -33,7 +35,7 @@ export default {
     }
   },
   components: { 
-    Nav
+    Nav, NavAdmin
   },
   methods: {
     async logout() {
@@ -94,13 +96,13 @@ export default {
   display: block;
   padding: 0.5em 0;
 }
-.edit {
+/* .edit {
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 300px;
   margin: 0 auto;
-}
+} */
 #nav a.router-link-exact-active {
   color: #00ffff8f;
 }
