@@ -132,6 +132,9 @@ export default {
     },
   },
   created() {
+    // Import CSS Theme
+    import(`@/assets/theme_${this.name.toLowerCase()}.css`);
+
     // Get character rotations from store
     try {
       const charRotations = `${this.name.toLowerCase()}Rotations`
