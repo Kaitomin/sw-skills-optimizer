@@ -1,6 +1,6 @@
 <template>
   <div class="container login-container">
-    <h1>Login</h1>
+    <!-- <h1>Login</h1> -->
     <form @submit.prevent="login">
       <label>Username</label>
       <input type="text" v-model="username" required/>
@@ -9,6 +9,7 @@
       <input type="password" v-model="password" required/>
       <span class="error">{{ error.password }}</span>
       <button class="btn btn-primary">Login</button>
+      <p class="errMsg">{{ error.msg }}</p>
     </form>
   </div>
 </template>
@@ -22,7 +23,7 @@ export default {
     return {
       username: '',
       password: '',
-      error: {username: '', password: ''}
+      error: {username: '', password: '', msg: ''},
     }
   },
   methods: {
@@ -37,11 +38,11 @@ export default {
         return
       }
       if (!this.username.match(/^[a-z0-9]+$/i)) {
-        this.error.username = 'Only letters and numbers allowed '
+        this.error.username = 'Unauthorized characters'
         return
       }
       if (!this.password.match(/^[a-z0-9!+]+$/i)) {
-        this.error.password = 'Only letters, numbers, ! and + allowed'
+        this.error.password = 'Unauthorized characters'
         return
       }
     },
@@ -56,7 +57,7 @@ export default {
           });
           this.$router.go();
         } catch (error) {
-          // console.log("Login error :", error);
+          this.error.msg = 'Wrong credentials'
         }
       }
     }
@@ -79,20 +80,23 @@ export default {
     display: flex;
     flex-direction: column;
     width: 250px;
-    margin: 0 auto;
-    border: 1px solid rgba(0,0,150,0.3);
+    margin: 3em auto 0 auto;
+    border: 1px solid white;
+    background: #ffffff1f;
     padding: 2rem;
     border-radius: 10px;
   }
   form input {
     border-radius: 5px;
-    border: 1px solid blue;
     margin-bottom: 1rem;
   }
   form button {
     margin-top: 1rem;
   }
-  .error {
+  .error, .errMsg {
     color: red;
+  }
+  .errMsg {
+    margin: 1em 0 0 0 ;
   }
 </style>
