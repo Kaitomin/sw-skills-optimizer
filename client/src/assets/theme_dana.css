@@ -2,13 +2,13 @@
   background: #80003b;
 }
 .skills-container.dana .skills-details .table-skills th {
-  background-color: #1d0080;
+  background-color: #2f0080;
 }
 .skills-container.dana .skills-details .table {
   background-color: #0b00801c;
 }
 .skills-container.dana button.add-rotation {
-  background-color: #1d0080;
+  background-color: #2f0080;
   transition: background-color 0.2s;
 }
 .skills-container.dana button.add-rotation:hover {
