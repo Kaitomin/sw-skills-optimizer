@@ -18,30 +18,30 @@ const routes = [
     component: lazyLoad('CharacterDetails'),
     props: true
   },
-  {
-    path: '/add-new-char',
-    name: 'AddNewChar',
-    meta: { title: 'New char', content: 'Add a new Soulworker character' },
-    component: lazyLoad('NewCharacterForm')
-  },
-  {
-    path: '/add-new-skill',
-    name: 'AddNewSkill',
-    meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
-    component: lazyLoad('NewSkillForm')
-  },
+  // {
+  //   path: '/add-new-char',
+  //   name: 'AddNewChar',
+  //   meta: { title: 'New char', content: 'Add a new Soulworker character' },
+  //   component: lazyLoad('NewCharacterForm')
+  // },
+  // {
+  //   path: '/add-new-skill',
+  //   name: 'AddNewSkill',
+  //   meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
+  //   component: lazyLoad('NewSkillForm')
+  // },
   {
     path: '/skills',
     name: 'DashboardSkills',
     meta: { title: 'Dashboard | Skills', content: 'Add or edit existing skills' },
     component: lazyLoad('DashboardSkills')
   },
-  {
-    path: '/login',
-    name: 'Login',
-    meta: { title: 'Login', content: 'Login to access edit feature' },
-    component: lazyLoad('Login')
-  },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   meta: { title: 'Login', content: 'Login to access edit feature' },
+  //   component: lazyLoad('Login')
+  // },
   {
     path: '/calculator',
     name: 'Calculator',

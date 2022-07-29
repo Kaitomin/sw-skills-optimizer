@@ -11,9 +11,7 @@
           >
         </div>
       </div>
-      <button class="addChar">
-        <router-link to="/add-new-skill">Add skill</router-link>
-      </button>
+      <router-link to="/add-new-skill" class="addChar">Add skill</router-link>
     </div>
     <div class="skills">
       <table class="table table-dark table-striped">
@@ -212,18 +210,16 @@ export default {
   .skills {
     min-width: 1000px;
   }
-  button.addChar {
+  .addChar {
     float: left;
     padding: 0.2em 0.5em;
     background: none;
     border: 2px solid white;
-  }
-  button.addChar:hover {
-    background: #ffffff21
-  }
-  button.addChar > a {
     text-decoration: none;
     color: white;
+  }
+  .addChar:hover {
+    background: #ffffff21
   }
   table {
     color: white;

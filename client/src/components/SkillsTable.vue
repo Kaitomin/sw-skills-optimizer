@@ -47,7 +47,7 @@
 
               <td>{{ skill.dmg }}%</td>
 
-              <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
+              <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : null">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
               <td class="separator-td"></td>
@@ -260,7 +260,7 @@ export default {
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data gathered by Yukawa from KR ver. [01/08/2022]"
+        this.description = "Data gathered by Yukawa from KR ver. [27/07/2022]"
         this.aspd = 200
         break;
       case 'Erwin':

@@ -36,7 +36,7 @@ export default {
     bottom: 0;
     font-weight: 900;
     font-size: 1.1rem;
-    background: black;
+    background: rgba(0, 0, 0, 0.788);
     border-top: 1px solid white;
   }
 </style>
