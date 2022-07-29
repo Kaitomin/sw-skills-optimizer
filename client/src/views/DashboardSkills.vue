@@ -172,6 +172,9 @@ export default {
       event.target.parentElement.previousElementSibling.classList.remove('hidden')
     }
   },
+  beforeCreate() {
+    if (!this.$root.userRole) this.$router.push('/')
+  },
   created() {
     this.getAllCharacters();
     this.getCharacterSkills('Dana')

@@ -1,7 +1,7 @@
 <template>
   <div class="characters-container" :style="containerHeight">
     <div class="characters-list">
-      <div :class="(char.name == 'Dana') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
+      <div :class="(char.name == 'tmpChar') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
       <!-- <div v-for="char in charList" :key="char._id"> -->
         <router-link :to="'/character/' + char.name">
           <img

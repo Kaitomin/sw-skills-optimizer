@@ -25,9 +25,9 @@
       <router-link to="/character/Nabi">
         <img src="@/assets/img/nabi_nav.png" alt="nabi icon" width="120" height="50">
       </router-link>
-      <!-- <router-link to="/character/Dana">
+      <router-link to="/character/Dana">
         <img src="@/assets/img/dana_nav.png" alt="dana icon" width="120" height="50">
-      </router-link> -->
+      </router-link>
       <router-link to="/character/Erwin">
         <img src="@/assets/img/erwin_nav.png" alt="erwin icon" width="120" height="50">
       </router-link>
