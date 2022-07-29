@@ -114,7 +114,7 @@ export default {
       .then(res => {
         this.skillsList = res.data.skills
         this.currentCharacter = name
-        console.log('Table refreshed')
+        // console.log('Table refreshed')
       })
     },
     editSkill(event, skill) {
@@ -140,7 +140,7 @@ export default {
         delete skillObj.dwBoost
       }
 
-      console.log(skillObj)
+      // console.log(skillObj)
 
       try {
         await SkillService.updateSkill(skillObj)
