@@ -132,12 +132,11 @@ export default {
     },
   },
   created() {
-    // Import CSS Theme
-    import(`@/assets/theme_${this.name.toLowerCase()}.css`);
-
-    // Get character rotations from store
     try {
+      // Get character rotations from store
       const charRotations = `${this.name.toLowerCase()}Rotations`
+      // Import CSS Theme
+      import(`@/assets/theme_${this.name.toLowerCase()}.css`);
     
       this.components = this.$store.getters.getRotations(charRotations)
       this.rotationLimit = Array.from(this.components).length
