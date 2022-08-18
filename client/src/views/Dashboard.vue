@@ -117,10 +117,6 @@ export default {
       .then(res => {
         this.skillsList = res.data.skills
         this.currentCharacter = name
-<<<<<<< HEAD:client/src/views/Dashboard.vue
-=======
-        // console.log('Table refreshed')
->>>>>>> f847e780d949d3ba3725a9bb57954828d7f3d305:client/src/views/DashboardSkills.vue
       })
     },
     editSkill(event, skill) {
