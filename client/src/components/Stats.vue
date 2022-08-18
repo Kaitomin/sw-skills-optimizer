@@ -49,7 +49,7 @@ export default {
       this.atk = this.checkInput(this.atk, 0, 150000)
       this.cdmg = this.checkInput(this.cdmg, 0, 200000)
       this.ab = this.checkInput(this.ab, 0, 100)
-      this.bdmg = this.checkInput(this.bdmg, 0, 350)
+      this.bdmg = this.checkInput(this.bdmg, 0, 500)
       this.skill = this.checkInput(this.skill, 0, 40000)
 
       // Calculate target defense rate

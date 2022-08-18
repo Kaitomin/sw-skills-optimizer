@@ -8,6 +8,6 @@ export default {
     return Api().post('add-new-skill', data);
   },
   updateSkill(skill) {
-    return Api().put('/skills', skill)
+    return Api().put('/dashboard', skill)
   }
 }

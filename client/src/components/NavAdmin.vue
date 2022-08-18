@@ -1,7 +1,7 @@
 <template>
   <div v-if="userRole === 'ADMIN'" class="nav-admin">
     <router-link to="/add-new-char" ><i class="fa-solid fa-user-plus"></i> Character</router-link>
-    <router-link to="/skills"><i class="fa-solid fa-book"></i> Skills</router-link>
+    <router-link to="/dashboard"><i class="fa-solid fa-book"></i> Dashboard</router-link>
     <a class="logout" @click="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
   </div>
 </template>

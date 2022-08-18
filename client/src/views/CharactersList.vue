@@ -13,7 +13,6 @@
         </router-link>
       </div>
     </div>
-    
     <div class="contact">
       <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
       <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia & Asvra</p>
@@ -59,9 +58,7 @@ export default {
   mounted() {
     // Get client window Y to set background height
     const pageY = document.querySelector('.characters-container')
-      this.containerH = (pageY.offsetHeight > window.innerHeight) ?
-      document.querySelector('.characters-container').offsetHeight + 'px' :
-      window.innerHeight + 'px'
+    this.containerH = (pageY.offsetHeight > window.innerHeight) ? document.querySelector('.characters-container').offsetHeight + 'px' : window.innerHeight + 'px'
   },
 }
 </script>

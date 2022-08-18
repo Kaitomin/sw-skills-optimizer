@@ -67,6 +67,9 @@
             </td>
             <td>
               <input type="text" name="character" class="character-name" :value="skill.character" disabled>
+              <!-- <select v-model="character">
+                <option v-for="char in charList" :key="char._id" :value="char.name">{{ char.name }}</option>
+              </select> -->
             </td>
             <td class="actions">
               <i class="fa-solid fa-pen-to-square" @click="editSkill($event, skill)"></i>
@@ -91,7 +94,7 @@ export default {
     return {
       charList: [],
       skillsList: [],
-      currentCharacter: ''
+      currentCharacter: '',
     }
   },
   methods: {
@@ -114,7 +117,6 @@ export default {
       .then(res => {
         this.skillsList = res.data.skills
         this.currentCharacter = name
-        // console.log('Table refreshed')
       })
     },
     editSkill(event, skill) {

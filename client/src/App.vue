@@ -17,16 +17,6 @@ import NavAdmin from './components/NavAdmin.vue'
 import UserService from './services/UserService';
 
 import "@/assets/global.css";
-// import "@/assets/theme_lily.css";
-// import "@/assets/theme_iris.css";
-// import "@/assets/theme_stella.css";
-// import "@/assets/theme_haru.css";
-// import "@/assets/theme_ephnel.css";
-// import "@/assets/theme_chii.css";
-// import "@/assets/theme_nabi.css";
-// import "@/assets/theme_dana.css";
-// import "@/assets/theme_erwin.css";
-
 
 export default {
   data() {
