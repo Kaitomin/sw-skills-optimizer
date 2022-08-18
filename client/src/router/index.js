@@ -18,6 +18,21 @@ const routes = [
     component: lazyLoad('CharacterDetails'),
     props: true
   },
+<<<<<<< HEAD
+=======
+  {
+    path: '/add-new-char',
+    name: 'AddNewChar',
+    meta: { title: 'New char', content: 'Add a new Soulworker character' },
+    component: lazyLoad('NewCharacterForm')
+  },
+  {
+    path: '/add-new-skill',
+    name: 'AddNewSkill',
+    meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
+    component: lazyLoad('NewSkillForm')
+  },
+>>>>>>> f847e780d949d3ba3725a9bb57954828d7f3d305
   {
     path: '/add-new-char',
     name: 'AddNewChar',
