@@ -36,12 +36,12 @@ const routes = [
     meta: { title: 'Dashboard', content: 'Add or edit existing skills' },
     component: lazyLoad('Dashboard')
   },
-  {
-    path: '/login',
-    name: 'Login',
-    meta: { title: 'Login', content: 'Login to access edit feature' },
-    component: lazyLoad('Login')
-  },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   meta: { title: 'Login', content: 'Login to access edit feature' },
+  //   component: lazyLoad('Login')
+  // },
   {
     path: '/calculator',
     name: 'Calculator',
