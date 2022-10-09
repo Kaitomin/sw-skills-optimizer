@@ -1,8 +1,8 @@
 <template>
   <div class="rotations-container">
     <div class="actions">
-      <button class="btn" @click="reset = true">Reset</button>
-      <button class="btn" @click="deleteComponent">Delete</button>
+      <button class="btn" @click="reset = true" title="Reset"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+      <button class="btn" @click="deleteComponent" title="Delete"><i class="fa-solid fa-trash"></i></button>
     </div>
 
     <div class="chains-container">
@@ -126,13 +126,18 @@ export default {
     flex-direction: column;
   }
   .btn {
-    background: #00000052;
+    background: #ffffffad;
     color: white;
-    border: 1px solid white;
+  }
+  .fa-arrow-rotate-right {
+    color: blue;
+  } 
+  .fa-trash {
+    color: red;
   }
   .btn:hover {
     cursor: pointer;
-    background: #ffffff2b;
+    background: #ffffff6e;
     border: 1px solid white;
   }
   .actions > button:first-child {
@@ -141,6 +146,14 @@ export default {
   p {
     color: white;
   }
+
+
+
+  
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 640px) {
     .rotations-container {
       padding: 0 5px;

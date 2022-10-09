@@ -23,12 +23,13 @@ export default {
     return {
       username: '',
       password: '',
-      error: {username: '', password: '', msg: ''},
+      error: { username: '', password: '', msg: '' },
     }
   },
   methods: {
     handleErrors() {
       this.error.username = this.error.password = ''
+      
       if (this.username.length < 5 ) {
         this.error.username = 'Length must be > 5'
         return

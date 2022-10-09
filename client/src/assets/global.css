@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 * {
   font-family: 'Roboto', sans-serif;
 }
@@ -9,18 +10,18 @@ body {
 
 /* input range */
 input[type=range]#charCD {
-  -webkit-appearance: none;     /*nécessaire pour Chrome */
-  padding: 0;                   /* nécessaire pour IE */
-  font: inherit;                /* même rendu suivant font document */
+  /* -webkit-appearance: none;     
+  padding: 0;                   
+  font: inherit;            
   outline: none;
-  color: #069;                  /* sert pour couleur de référence, via currentColor, pour le curseur */
+  color: #069;               
   opacity: .8;
   height: 15px;                
-  background: #CCC;             /* sert pour couleur de fond de la zone de déplacement */
-  box-sizing: border-box;       /* même modèle de boîte pour tous */
+  background: #CCC;           
+  box-sizing: border-box;     
   transition: opacity .2s;
+  width: 100%; */
   cursor: pointer;
-  width: 100%;
 }
 input[type=range]#charCD:hover {
   background: white;
@@ -38,7 +39,7 @@ input[type=range]#charCD::-webkit-slider-thumb {
   width: 1em;
   height: inherit;
   border: none;
-  border-radius: 0;               
+  border-radius: 50px;               
   background: currentColor;       
 }
 /* Firefox */
@@ -83,4 +84,205 @@ input[type=range].custom-slider::-ms-fill-lower {
 }
 input[type=range].custom-slider::-ms-fill-upper {
   background: transparent;
+}
+
+
+
+
+
+/* -------------------- */
+/* Skills Table tooltip */
+/* -------------------- */
+.skills-container .cd-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 58px;
+  gap: 10px;
+}
+.skills-container .char-info {
+  height: 100px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  border: 1px solid white;
+}
+
+.skills-container .char-info p {
+  margin: 0;
+}
+
+.skills-container .char-info > div:last-child {
+  flex: 0.7;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: inherit;
+  justify-content: space-around;
+}
+
+.skills-container .char-info > div:last-child > div {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.skills-container .tooltip-container {
+  position: relative;
+}
+
+.skills-container .tooltip-container:hover {
+  cursor: pointer;
+}
+
+.skills-container .tooltip-msg {
+  display: none;
+  position: absolute;
+  max-width: 200px;
+  width: max-content;
+  z-index: 999;
+  top: 50px;
+  right: 0;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid white;
+  background: #000000a1;
+}
+
+.skills-container thead {
+  position: sticky;
+  top: -1px;
+}
+
+.skills-container th {
+  border-bottom: 0;
+  vertical-align: middle;
+  width: 40px;
+  border-top: 0;
+  font-size: 0.9em;
+}
+
+.skills-container td {
+  padding: 0.7rem 0 0.3rem 0;
+  color: white;
+}
+
+.skills-container .table-skills { 
+  border-spacing: 0px;
+  border: 1px solid white;
+  margin-top: 2em;
+}
+
+.skills-container thead > tr > td:first-child,
+.skills-container tbody > tr > td:first-child {
+  padding-left: 0.5rem;
+}
+
+.skills-container tbody {
+  text-align: center;
+  font-size: 15px;
+}
+
+.skills-container th {
+  color: white;
+  padding: 5px 0;
+}
+
+.skills-container td {
+  vertical-align: middle;
+}
+
+.skills-container .table-skills p {
+  margin: 0;
+}
+
+/* DW & Anim cancel toggles */
+.skills-container .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.skills-container .switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.skills-container .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.skills-container .slider:before {
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  content: "\f00d";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: red;
+  font-size: 1.3em;
+  line-height: 1.3;
+}
+
+.skills-container input:checked + .slider {
+  background-color: #2196F3;
+}
+
+.skills-container input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.skills-container input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+  content: "\f00c";
+  color: #00ff00;
+
+}
+
+/* Rounded sliders */
+.skills-container .slider.round {
+  border-radius: 34px;
+}
+
+.skills-container .slider.round:before {
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 500px) {
+  .char-info {
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+  }
+  .description {
+    margin-bottom: 0;
+  }
+  .dw-container,
+  .cast-container {
+    width: 240px;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+  .checkmark {
+    margin-right: 10px;
+  }
 }

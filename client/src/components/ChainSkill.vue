@@ -338,6 +338,7 @@ export default {
     padding: 0.6rem 0.2rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
   }
   .table > tr:first-child > td {
     border-top: none;
@@ -359,6 +360,9 @@ export default {
     justify-content: center;
     align-content: center;
     margin: 3px 0;
+  }
+  button.dropdown-toggle {
+    border-radius: 0;
   }
   button.dropdown-toggle::after {
     content: none;

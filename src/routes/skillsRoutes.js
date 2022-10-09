@@ -42,10 +42,12 @@ router.post('/add-new-skill', upload.single('icon'), async (req, res) => {
     return res.status(400).send({ error: error.message });
   }
 });
+
 // Modify skill
 router.put('/dashboard', async (req, res) => {
   try {
-    await Skill.findByIdAndUpdate(req.body._id, req.body)
+    // await Skill.findByIdAndUpdate(req.body._id, req.body)
+    console.log(req)
     res.end()
   } catch (err) {
     console.log(err)

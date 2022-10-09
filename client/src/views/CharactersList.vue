@@ -1,20 +1,24 @@
 <template>
   <div class="characters-container" :style="containerHeight">
-    <div class="characters-list">
-      <div :class="(char.name == 'tmpChar') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
-      <!-- <div v-for="char in charList" :key="char._id"> -->
+    <!-- <div class="characters-list">
+      <div :class="(char.name == 'Jin') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
         <router-link :to="'/character/' + char.name">
           <img
-            :src="getImgUrl(char.icon)"
+            :src="getCharacterIcon(char.icon)"
             :alt="char.name + ' icon'"
             width="150"
             height="150"
           >
         </router-link>
       </div>
-    </div>
+    </div> -->
     <div class="contact">
-      <p>For any question or suggestion, <br> you can contact me on discord : Kaitomin#6973</p>
+      <p>- Website author - <br> Kaitomin</p>
+      <p>- Skills editor - <br> Tatufo</p> 
+      <p>- Contact - <br>
+        <i class="fa-brands fa-discord"></i> Kaitomin#6973<br>
+        <i class="fa-brands fa-discord"></i> Tatufo#0001
+      </p>
       <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia & Asvra</p>
       <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/" target="_blank">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a></i></p>
     </div>
@@ -22,8 +26,7 @@
 </template>
 
 <script>
-
-import CharacterService from '../services/CharacterService';
+import { useGetCharacterIcon, useGetCharactersIcons } from '../composable/functions';
 
 export default {
   data() {
@@ -34,15 +37,10 @@ export default {
   },
   methods: {
     async getAllCharacters() {
-      try {
-        const res = await CharacterService.getAllCharacters()
-        this.charList = res.data.charList;
-      } catch (error) {
-        console.log('Error :', error);
-      }
+      this.charList = await useGetCharactersIcons()
     },
-    getImgUrl(iconUrl) {
-      return require('@/assets/uploads/characters/' + iconUrl.split('.')[0] + '.png')
+    getCharacterIcon(iconUrl) {
+      return useGetCharacterIcon(iconUrl)
     },
   },
   computed: {
@@ -70,6 +68,15 @@ export default {
   #nav .menu {
     display: none;
   }
+  .characters-container {
+    /* max-width: 500px; */
+    /* margin: 0 auto; */
+    height: var(--container-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .characters-container::before {
     content: ' ';
     display: block;
@@ -82,10 +89,7 @@ export default {
     background-repeat: no-repeat;
     height: var(--container-height);
   }
-  .characters-container {
-    max-width: 500px;
-    margin: 0 auto;
-  }
+  
   .characters-list {
     display: flex;
     justify-content: space-around;
@@ -107,20 +111,26 @@ export default {
     height: auto;
   }
   .contact {
-    max-width: 400px;
-    margin: 3em auto 0 auto;
-    border-top: 1px solid white;
+    /* max-width: 400px; */
+    border: 1px solid white;
     color: white;
-    padding-top: 10px;
     text-align: left;
   }
   .contact p {
     margin-bottom: 0;
-    padding: 10px 5px;
+    padding: 10px;
   }
   .copyrights a {
     text-decoration: none;
   }
+
+
+
+
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 500px) {
     .contact {
       max-width: 90%;

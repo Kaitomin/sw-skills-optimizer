@@ -15,7 +15,7 @@
     </div>
     <div>
       <label>BDMG</label>
-      <input type="number" min="0" max="350" v-model="bdmg" @keypress="sanitizeValues($event)">
+      <input type="number" min="0" max="500" v-model="bdmg" @keypress="sanitizeValues($event)">
     </div>
     <div>
       <label>Skill</label>
@@ -124,7 +124,7 @@ export default {
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
-    background: #00000047;
+    background: #000000b5;
     border: 1px solid white;
   }
   label {

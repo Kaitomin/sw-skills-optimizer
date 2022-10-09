@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <div class="calculator-container" :style="containerHeight">
+    <div class="calculator-container" :style="[containerHeight, backgroundBlack]">
       <div class="calculator">
         <div class="data">
           <div class="stats-container">
@@ -54,7 +54,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #00000047; border: 1px solid white"
+            style="background-color: #000000b5; border: 1px solid white"
           />
 
           <div class="info">
@@ -69,7 +69,7 @@
 
         <div class="notes">
           <div>
-            <p>⬥ ATK = max attack (DW context)</p>
+            <p>⬥ ATK = character max atk value</p>
             <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
             <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does more/less dmg than Setup 2")</p>
             <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
@@ -78,11 +78,11 @@
           <table class="table boss-table" border="1">
             <thead>
               <tr>
-                <th>Enemy</th>
-                <th>Level</th>
-                <th>Defense</th>
-                <th>Evasion</th>
-                <th>Reduction</th>
+                <th style="width: 30%">Enemy</th>
+                <th style="width: 15%">Level</th>
+                <th style="width: 15%">Defense</th>
+                <th style="width: 15%">Evasion</th>
+                <th style="width: 15%">Reduction</th>
               </tr>
             </thead>
             <tbody>
@@ -351,11 +351,16 @@ export default {
       if (ratio <= 0 || !isFinite(ratio)) return 0
       return ratio.toFixed(6)
     },
-    containerHeight () {
+    containerHeight() {
       return {
         '--container-height': this.containerH
       }
     },
+    backgroundBlack() {
+      return {
+        '--bg-black': '#000000b5'
+      }
+    }
   },
   created() {
     this.getTarget(this.target)
@@ -387,7 +392,7 @@ export default {
     width: 100%;
     height: var(--container-height);
     z-index: -999;
-    opacity: 0.6;
+    opacity: 0.7;
     background: url('../assets/img/bg_3840.webp');
     background-position: center;
     background-size: cover;
@@ -396,11 +401,11 @@ export default {
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.5; }  
+    100% { opacity: 0.7; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.5; } 
+    100% { opacity: 0.7; } 
   }
   .calculator {
     display: grid;
@@ -435,7 +440,7 @@ export default {
     grid-area: save;
     color: white;
     padding: 5px 0;
-    background: #00000047;
+    background-color: var(--bg-black);
     height: 50px;
     font-weight: 900;
     border-left: 1px solid white;
@@ -444,7 +449,7 @@ export default {
     border-bottom: 1px solid white;
   }
   .stats-container > button.btn-save:hover {
-    background: #00000000;
+    background: #0000009a;
     /* -webkit-transition: background 0.1s linear;
     -ms-transition: background 0.1s linear;
     transition: background 0.1s linear; */
@@ -461,11 +466,11 @@ export default {
     border: 1px solid white;
     padding: 5px 10px;
     cursor: default;
-    background: #00000047;
+    background: var(--bg-black);
   }
   .target-container > div:hover {
     cursor: pointer;
-    background: #00000000;
+    background: #0000009f;
   }
   .target-container label {
     font-size: 16px;
@@ -495,7 +500,7 @@ export default {
     border-left: 1px solid white;
     border-bottom: 1px solid white;
     border-right: 1px solid white;
-    background: #00000047;
+    background: var(--bg-black);
   }
   .info p {
     margin-bottom: 0;
@@ -510,7 +515,7 @@ export default {
   }
   .notes > div {
     padding: 10px;
-    background: #00000047;
+    background: var(--bg-black);
     margin-bottom: 1em;
   }
   .notes p {
@@ -521,7 +526,7 @@ export default {
     text-decoration: none;
   }
   .selected-target {
-    background: #00ffff38 !important;
+    background: #00ffff5e !important;
   }
   .positive {
     color: #00ff14;
@@ -531,10 +536,10 @@ export default {
   }
   .boss-table {
     margin: 0;
-    width: 500px;
+    max-width: 650px;
     text-align: center;
     color: white;
-    background: #00000073;
+    background: var(--bg-black);
   }
   .boss-table thead {
     background: #0000006b;

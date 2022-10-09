@@ -15,10 +15,13 @@ const createToken = (id, role) => {
 
 router.get('/login', (req, res) => {
   if (res.locals.user) return res.status(401).json({msg: 'Already logged in' })
+
   return res.sendStatus(201)
 })
+
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  
   try {
     const user = await User.login(username, password);
     const token = createToken(user._id, user.role);

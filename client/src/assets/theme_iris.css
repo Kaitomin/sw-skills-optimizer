@@ -1,6 +1,3 @@
-.skills-container.iris h1 {
-  background: #800000;
-}
 .skills-container.iris .skills-details .table-skills th {
   background-color: #800000;
 }
@@ -9,6 +6,7 @@
 }
 .skills-container.iris button.add-rotation {
   background-color: #800000;
+  transition: background-color 0.2s;
 }
 .skills-container.iris .chains-container .dropdown-toggle {
   color: white;

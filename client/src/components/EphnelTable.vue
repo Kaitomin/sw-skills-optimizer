@@ -2,46 +2,83 @@
   <!-- Skills -->
     <div class="skills-details">
       <div v-if="char">
-        <p class="description">
-          <i>{{ description }}<br>(click on criteria to sort the table)<br></i>
-        </p>
         <div class="char-info">
-          <div class="cdInput">
-            <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
-            <label id="cdInput" for="charCD">Character CDR : {{ charCD +'%' }}</label>
+          <div>
+            <img :src="getCharacterIcon(char.icon)" :alt="char.name + ' icon'" width="80" height="80">
+          </div>
+
+          <div>
+            <p class="description"><i>{{ description }}<br></i></p>
+
+            <div>
+              <div class="cd-input">
+                <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" />
+                <label id="cd-input" for="charCD">Character CDR : {{ charCD +'%' }}</label>
+              </div>
+
+              <div class="d-flex flex-column justify-evenly align-items-center">
+                <label  class="switch">
+                  <input type="checkbox">
+                  <span class="slider round" @click="toggleEphnelDesire"></span>
+                </label>
+                <p>Desire worker</p>
+              </div>
+              <!-- Animation cancel toggler -->
+              <div class="d-flex flex-column justify-evenly align-items-center">
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider round" @click="toggleCastCancel"></span>
+                </label>
+                <p>Animation cancel</p>
+              </div>
+
+            </div>
           </div>
 
           <!-- Ephnel desire -->
-          <div v-if="charName == 'Ephnel'" class="dw-container" @click="toggleEphnelDesire">
+          <!-- <div v-if="charName == 'Ephnel'" class="dw-container" @click="toggleEphnelDesire">
             <p>Desire Worker</p>
           </div>
           <div class="cast-container" @click="toggleCastCancel">
             <p>Animation cancel</p>
-          </div>
+          </div> -->
+
+          <!-- DW toggle -->
+         
         </div>
 
         <!-- Ephnel Bullet & Release -->
-        <div v-if="charName == 'Ephnel'" class="ephnel-buff">
+        <!-- <div v-if="charName == 'Ephnel'" class="ephnel-buff">
           <div class="ephnel-bullet" @click="toggleBullet">
             <p>Bullet</p>
           </div>
           <div class="ephnel-release" @click="toggleRelease">
             <p>Bullet + Release</p>
           </div>
+        </div> -->
+
+        <div class="ephnel-buff">
+          <!-- <div> -->
+            <div>
+              <img src='@/assets/img/ephnel_bullet.png' alt="" width="40" height="40">
+            </div>
+            <!-- <p>Buff</p> -->
+            <button class="ephnel-bullet" @click="toggleBullet">Bullet</button>
+            <button class="ephnel-release" @click="toggleRelease">Limit Release</button>
+          <!-- </div> -->
         </div>
         
         <table v-if="clientWidth > 550" class="table table-striped table-skills">
           <thead>
             <tr 
-              @mouseover="displayTooltips"
-              @mouseout="hideTooltips"
+              @mouseover="displayTooltip"
+              @mouseout="hideTooltip"
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
-              <th class="separator-th"></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
@@ -56,10 +93,9 @@
 
               <td>{{ ephnelCalcDmg(skill) }}%</td>
 
-              <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
+              <td :class="castChecked && (+skill.castCancel < +skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
-              <td class="separator-td"></td>
 
               <td class="dps">
                 {{
@@ -93,8 +129,8 @@
         <table v-else class="table table-striped table-skills">
           <thead>
             <tr 
-              @mouseover="displayTooltips" 
-              @mouseout="hideTooltips"
+              @mouseover="displayTooltip" 
+              @mouseout="hideTooltip"
             >
               <th scope="col">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier (DPS)</span></th>
@@ -122,7 +158,7 @@
                   }}%)
               </td>
 
-              <td :class="(castChecked && (skill.castCancel < skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
+              <td :class="(castChecked && (+skill.castCancel < +skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
 
               <td>
                 {{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s
@@ -154,6 +190,8 @@
 <script>
 import CharacterService from '../services/CharacterService';
 
+import { useGetSkillIcon, useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
+
 export default {
   props: ['charName'],
   data() {
@@ -171,12 +209,11 @@ export default {
     }
   },
   methods: {
+    getCharacterIcon(iconUrl) {
+      return useGetCharacterIcon(iconUrl)
+    },
     getImgUrl(iconUrl) {
-      try {
-        return require('@/assets/uploads/skills/' + iconUrl)
-      } catch (e) {
-        return 
-      }
+      return useGetSkillIcon(iconUrl)
     },
     toggleEphnelDesire() {
       this.dwChecked = !this.dwChecked;
@@ -184,7 +221,7 @@ export default {
     },
     ephnelDW() {
       if (this.dwChecked) {
-        document.querySelector('.dw-container').classList.add('active')
+        // document.querySelector('.dw-container').classList.add('active')
 
         if (this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
@@ -217,7 +254,7 @@ export default {
           dwChecked: this.dwChecked
         })
       } else {
-        document.querySelector('.dw-container').classList.remove('active')
+        // document.querySelector('.dw-container').classList.remove('active')
 
         if (this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
@@ -254,11 +291,11 @@ export default {
       this.castChecked = !this.castChecked;
 
       if (this.castChecked) {
-        document.querySelector('.cast-container').classList.add('active')
+        // document.querySelector('.cast-container').classList.add('active')
 
         this.$emit('cast-cancel', this.castChecked)
       } else {
-        document.querySelector('.cast-container').classList.remove('active')
+        // document.querySelector('.cast-container').classList.remove('active')
         this.$emit('cast-cancel', this.castChecked)
       }
     },
@@ -267,10 +304,10 @@ export default {
       this.ephnelBullet = !this.ephnelBullet
 
       if (this.ephnelBullet) {
-        document.querySelector('.ephnel-bullet').classList.add('active-dmg')
+        document.querySelector('.ephnel-bullet').classList.add('active-buff')
         
         // Disable Ephnel Release checkbox
-        document.querySelector('.ephnel-release').classList.remove('active-dmg')
+        document.querySelector('.ephnel-release').classList.remove('active-buff')
 
         if (this.dwChecked && !this.ephnelRelease) {
           Array.from(this.skillsTable).map(skill => {
@@ -298,7 +335,7 @@ export default {
         if (this.dwChecked) this.ephnelDW()
 
       } else {
-        document.querySelector('.ephnel-bullet').classList.remove('active-dmg')
+        document.querySelector('.ephnel-bullet').classList.remove('active-buff')
 
         if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
@@ -318,10 +355,10 @@ export default {
       this.ephnelRelease = !this.ephnelRelease
 
       if (this.ephnelRelease) {
-        document.querySelector('.ephnel-release').classList.add('active-dmg')
+        document.querySelector('.ephnel-release').classList.add('active-buff')
 
         // Disable Ephnel Bullet checkbox
-        document.querySelector('.ephnel-bullet').classList.remove('active-dmg')
+        document.querySelector('.ephnel-bullet').classList.remove('active-buff')
         
         if (this.dwChecked && !this.ephnelBullet) {
           Array.from(this.skillsTable).map(skill => {
@@ -349,7 +386,7 @@ export default {
         if (this.dwChecked) this.ephnelDW()
 
       } else {
-        document.querySelector('.ephnel-release').classList.remove('active-dmg')
+        document.querySelector('.ephnel-release').classList.remove('active-buff')
 
         if (this.dwChecked) {
            Array.from(this.skillsTable).map(skill => {
@@ -440,25 +477,14 @@ export default {
           break;
       }
     },
-    sortTab() {
-      let tbody = document.querySelector('tbody');
-      let tr = Array.from(document.querySelectorAll('tbody tr'));
-
-      tr.forEach(tr => tr.remove())
-      tr.sort((a, b) => {
-        return a.querySelector('td.dps').textContent - b.querySelector('td.dps').textContent
-      })
-      tr.forEach(tr => tbody.append(tr))
+    // sortTab() {
+    //   useSortTable()
+    // },
+    displayTooltip(e) {
+      useDisplayTooltip(e)
     },
-    displayTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "block"
-      }
-    },
-    hideTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "none"
-      }
+    hideTooltip(e) {
+      useHideTooltip(e)
     },
   },
   computed: {
@@ -471,7 +497,7 @@ export default {
     .then(res => {
       this.char = res.data.character;
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
-      this.displayTooltips
+      this.displayTooltip
       this.$emit('skills-table', {
         skillsTable: this.skillsTable,
         dwChecked: this.dwChecked
@@ -489,10 +515,6 @@ export default {
   .description {
     color: white;
   }
-  .nabi-note {
-    font-style: italic;
-    color: cyan;
-  }
   .checked {
     background-color: #0064e1 !important;
   }
@@ -502,17 +524,12 @@ export default {
   }
   /* SKills details */
   .skills-details {
+    width: 800px;
     min-width: 715px;
     margin: 0 1em;
     padding-top: 3em;
   }
-  .char-info {
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: 1em;
-    color: white;
-    align-items: flex-start;
-  }
+  
   .cancel-active {
     color: #00fdce;
   }
@@ -544,71 +561,59 @@ export default {
   .disabled {
     opacity: 0;
   }
-  .tooltip-container {
-    position: relative;
-  }
-  .tooltip-container:hover {
-    cursor: pointer;
-  }
-  .tooltip-msg {
-    display: none;
-    position: absolute;
-    max-width: 200px;
-    width: max-content;
-    z-index: 999;
-    top: 50px;
-    right: 0;
-    text-align: left;
-    padding: 10px;
-    border: 1px solid white;
-    background: #000000a1;
-  }
-  thead {
-    position: sticky;
-    top: -1px;
-  }
-  th {
-    border-bottom: 0;
-    vertical-align: middle;
-    width: 40px;
-    border-top: 0;
-    font-size: 0.9em;
-  }
-  td {
-    padding: 0.7rem 0 0.3rem 0;
+
+  .ephnel-buff {
     color: white;
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1.5fr;
+    grid-gap: 0 5px;
+    align-items: center;
+    /* width: 650px; */
+    margin: 0 auto;
+    padding: 0.5rem 10rem;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    background-color: #00441bd1;
   }
-  .table-skills { 
-    border-spacing: 0px;
-    border: 1px solid white;
-    margin-top: 2em;
-  }
-  thead > tr > td:first-child,
-  tbody > tr > td:first-child {
-    padding-left: 0.5rem;
-  }
-  tbody {
-    text-align: center;
-    font-size: 15px;
-  }
-  th {
-    color: white;
-    padding: 5px 0;
-  }
-   td {
-    vertical-align: middle;
-  }
-  th.separator-th {
-    width: 1px !important;
-    background: #ffffff7a;
-  }
-  .separator-td {
-    width: 1px;
-    background: #ffffff7a;
-  }
-  .table-skills p {
+  .ephnel-buff p {
     margin: 0;
+    background: #008751;
+    border: 1px solid white;
+    padding: 0.5em 0;
   }
+  .ephnel-buff button {
+    background: #135d3a7a;
+    border: 0;
+    color: white;
+    height: 40px;
+    box-shadow: inset 0 0 0 0 white;
+  }
+  .ephnel-buff button.active-buff {
+    background-color: #008751;
+    box-shadow: inset 0 0 0 1px white;
+  }
+  /* .active-dmg {
+    border: 1px solid white !important;
+    background: #00802d7d !important;
+  } */
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
+  @media screen and (max-width: 500px) {
+    .ephnel-buff {
+      flex-direction: column;
+      height: 150px;
+    }
+    .ephnel-buff > div {
+      width: 240px;
+    }
+  }
+
+ 
+
+
 
   /* Responsive */
   @media screen and (max-width: 768px) {
@@ -619,7 +624,7 @@ export default {
       width: 150px;
     }
   }
-  @media screen and (max-width: 500px) {
+  /* @media screen and (max-width: 500px) {
     .char-info {
       flex-direction: column;
       align-items: center;
@@ -638,5 +643,5 @@ export default {
     .checkmark {
       margin-right: 10px;
     }
-  }
+  } */
 </style>

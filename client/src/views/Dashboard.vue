@@ -1,30 +1,35 @@
 <template>
   <div class="dashboard">
-    <div>
+    <div class="characters-container">
       <div class="characters">
-        <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)">
+        <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)" :class="currentCharacter === char.name ? 'active' : ''">
           <img
-            :src="getCharIcon(char.icon)"
+            :src="getCharacterIcon(char.icon)"
             :alt="char.name + ' icon'"
             width="150"
             height="150"
+            v-if='char.name !== "tmp"'
           >
         </div>
+        <!-- <select name="characters" id="characters" @change="getCharacterSkills(char.name)">
+          <option value="default" selected disabled>Select character</option>
+          <option v-for="character in charList" :key="character._id" :value="character.name">{{ character.name }}</option>
+        </select> -->
       </div>
-      <router-link to="/add-new-skill" class="addChar">Add skill</router-link>
+      <router-link  v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
     </div>
-    <div class="skills">
+    <div class="skills-container">
       <table class="table table-dark table-striped">
         <thead>
           <tr>
             <th scope="col">Icon</th>
-            <th scope="col">Skill</th>
-            <th scope="col">Dmg</th>
+            <th scope="col" style="width: 340px">Skill</th>
+            <th scope="col">Damage</th>
             <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
-            <th scope="col" v-if="currentCharacter === 'Ephnel'">R+B</th>
+            <th scope="col" v-if="currentCharacter === 'Ephnel'">Release + Bullet</th>
             <th scope="col">CD</th>
             <th scope="col">Cast</th>
-            <th scope="col">C.Cancel</th>
+            <th scope="col">Cast Cancel</th>
             <th scope="col">DW</th>
             <th scope="col" v-if="currentCharacter === 'Chii'">Mark</th>
             <th scope="col">Character</th>
@@ -34,48 +39,43 @@
         <tbody>
           <tr v-for="skill in skillsList" :key="skill._id" :id="`tr-${skill._id}`">
             <td scope="row">
-              <img
-                :src="getSkillIcon(skill.icon)"
-              >
+              <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
             </td>
             <td>
               <input type="text" name="skillName" class="skill-name" :value="skill.skillName" disabled>
             </td>
             <td>
-              <input type="text" name="dmg" class="skill-dmg" :value="skill.dmg" disabled>
+              <input type="text" name="dmg" class="skill-dmg" :value="skill.dmg" title="Integer" disabled>
             </td>
             <td v-if="currentCharacter === 'Ephnel'">
-              <input type="text" name="dmgBullet" class="ephnel-bullet" :value="skill.dmgBullet" disabled>
+              <input type="text" name="dmgBullet" class="ephnel-bullet" :value="skill.dmgBullet" title="Integer" disabled>
             </td>
             <td v-if="currentCharacter === 'Ephnel'">
-              <input type="text" name="dmgRelease" class="ephnel-release" :value="skill.dmgRelease" disabled>
+              <input type="text" name="dmgRelease" class="ephnel-release" :value="skill.dmgRelease" title="Integer" disabled>
             </td>
             <td>
-              <input type="text" name="cd" :value="skill.cd" disabled>
+              <input type="text" name="cd" :value="skill.cd" title="Integer" disabled>
             </td>
             <td>
-              <input type="text" name="cast" :value="skill.cast" disabled>
+              <input type="text" name="cast" :value="skill.cast" title="Integer" disabled>
             </td>
             <td>
-              <input type="text" name="castCancel" :value="skill.castCancel" disabled>
+              <input type="text" name="castCancel" :value="skill.castCancel" title="Integer" disabled>
             </td>
             <td>
-              <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" disabled>
+              <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" title="Float (minimum one digit after floating point)" disabled>
             </td>
             <td v-if="currentCharacter === 'Chii'">
-              <input type="text" name="mark" class="chii-mark" :value="skill.mark" disabled>
+              <input type="text" name="mark" class="chii-mark" :value="skill.mark" title="Integer" disabled>
             </td>
             <td>
               <input type="text" name="character" class="character-name" :value="skill.character" disabled>
-              <!-- <select v-model="character">
-                <option v-for="char in charList" :key="char._id" :value="char.name">{{ char.name }}</option>
-              </select> -->
             </td>
             <td class="actions">
-              <i class="fa-solid fa-pen-to-square" @click="editSkill($event, skill)"></i>
+              <i class="fa-solid fa-pen-to-square" title="Edit skill" @click="editSkill($event, skill)"></i>
               <div class="hidden">
-                <i class="fa-solid fa-check" @click="saveChanges($event, skill)"></i>
-                <i class="fa-solid fa-xmark" @click="cancelChanges($event, skill)"></i>
+                <i class="fa-solid fa-check" title="Apply changes" @click="saveChanges($event, skill)"></i>
+                <i class="fa-solid fa-xmark" title="Cancel changes" @click="cancelChanges($event, skill)"></i>
               </div>
             </td>
           </tr>
@@ -89,28 +89,26 @@
 import CharacterService from '../services/CharacterService';
 import SkillService from '../services/SkillService'
 
+import { useGetCharactersIcons, useGetCharacterIcon, useGetSkillIcon } from '../composable/functions';
+
 export default {
   data() {
     return {
       charList: [],
       skillsList: [],
       currentCharacter: '',
+      error: false
     }
   },
   methods: {
     async getAllCharacters() {
-      try {
-        const res = await CharacterService.getAllCharacters()
-        this.charList = res.data.charList;
-      } catch (error) {
-        console.log('Error :', error);
-      }
+      this.charList = await useGetCharactersIcons()
     },
-    getCharIcon(iconUrl) {
-      return require('@/assets/uploads/characters/' + iconUrl.split('.')[0] + '.png')
+    getCharacterIcon(iconUrl) {
+      return useGetCharacterIcon(iconUrl)
     },
     getSkillIcon(iconUrl) {
-      return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
+      return useGetSkillIcon(iconUrl)
     },
     getCharacterSkills(name) {
       CharacterService.getCharacterInfo(name)
@@ -119,10 +117,30 @@ export default {
         this.currentCharacter = name
       })
     },
+    validateInput({name, value}) {
+      switch(name) {
+        case 'dmg':
+        case 'cd':
+        case 'cast':
+        case 'castCancel':
+          if (!(/^[0-9]+$/).test(value)) this.error = true
+          break
+        case 'skillName':
+          if (!(/^[a-z0-9() ]+$/i).test(value)) this.error = true
+          break
+        case 'dwBoost': 
+          if (!(/^[0-9]{1}([.][0-9]{1,4})$/).test(value)) this.error = true
+          break
+        default: 
+          break
+      }
+    },
     editSkill(event, skill) {
       const inputs = document.querySelectorAll(`#tr-${skill._id} input`)
 
       inputs.forEach(input => {
+        if (input.name === 'dwBoost' && input.value == '' || input.name === 'character') return
+
         input.classList.add('edit')
         input.disabled = false
       })
@@ -131,33 +149,47 @@ export default {
       event.target.nextElementSibling.className = ''
     },
     async saveChanges(event, skill) {
+      this.error = false
+
       const inputs = document.querySelectorAll(`#tr-${skill._id} input`)
       const skillObj = {...skill}
 
       inputs.forEach(input => {
+        // console.log(input)
+        if (input.name === 'dwBoost' && input.value == '') return
+
+        this.validateInput({name: input.name, value: input.value})
+
         skillObj[input.name] = input.value
       })
 
-      if (!skill.dwBoost) {
-        delete skillObj.dwBoost
+      // if (!skill.dwBoost) {
+      //   delete skillObj.dwBoost
+      // }
+
+      if (this.error) {
+        console.log('Error', this.error);
+        return
+      } else {
+        console.log(skillObj)
+
+         // try {
+        //   await SkillService.updateSkill(skillObj)
+        //   await this.getCharacterSkills(this.currentCharacter)
+
+        //   inputs.forEach(input => {
+        //     input.classList.remove('edit')
+        //     input.disabled = true
+        //   })
+
+        //   event.target.parentElement.className = 'hidden'
+        //   event.target.parentElement.previousElementSibling.classList.remove('hidden')
+        // } catch(err) {
+        //   console.log(err)
+        // }
       }
 
-      // console.log(skillObj)
-
-      try {
-        await SkillService.updateSkill(skillObj)
-        await this.getCharacterSkills(this.currentCharacter)
-
-        inputs.forEach(input => {
-          input.classList.remove('edit')
-          input.disabled = true
-        })
-
-        event.target.parentElement.className = 'hidden'
-        event.target.parentElement.previousElementSibling.classList.remove('hidden')
-      } catch(err) {
-        console.log(err)
-      }
+     
     },
     cancelChanges(event, skill) {
       const inputs = document.querySelectorAll(`#tr-${skill._id} input`)
@@ -179,7 +211,7 @@ export default {
   },
   created() {
     this.getAllCharacters();
-    this.getCharacterSkills('Dana')
+    this.getCharacterSkills('Iris')
   },
 }
 </script>
@@ -191,31 +223,65 @@ export default {
     width: 95%;
     margin: 2em auto 4em auto;
   }
-  .dashboard > div:first-child {
+
+  /* ---------- */
+  /* Characters */
+  /* ---------- */
+  .characters-container {
     display: flex;
     flex-direction: column;
     gap: 30px 0;
-    width: 435px;
+    width: 240px;
   }
   .characters {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     height: fit-content;
     gap: 10px;
+    /* border: 1px solid white;
+    background: #212529;
+    padding: 1em 0; */
   }
   .characters img {
     width: 100px;
     height: 100px;
+    border-radius: 100%;
   }
-  .characters img:hover {
+  .characters > div {
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .characters > div:hover {
     cursor: pointer;
-    opacity: 0.8;
+    background-color: #ffffff29;
   }
-  .skills {
+
+  .active {
+    background-color: #00b8ff6b !important;
+  }
+
+  /* ------------ */
+  /* Skills Table */
+  /* ------------ */
+  .skills-container {
     min-width: 1000px;
+    width: 1200px;
+    height: fit-content;
+    border: 1px solid white;
   }
-  .addChar {
+
+  .skills-container th {
+    width: 7.5%;
+  }
+
+  .add-character {
     float: left;
     padding: 0.2em 0.5em;
     background: none;
@@ -223,15 +289,21 @@ export default {
     text-decoration: none;
     color: white;
   }
-  .addChar:hover {
+
+  .add-character:hover {
     background: #ffffff21
   }
+
   table {
     color: white;
+    margin: 0;
   }
+
   tbody td {
     vertical-align: middle;
   }
+
+  /* Stats inputs */
   input {
     background: none;
     outline: 0;
@@ -240,24 +312,44 @@ export default {
     text-align: center;
     width: 40px;
   }
+
   input.skill-name {
-    width: 150px;
+    width: 100%;
   }
-  input.skill-dmg {
-    width: 55px;
-  }
-  input.character-name {
+
+  input.skill-dmg,
+  input.character-name,
+  input.skill-dw
+  {
     width: 60px;
   }
-  input.skill-dw {
-    width: 60px;
-  }
+
+
   input::placeholder {
     color: white;
   }
+
+  /* Actions icons */
+  .actions .fa-solid:hover {
+    cursor: pointer;
+  }
+  
+  .fa-pen-to-square:hover {
+    color: #00b8ff;
+  }
+
+  .fa-check {
+    color: green
+  }
+
+  .fa-xmark {
+    color: red;
+  }
+
   .edit {
     background: #78787857;
   }
+
   .hidden {
     display: none!important;
   }
