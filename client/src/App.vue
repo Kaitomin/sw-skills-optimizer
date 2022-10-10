@@ -1,13 +1,14 @@
 <template>
   <div>
     <Nav />
+    <NavAdmin v-if="userRole" :userRole=userRole @logout=logout />
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="$route.fullPath" v-if="$route.meta.keepAlive"></component>
       </keep-alive>
       <component :is="Component" :key="$route.fullPath" v-if="!$route.meta.keepAlive"></component>
     </router-view>
-    <NavAdmin :userRole=userRole @logout=logout />
+    <!-- <NavAdmin :userRole=userRole @logout=logout /> -->
   </div>
 </template>
 
@@ -61,7 +62,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background: #ffffff12;
+  background: #0034347a;
   padding: 10px 25px;
   border-bottom: 1px solid white;
 }

@@ -42,6 +42,12 @@ const routes = [
     meta: { title: 'Login', content: 'Login to access edit feature' },
     component: lazyLoad('Login')
   },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   meta: { title: 'New account', content: 'Create a new account' },
+  //   component: lazyLoad('Register')
+  // },
   {
     path: '/calculator',
     name: 'Calculator',

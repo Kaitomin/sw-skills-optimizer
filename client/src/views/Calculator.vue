@@ -54,7 +54,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #000000b5; border: 1px solid white"
+            style="background-color: #002c2ce6; border: 1px solid white"
           />
 
           <div class="info">
@@ -358,7 +358,7 @@ export default {
     },
     backgroundBlack() {
       return {
-        '--bg-black': '#000000b5'
+        '--bg-black': '#002c2ce6'
       }
     }
   },

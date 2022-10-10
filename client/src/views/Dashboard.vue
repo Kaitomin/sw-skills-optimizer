@@ -19,17 +19,17 @@
       <router-link  v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
     </div>
     <div class="skills-container">
-      <table class="table table-dark table-striped">
+      <table class="table table-striped skills-table">
         <thead>
           <tr>
             <th scope="col">Icon</th>
             <th scope="col" style="width: 340px">Skill</th>
             <th scope="col">Damage</th>
             <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
-            <th scope="col" v-if="currentCharacter === 'Ephnel'">Release + Bullet</th>
+            <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
             <th scope="col">CD</th>
             <th scope="col">Cast</th>
-            <th scope="col">Cast Cancel</th>
+            <th scope="col">Cast cancel</th>
             <th scope="col">DW</th>
             <th scope="col" v-if="currentCharacter === 'Chii'">Mark</th>
             <th scope="col">Character</th>
@@ -42,7 +42,7 @@
               <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
             </td>
             <td>
-              <input type="text" name="skillName" class="skill-name" :value="skill.skillName" disabled>
+              <input type="text" name="skillName" class="skill-name" :value="skill.skillName" title="Alphanumeric ( - ) % " disabled>
             </td>
             <td>
               <input type="text" name="dmg" class="skill-dmg" :value="skill.dmg" title="Integer" disabled>
@@ -126,7 +126,7 @@ export default {
           if (!(/^[0-9]+$/).test(value)) this.error = true
           break
         case 'skillName':
-          if (!(/^[a-z0-9() ]+$/i).test(value)) this.error = true
+          if (!(/^[-a-z0-9()%' ]+$/i).test(value)) this.error = true
           break
         case 'dwBoost': 
           if (!(/^[0-9]{1}([.][0-9]{1,4})$/).test(value)) this.error = true
@@ -168,25 +168,34 @@ export default {
       // }
 
       if (this.error) {
-        console.log('Error', this.error);
+        // console.log('Error', this.error);
+        confirm('Unauthorized characters, hover over each input for more details')
         return
       } else {
-        console.log(skillObj)
+        // console.log(skillObj)
 
-         // try {
-        //   await SkillService.updateSkill(skillObj)
-        //   await this.getCharacterSkills(this.currentCharacter)
+         try {
 
-        //   inputs.forEach(input => {
-        //     input.classList.remove('edit')
-        //     input.disabled = true
-        //   })
+          // Test
+          const res = await SkillService.updateSkill(skillObj)
+          const skill = res.data.skill
+          // console.log('SKILL', skill)
+          // endTest
 
-        //   event.target.parentElement.className = 'hidden'
-        //   event.target.parentElement.previousElementSibling.classList.remove('hidden')
-        // } catch(err) {
-        //   console.log(err)
-        // }
+
+          // await SkillService.updateSkill(skillObj)
+          await this.getCharacterSkills(this.currentCharacter)
+
+          inputs.forEach(input => {
+            input.classList.remove('edit')
+            input.disabled = true
+          })
+
+          event.target.parentElement.className = 'hidden'
+          event.target.parentElement.previousElementSibling.classList.remove('hidden')
+        } catch(err) {
+          console.log(err)
+        }
       }
 
      
@@ -211,7 +220,7 @@ export default {
   },
   created() {
     this.getAllCharacters();
-    this.getCharacterSkills('Iris')
+    this.getCharacterSkills('Ephnel')
   },
 }
 </script>
@@ -224,6 +233,10 @@ export default {
     margin: 2em auto 4em auto;
   }
 
+
+
+
+
   /* ---------- */
   /* Characters */
   /* ---------- */
@@ -231,19 +244,18 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 30px 0;
-    width: 240px;
+    width: 275px;
   }
   .characters {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     height: fit-content;
     gap: 10px;
-    /* border: 1px solid white;
-    background: #212529;
-    padding: 1em 0; */
+    border: 1px solid white;
+    background: #042c2c;
+    padding: 1em 10px;
   }
   .characters img {
     width: 100px;
@@ -262,10 +274,13 @@ export default {
     cursor: pointer;
     background-color: #ffffff29;
   }
-
   .active {
     background-color: #00b8ff6b !important;
   }
+
+
+
+
 
   /* ------------ */
   /* Skills Table */
@@ -276,11 +291,9 @@ export default {
     height: fit-content;
     border: 1px solid white;
   }
-
   .skills-container th {
     width: 7.5%;
   }
-
   .add-character {
     float: left;
     padding: 0.2em 0.5em;
@@ -289,16 +302,19 @@ export default {
     text-decoration: none;
     color: white;
   }
-
   .add-character:hover {
     background: #ffffff21
   }
-
+  .skills-table tr {
+    background-color: #042c2c;
+  }
+  .skills-table > tbody > tr:nth-of-type(odd) {
+    background-color: #071f1f;
+  }
   table {
     color: white;
     margin: 0;
   }
-
   tbody td {
     vertical-align: middle;
   }
@@ -312,19 +328,15 @@ export default {
     text-align: center;
     width: 40px;
   }
-
   input.skill-name {
     width: 100%;
   }
-
   input.skill-dmg,
   input.character-name,
   input.skill-dw
   {
     width: 60px;
   }
-
-
   input::placeholder {
     color: white;
   }
@@ -333,29 +345,53 @@ export default {
   .actions .fa-solid:hover {
     cursor: pointer;
   }
-  
   .fa-pen-to-square:hover {
     color: #00b8ff;
   }
-
+  .fa-check, .fa-xmark {
+    font-size: 20px;
+  }
   .fa-check {
-    color: green
+    color: green;
   }
 
   .fa-xmark {
     color: red;
   }
-
   .edit {
     background: #78787857;
-  }
-
+  } 
   .hidden {
     display: none!important;
   }
-
   .actions > div {
     display: flex;
     justify-content: space-around;
   }
+
+
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
+  @media screen and (max-width: 1550px) {
+    .dashboard {
+      flex-direction: column;
+      width: 100%;
+      gap: 2em;
+    }
+
+    /* Characters */
+    .characters-container {
+      width: 100%;
+    }
+
+    /* Skills */
+    .skills-container {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+
 </style>

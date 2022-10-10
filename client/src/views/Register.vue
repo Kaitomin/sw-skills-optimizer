@@ -51,6 +51,7 @@ export default {
 <style scoped>
   .register-container {
     margin-top: 5rem;
+    color: white;
   }
   .register-container form {
     display: flex;

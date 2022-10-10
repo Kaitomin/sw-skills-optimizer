@@ -1,17 +1,5 @@
 <template>
   <div class="characters-container" :style="containerHeight">
-    <!-- <div class="characters-list">
-      <div :class="(char.name == 'Jin') ? 'hidden' : ''" v-for="char in charList" :key="char._id">
-        <router-link :to="'/character/' + char.name">
-          <img
-            :src="getCharacterIcon(char.icon)"
-            :alt="char.name + ' icon'"
-            width="150"
-            height="150"
-          >
-        </router-link>
-      </div>
-    </div> -->
     <div class="contact">
       <p>- Website author - <br> Kaitomin</p>
       <p>- Skills editor - <br> Tatufo</p> 
@@ -69,15 +57,14 @@ export default {
     display: none;
   }
   .characters-container {
-    /* max-width: 500px; */
-    /* margin: 0 auto; */
-    height: var(--container-height);
+    margin-top: 2em;
+    /* height: var(--container-height); */
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .characters-container::before {
+  /* .characters-container::before {
     content: ' ';
     display: block;
     position: absolute;
@@ -88,7 +75,7 @@ export default {
     background: url('../assets/img/homepage.webp');
     background-repeat: no-repeat;
     height: var(--container-height);
-  }
+  } */
   
   .characters-list {
     display: flex;
@@ -115,6 +102,7 @@ export default {
     border: 1px solid white;
     color: white;
     text-align: left;
+    background-color: #071f1f;
   }
   .contact p {
     margin-bottom: 0;

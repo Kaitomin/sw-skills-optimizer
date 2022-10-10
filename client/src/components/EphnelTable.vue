@@ -522,6 +522,7 @@ export default {
     background: #0064e178 !important;
     border: 1px solid white !important;
   }
+
   /* SKills details */
   .skills-details {
     width: 800px;
@@ -529,7 +530,6 @@ export default {
     margin: 0 1em;
     padding-top: 3em;
   }
-  
   .cancel-active {
     color: #00fdce;
   }
@@ -561,7 +561,6 @@ export default {
   .disabled {
     opacity: 0;
   }
-
   .ephnel-buff {
     color: white;
     display: grid;
@@ -583,20 +582,24 @@ export default {
     padding: 0.5em 0;
   }
   .ephnel-buff button {
-    background: #135d3a7a;
+    background: none;
     border: 0;
     color: white;
     height: 40px;
-    box-shadow: inset 0 0 0 0 white;
+    box-shadow: 0 0 0 0 white;
+  }
+  .ephnel-buff button:hover {
+    box-shadow: 0 0 0 1px white;
+    background-color: #ffffff1a;
   }
   .ephnel-buff button.active-buff {
     background-color: #008751;
     box-shadow: inset 0 0 0 1px white;
   }
-  /* .active-dmg {
-    border: 1px solid white !important;
-    background: #00802d7d !important;
-  } */
+
+
+
+
 
   /* ---------- */
   /* Responsive */
@@ -610,12 +613,6 @@ export default {
       width: 240px;
     }
   }
-
- 
-
-
-
-  /* Responsive */
   @media screen and (max-width: 768px) {
     .skills-details {
       min-width: 100%;

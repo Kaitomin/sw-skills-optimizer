@@ -280,9 +280,6 @@ export default {
           break;
       }
     },
-    // sortTab() {
-    //   useSortTable()
-    // },
     displayTooltip(e) {
       useDisplayTooltip(e)
     },
@@ -382,7 +379,6 @@ export default {
   td {
     padding: 0.7rem 0 0.3rem 0;
     color: white;
-    /* border-top: 0; */
   }
 
   .chii-explosion {

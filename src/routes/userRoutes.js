@@ -44,6 +44,15 @@ router.post('/logout', (req, res) => {
   return res.status(200).end();
 });
 
+// router.post('/register', (req, res) => {
+//   const newUser = new User({
+//     username: req.body.username,
+//     password: req.body.password
+//   })
+//   newUser.save()
+//   res.end()
+// })
+
 router.get('/session', getCurrUser, (req, res) => {
   if (res.locals.user) {
     return res.status(200).json({ 
