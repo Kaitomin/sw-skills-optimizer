@@ -340,14 +340,15 @@ export default {
 
   
   /* Responsive */
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     .skills-details {
       min-width: 100%;
+      width: 100%;
     }
     .tooltip-msg {
       width: 150px;
     }
-  }
+  } */
   /* @media screen and (max-width: 500px) {
     .char-info {
       flex-direction: column;

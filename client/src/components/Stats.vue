@@ -124,7 +124,7 @@ export default {
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
-    background: #002c2ce6;
+    background: #003c3ce6;
     border: 1px solid white;
   }
   label {
@@ -153,7 +153,7 @@ export default {
     border: none;	
     outline: none;
     border-bottom: 1px solid #3ce7d7;
-    background: #ffffff47;
+    background: #ffffff6e;
   }
   .stats input[type='color'] {
     width: 65px;

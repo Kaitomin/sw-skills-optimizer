@@ -6,7 +6,7 @@ const { getCurrUser } = require('../middleware/userMiddleware');
 require('dotenv').config();
 
 // JWT
-const maxAge = 3 * 24 * 60 * 60;
+const maxAge = 7 * 24 * 60 * 60;
 const createToken = (id, role) => {
     return jwt.sign({ id, role }, process.env.JWT_SECRET_KEY, { 
         expiresIn: maxAge
@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 
     return res.status(201).json({ user: user._id, role: user.role });
   } catch (error) {
-    return res.status(400).send({ 'error': 'NO' })
+    return res.status(400).send({ 'error': 'Invalid user' })
   }
 });
 

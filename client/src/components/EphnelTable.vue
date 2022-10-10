@@ -573,7 +573,7 @@ export default {
     border-left: 1px solid white;
     border-right: 1px solid white;
     border-bottom: 1px solid white;
-    background-color: #00441bd1;
+    background-color: #003827f0;
   }
   .ephnel-buff p {
     margin: 0;
@@ -604,22 +604,27 @@ export default {
   /* ---------- */
   /* Responsive */
   /* ---------- */
-  @media screen and (max-width: 500px) {
-    .ephnel-buff {
-      flex-direction: column;
-      height: 150px;
-    }
-    .ephnel-buff > div {
-      width: 240px;
-    }
-  }
-  @media screen and (max-width: 768px) {
+  
+  /* @media screen and (max-width: 768px) {
     .skills-details {
       min-width: 100%;
     }
     .tooltip-msg {
       width: 150px;
     }
+  } */
+  @media screen and (max-width: 650px) {
+    .ephnel-buff {
+      padding: 0.5rem;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .ephnel-buff {
+      grid-template-columns: 1fr;
+    }
+    /* .ephnel-buff > div {
+      width: 240px;
+    } */
   }
   /* @media screen and (max-width: 500px) {
     .char-info {

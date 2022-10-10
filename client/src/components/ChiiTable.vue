@@ -388,7 +388,7 @@ export default {
     border-bottom: 1px solid white;
     padding: 0.5rem 1rem;
     color: white;
-    background-color: #44001ed1;
+    background-color: #380019f0;
   }
   .chii-explosion p {
     margin-bottom: 0;

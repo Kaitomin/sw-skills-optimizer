@@ -76,40 +76,40 @@ export default {
       containerH: '',
       ephDmg: '',
       colors: {
-        '--erwin-primary': '#001938e0',
-        '--erwin-secondary': '#00224ce0',
+        '--erwin-primary': '#001938f0',
+        '--erwin-secondary': '#00224ce6',
         '--erwin-tertiary': '#00295c',
 
-        '--iris-primary': '#380000e0',
-        '--iris-secondary': '#4c0000e0',
+        '--iris-primary': '#380000f0',
+        '--iris-secondary': '#4c0000e6',
         '--iris-tertiary': '#5c0000',
 
-        '--dana-primary': '#160038e0',
-        '--dana-secondary': '#1d004ce0',
+        '--dana-primary': '#160038f0',
+        '--dana-secondary': '#1d004ce6',
         '--dana-tertiary': '#1f005c',
 
-        '--stella-primary': '#250038e0',
-        '--stella-secondary': '#2f004ce0',
+        '--stella-primary': '#250038f0',
+        '--stella-secondary': '#2f004ce6',
         '--stella-tertiary': '#30005c',
 
-        '--chii-primary': '#44001ed1',
-        '--chii-secondary': '#87003ba3',
-        '--chii-tertiary': '#9f0045',
+        '--chii-primary': '#380019f0',
+        '--chii-secondary': '#4c0025e6',
+        '--chii-tertiary': '#5c0026',
 
-        '--ephnel-primary': '#00441bd1',
-        '--ephnel-secondary': '#008749a3',
-        '--ephnel-tertiary': '#009f5d',
+        '--ephnel-primary': '#003827f0',
+        '--ephnel-secondary': '#004c32e6',
+        '--ephnel-tertiary': '#005c3a',
 
-        '--lily-primary': '#380038e0',
-        '--lily-secondary': '#4b004ce0',
+        '--lily-primary': '#380038f0',
+        '--lily-secondary': '#4b004ce6',
         '--lily-tertiary': '#5c005b',
 
-        '--nabi-primary': '#002e38e0',
-        '--nabi-secondary': '#00414ce0',
+        '--nabi-primary': '#002e38f0',
+        '--nabi-secondary': '#00414ce6',
         '--nabi-tertiary': '#004b5c',
 
-        '--haru-primary': '#382400e0',
-        '--haru-secondary': '#4c3100e0',
+        '--haru-primary': '#382400f0',
+        '--haru-secondary': '#4c3100e6',
         '--haru-tertiary': '#5c3300',
 
       }
@@ -244,7 +244,7 @@ export default {
     left: 0;
     width: 100%;
     z-index: -999;
-    opacity: 0.7;
+    opacity: 0.8;
     background: var(--character-bg);
     background-position: center;
     background-size: cover;
@@ -342,12 +342,12 @@ export default {
   /* Animation */
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; }  
+    100% { opacity: 0.8; }  
   }
 
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; } 
+    100% { opacity: 0.8; } 
   }
 
 

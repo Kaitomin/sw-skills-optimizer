@@ -54,7 +54,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #002c2ce6; border: 1px solid white"
+            style="background-color: #003c3ce6; border: 1px solid white"
           />
 
           <div class="info">
@@ -69,7 +69,7 @@
 
         <div class="notes">
           <div>
-            <p>⬥ ATK = character max atk value</p>
+            <p>⬥ ATK = character max attack value</p>
             <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
             <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does more/less dmg than Setup 2")</p>
             <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
@@ -358,7 +358,7 @@ export default {
     },
     backgroundBlack() {
       return {
-        '--bg-black': '#002c2ce6'
+        '--bg-black': '#003c3ce6'
       }
     }
   },
@@ -399,6 +399,7 @@ export default {
     background-repeat: no-repeat;
     animation: 2s ease-in 0s fadeIn;
   }
+
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
     100% { opacity: 0.7; }  
@@ -407,6 +408,7 @@ export default {
     0% { opacity: 0; }
     100% { opacity: 0.7; } 
   }
+
   .calculator {
     display: grid;
     justify-content: space-between;
@@ -436,7 +438,7 @@ export default {
   .stats-container > div:nth-child(2) {
     grid-area: setup2
   }
-  .stats-container > button.btn-save {
+  button.btn-save {
     grid-area: save;
     color: white;
     padding: 5px 0;
@@ -448,8 +450,8 @@ export default {
     border-right: 1px solid white;
     border-bottom: 1px solid white;
   }
-  .stats-container > button.btn-save:hover {
-    background: #0000009a;
+  button.btn-save:hover {
+    background: #007878e6;
     /* -webkit-transition: background 0.1s linear;
     -ms-transition: background 0.1s linear;
     transition: background 0.1s linear; */
@@ -470,7 +472,7 @@ export default {
   }
   .target-container > div:hover {
     cursor: pointer;
-    background: #0000009f;
+    background: #007878e6;
   }
   .target-container label {
     font-size: 16px;
@@ -526,7 +528,7 @@ export default {
     text-decoration: none;
   }
   .selected-target {
-    background: #00ffff5e !important;
+    background: #00b5b1 !important;
   }
   .positive {
     color: #00ff14;
@@ -545,6 +547,13 @@ export default {
     background: #0000006b;
   }
 
+
+
+
+  
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 1080px) {
     .calculator {
       justify-content: center;
@@ -566,11 +575,16 @@ export default {
 
   @media screen and (max-width: 566px) {
     .stats-container {
-      flex-direction: column;
+      grid-template-areas: "setup1" 
+                           "setup2"
+                           "save";
+      gap: 10px 0;
     }
-    .stats {
-      /* width: 100%; */
-      /* margin: 0 auto; */
+    .stats-container > div[data-v-19334bbc]:first-child {
+      border-right: 1px solid white;
+    }
+    button.btn-save {
+      border-top: 1px solid white;
     }
     .notes {
       text-align: center;

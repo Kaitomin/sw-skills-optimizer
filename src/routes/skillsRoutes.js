@@ -54,7 +54,6 @@ router.put('/dashboard', async (req, res) => {
     console.log('--MOD--', req.body)
 
     res.status(201).json({ skill })
-    
   } catch (err) {
     console.log(err)
   }

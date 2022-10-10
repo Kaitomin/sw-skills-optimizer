@@ -28,7 +28,7 @@ export default {
   .nav-admin {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     height: 50px;
     font-weight: 900;

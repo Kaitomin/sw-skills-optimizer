@@ -11,10 +11,6 @@
             v-if='char.name !== "tmp"'
           >
         </div>
-        <!-- <select name="characters" id="characters" @change="getCharacterSkills(char.name)">
-          <option value="default" selected disabled>Select character</option>
-          <option v-for="character in charList" :key="character._id" :value="character.name">{{ character.name }}</option>
-        </select> -->
       </div>
       <router-link  v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
     </div>
@@ -123,6 +119,9 @@ export default {
         case 'cd':
         case 'cast':
         case 'castCancel':
+        case 'dmgBullet':
+        case 'dmgRelease':
+        case 'mark':
           if (!(/^[0-9]+$/).test(value)) this.error = true
           break
         case 'skillName':
@@ -179,7 +178,6 @@ export default {
           // Test
           const res = await SkillService.updateSkill(skillObj)
           const skill = res.data.skill
-          // console.log('SKILL', skill)
           // endTest
 
 
@@ -322,11 +320,11 @@ export default {
   /* Stats inputs */
   input {
     background: none;
-    outline: 0;
+    /* outline: 0; */
     border: 0;
     color: white;
     text-align: center;
-    width: 40px;
+    width: 60px;
   }
   input.skill-name {
     width: 100%;
@@ -359,7 +357,7 @@ export default {
     color: red;
   }
   .edit {
-    background: #78787857;
+    background: #ffffff61;
   } 
   .hidden {
     display: none!important;
