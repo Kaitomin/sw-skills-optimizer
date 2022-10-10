@@ -128,6 +128,7 @@ export default {
   .btn {
     background: #ffffffad;
     color: white;
+    border: 1px solid white;
   }
   .fa-arrow-rotate-right {
     color: blue;

@@ -133,7 +133,7 @@ export default {
     getSkillIcon(iconUrl) {
       return useGetSkillIcon(iconUrl)
     },
-    toggleDesire(e) {
+    toggleDesire() {
       this.dwChecked = !this.dwChecked;
 
       if (this.dwChecked) {

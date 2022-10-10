@@ -62,7 +62,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background: #0034347a;
+  background: #1c1c1c;
   padding: 10px 25px;
   border-bottom: 1px solid white;
 }
@@ -87,13 +87,6 @@ export default {
   display: block;
   padding: 0.5em 0;
 }
-/* .edit {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 300px;
-  margin: 0 auto;
-} */
 #nav a.router-link-exact-active {
   color: #00ffff8f;
 }

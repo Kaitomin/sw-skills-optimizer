@@ -33,7 +33,7 @@ export default {
     height: 50px;
     font-weight: 900;
     font-size: 1.1rem;
-    background: #0034347a;
+    background: #1c1c1c;
     border-bottom: 1px solid white;
   }
 </style>

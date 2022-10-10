@@ -143,9 +143,7 @@ export default {
     toggleDesire() {
       this.dwChecked = !this.dwChecked;
       
-      if (this.dwChecked) {
-        document.querySelector('.dw-container').classList.add('active')
-        
+      if (this.dwChecked) {        
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg * skill.dwBoost)
@@ -158,8 +156,6 @@ export default {
           dwChecked: this.dwChecked
         })
       } else {
-        document.querySelector('.dw-container').classList.remove('active')
-
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg / skill.dwBoost)
@@ -177,10 +173,8 @@ export default {
       this.castChecked = !this.castChecked;
 
       if (this.castChecked) {
-        document.querySelector('.cast-container').classList.add('active')
         this.$emit('cast-cancel', this.castChecked)
       } else {
-        document.querySelector('.cast-container').classList.remove('active')
         this.$emit('cast-cancel', this.castChecked)
       }
     },

@@ -20,7 +20,6 @@
       v-else
       :charName="name"
       @skills-table="toggleDesire"
-      @ephnel-dmg="toggleEphDmg"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
