@@ -1,5 +1,5 @@
 <template>
-  <div class="characters-container" :style="containerHeight">
+  <div class="home" :style="containerHeight">
     <div class="contact">
       <p>- Admin - <br> Kaitomin</p>
       <p>- Editor - <br> Tatufo</p> 
@@ -46,20 +46,14 @@ export default {
   },
   mounted() {
     // Get client window Y to set background height
-    const pageY = document.querySelector('.characters-container')
-    this.containerH = (pageY.offsetHeight > window.innerHeight) ? document.querySelector('.characters-container').offsetHeight + 'px' : window.innerHeight + 'px'
+    const pageY = document.querySelector('.home')
+    this.containerH = (pageY.offsetHeight > window.innerHeight) ? document.querySelector('.home').offsetHeight + 'px' : window.innerHeight + 'px'
   },
 }
 </script>
 
 <style scoped>
-  .hidden {
-    display: none;
-  }
-  #nav .menu {
-    display: none;
-  }
-  .characters-container {
+  .home {
     padding-top: 2em;
     /* height: var(--container-height); */
     /* height: 100%; */
@@ -67,8 +61,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
-
-  .characters-container::before {
+  .home::before {
     content: ' ';
     display: block;
     position: absolute;
@@ -79,32 +72,9 @@ export default {
     opacity: 0.4;
     background: url('../assets/img/homepage.webp');
     background-repeat: no-repeat;
-    /* height: var(--container-height); */
     height: 100%;
   }
-  
-  .characters-list {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    max-width: inherit;
-    padding-top: 3em
-  }
-  .characters-list > div {
-    opacity: 1;
-    transition: opacity 0.2s;
-  }
-  .characters-list > div:hover {
-    opacity: 0.8;
-  }
-  .characters-list img {
-    width: 150px;
-    height: auto;
-  }
   .contact {
-    /* max-width: 400px; */
     border: 1px solid white;
     color: white;
     text-align: left;

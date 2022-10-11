@@ -9,7 +9,7 @@ const routes = [
     path: '/',
     name: 'Home',
     meta: { title: 'Soulworker | Skills Optimizer', content: 'Soulworker skills details and rotations optimization' },
-    component: lazyLoad('CharactersList')
+    component: lazyLoad('Home')
   },
   {
     path: '/character/:name',
