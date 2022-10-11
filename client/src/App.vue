@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Nav />
-    <NavAdmin v-if="userRole" :userRole=userRole @logout=logout />
+    <!-- <Nav />
+    <NavAdmin v-if="userRole" :userRole=userRole @logout=logout /> -->
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" :key="$route.fullPath" v-if="$route.meta.keepAlive"></component>

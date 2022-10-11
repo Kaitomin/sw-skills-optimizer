@@ -11,49 +11,49 @@ const routes = [
     meta: { title: 'Soulworker | Skills Optimizer', content: 'Soulworker skills details and rotations optimization' },
     component: lazyLoad('Home')
   },
-  {
-    path: '/character/:name',
-    name: 'CharacterDetails',
-    meta: { title: '', content: ' skills table and rotation templates' },
-    component: lazyLoad('CharacterDetails'),
-    props: true
-  },
-  {
-    path: '/add-new-char',
-    name: 'AddNewChar',
-    meta: { title: 'New char', content: 'Add a new Soulworker character' },
-    component: lazyLoad('NewCharacterForm')
-  },
-  {
-    path: '/add-new-skill',
-    name: 'AddNewSkill',
-    meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
-    component: lazyLoad('NewSkillForm')
-  },
-  {
-    path: '/dashboard',
-    name: 'Dashboard',
-    meta: { title: 'Dashboard', content: 'Add or edit existing skills' },
-    component: lazyLoad('Dashboard')
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    meta: { title: 'Login', content: 'Login to access edit feature' },
-    component: lazyLoad('Login')
-  },
+  // {
+  //   path: '/character/:name',
+  //   name: 'CharacterDetails',
+  //   meta: { title: '', content: ' skills table and rotation templates' },
+  //   component: lazyLoad('CharacterDetails'),
+  //   props: true
+  // },
+  // {
+  //   path: '/add-new-char',
+  //   name: 'AddNewChar',
+  //   meta: { title: 'New char', content: 'Add a new Soulworker character' },
+  //   component: lazyLoad('NewCharacterForm')
+  // },
+  // {
+  //   path: '/add-new-skill',
+  //   name: 'AddNewSkill',
+  //   meta: { title: 'New skill', content: 'Add a new Soulworker skill' },
+  //   component: lazyLoad('NewSkillForm')
+  // },
+  // {
+  //   path: '/dashboard',
+  //   name: 'Dashboard',
+  //   meta: { title: 'Dashboard', content: 'Add or edit existing skills' },
+  //   component: lazyLoad('Dashboard')
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   meta: { title: 'Login', content: 'Login to access edit feature' },
+  //   component: lazyLoad('Login')
+  // },
   // {
   //   path: '/register',
   //   name: 'Register',
   //   meta: { title: 'New account', content: 'Create a new account' },
   //   component: lazyLoad('Register')
   // },
-  {
-    path: '/calculator',
-    name: 'Calculator',
-    meta: { title: 'Skill | Calculator', content: 'Skill dmg comparison', keepAlive: true },
-    component: lazyLoad('Calculator')
-  },
+  // {
+  //   path: '/calculator',
+  //   name: 'Calculator',
+  //   meta: { title: 'Skill | Calculator', content: 'Skill dmg comparison', keepAlive: true },
+  //   component: lazyLoad('Calculator')
+  // },
   {
     path: '/:pathMatch(.*)*',
     redirect: "/"
