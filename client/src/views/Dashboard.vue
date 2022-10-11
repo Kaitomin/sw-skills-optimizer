@@ -5,14 +5,15 @@
     </div>
     <div class="characters-container">
       <div class="characters">
-        <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)" :class="currentCharacter === char.name ? 'active' : ''">
-          <img
-            :src="getCharacterIcon(char.icon)"
-            :alt="char.name + ' icon'"
-            width="150"
-            height="150"
-            v-if='char.name !== "tmpChar"'
-          >
+        <div v-for="char in charList" :key="char._id" :class="currentCharacter === char.name ? 'active' : ''">
+          <div v-if='char.name !== "tmpChar"'  @click="getCharacterSkills(char.name)">
+            <img
+              :src="getCharacterIcon(char.icon)"
+              :alt="char.name + ' icon'"
+              width="150"
+              height="150"
+            >
+          </div>
         </div>
       </div>
       <router-link  v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
@@ -62,7 +63,7 @@
               <input type="text" name="castCancel" :value="skill.castCancel" title="Integer" disabled>
             </td>
             <td>
-              <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" title="Float (minimum one digit after floating point)" disabled>
+              <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" title="Float (min 1 | max 4 digits after floating point)" disabled>
             </td>
             <td v-if="currentCharacter === 'Chii'">
               <input type="text" name="mark" class="chii-mark" :value="skill.mark" title="Integer" disabled>
@@ -311,7 +312,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  .characters > div:hover {
+  .characters > div:not(div:last-child):hover {
     cursor: pointer;
     background-color: #ffffff29;
   }
