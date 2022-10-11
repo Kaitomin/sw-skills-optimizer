@@ -53,7 +53,8 @@ router.put('/dashboard', async (req, res) => {
     console.log('--OG--', skill)
     console.log('--MOD--', req.body)
 
-    res.status(201).json({ skill })
+    res.end()
+    // res.status(201).json({ skill })
   } catch (err) {
     console.log(err)
   }

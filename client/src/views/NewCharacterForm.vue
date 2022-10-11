@@ -52,7 +52,7 @@ export default {
     }
   },
   beforeCreate() {
-    if (!this.$root.userRole) this.$router.push('/')
+    if (this.$root.userRole !== 'ADMIN') this.$router.push('/')
   },
 }
 

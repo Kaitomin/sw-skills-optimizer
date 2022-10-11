@@ -179,12 +179,11 @@ export default {
     try {
       // Get character rotations from store
       const charRotations = `${this.name.toLowerCase()}Rotations`
-      // Import CSS Theme
-      // import(`@/assets/theme_${this.name.toLowerCase()}.css`);
-    
+
       this.components = this.$store.getters.getRotations(charRotations)
       this.rotationLimit = Array.from(this.components).length
     } catch {
+      // Character does not exist in store
       this.$router.push('/')
     }
   },
@@ -192,7 +191,7 @@ export default {
     // Get client window Y to set background height
     setTimeout(() => {
       this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    }, 500)
+    }, 1000)
   },
   updated() {
     this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
@@ -213,27 +212,33 @@ export default {
     display: flex;
     justify-content: space-around;
   }
-
   .skills-container:before {
     height: var(--container-height);
-    animation: 2s ease-in 0s fadeIn;
+    animation: 2s ease-in 1s fadeIn forwards;
   }
-
   p {
     margin-bottom: 0;
   }
-
   p, 
   label, 
   table {
     color: white;
   }
-
   p.nabi-note {
     font-style: italic;
     color: cyan;
   }
 
+  /* Animation */
+  @-webkit-keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; }  
+  }
+
+  @keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; } 
+  }
 
   /* Character Theme */
   .skills-container:before {
@@ -243,13 +248,12 @@ export default {
     left: 0;
     width: 100%;
     z-index: -999;
-    opacity: 0.8;
+    opacity: 0;
     background: var(--character-bg);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
   }
-
   .skills-container :deep(.skills-details) .char-info {
     background-color: var(--primary);
   }
@@ -260,16 +264,17 @@ export default {
     background-color: var(--tertiary);
     width: 5%;
   }
-   
   .skills-container :deep(.skills-details) .table-skills tbody tr {
     background-color: var(--secondary);
   }
-
   .skills-container :deep(.skills-details) .table-skills tbody > tr:nth-of-type(odd) {
     background-color: var(--primary);
   }
 
+
   
+
+
   /* ------------------- */
   /* Rotation component */
   /* ------------------- */
@@ -286,9 +291,10 @@ export default {
     background-color: var(--secondary);
   }
   .chain-bonus {
+    padding: 0.5em;
     margin-bottom: 1em;
+    background-color: var(--primary);
   }
-
   button.rotation {
     display: inline-block;
     width: 120px;
@@ -297,20 +303,17 @@ export default {
     margin-bottom: 1em;
     border: 1px solid white;
   }
-
   button.disabled-rotation {
     background: #5c5c5c;
     color: black;
     cursor: default;
   }
-
   .btn-info {
     color: white;
     border-radius: 0;
     background-color: var(--primary);
     border-color: #ffffff !important;
   }
-
   .btn-info:hover {
     cursor: pointer;
     background: var(--secondary);
@@ -332,21 +335,6 @@ export default {
 
   .skills-container :deep(.skills-rotation) .chains-container .dropdown-toggle:hover {
     background-color: var(--secondary);
-  }
-
-
-
-
-
-  /* Animation */
-  @-webkit-keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.8; }  
-  }
-
-  @keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.8; } 
   }
 
 

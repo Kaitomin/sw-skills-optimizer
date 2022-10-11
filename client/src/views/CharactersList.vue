@@ -10,6 +10,9 @@
       <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia & Asvra</p>
       <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/" target="_blank">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a></i></p>
     </div>
+    <!-- <div class="contact">
+      <p>sw-skills is currently under maintenance</p>
+    </div> -->
   </div>
 </template>
 
@@ -105,7 +108,7 @@ export default {
     border: 1px solid white;
     color: white;
     text-align: left;
-    background-color: #003434de;
+    background-color: #003434ad;
   }
   .contact p {
     margin-bottom: 0;

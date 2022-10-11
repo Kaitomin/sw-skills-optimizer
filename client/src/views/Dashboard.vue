@@ -1,5 +1,8 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard" :style="containerHeight">
+    <div v-show="showModal == true" class="alert modal-container" :class="error ? 'alert-danger' : 'alert-success'" role="alert">
+      {{ error ? 'Invalid input' : 'Skill updated'}}
+    </div>
     <div class="characters-container">
       <div class="characters">
         <div v-for="char in charList" :key="char._id" @click="getCharacterSkills(char.name)" :class="currentCharacter === char.name ? 'active' : ''">
@@ -8,7 +11,7 @@
             :alt="char.name + ' icon'"
             width="150"
             height="150"
-            v-if='char.name !== "tmp"'
+            v-if='char.name !== "tmpChar"'
           >
         </div>
       </div>
@@ -93,7 +96,9 @@ export default {
       charList: [],
       skillsList: [],
       currentCharacter: '',
-      error: false
+      error: false,
+      showModal: false,
+      containerH: ''
     }
   },
   methods: {
@@ -154,34 +159,20 @@ export default {
       const skillObj = {...skill}
 
       inputs.forEach(input => {
-        // console.log(input)
         if (input.name === 'dwBoost' && input.value == '') return
 
         this.validateInput({name: input.name, value: input.value})
-
         skillObj[input.name] = input.value
       })
 
-      // if (!skill.dwBoost) {
-      //   delete skillObj.dwBoost
-      // }
-
       if (this.error) {
-        // console.log('Error', this.error);
-        confirm('Unauthorized characters, hover over each input for more details')
+        this.showModal = true
+        setTimeout(() => this.showModal = false, 1000)
         return
       } else {
-        // console.log(skillObj)
 
-         try {
-
-          // Test
-          const res = await SkillService.updateSkill(skillObj)
-          const skill = res.data.skill
-          // endTest
-
-
-          // await SkillService.updateSkill(skillObj)
+        try {
+          await SkillService.updateSkill(skillObj)
           await this.getCharacterSkills(this.currentCharacter)
 
           inputs.forEach(input => {
@@ -191,12 +182,15 @@ export default {
 
           event.target.parentElement.className = 'hidden'
           event.target.parentElement.previousElementSibling.classList.remove('hidden')
+
+          this.showModal = true
+
+          setTimeout(() => this.showModal = false, 1000)
+
         } catch(err) {
           console.log(err)
         }
       }
-
-     
     },
     cancelChanges(event, skill) {
       const inputs = document.querySelectorAll(`#tr-${skill._id} input`)
@@ -213,6 +207,13 @@ export default {
       event.target.parentElement.previousElementSibling.classList.remove('hidden')
     }
   },
+  computed: {
+    containerHeight() {
+      return {
+        '--container-height': this.containerH
+      }
+    }
+  },
   beforeCreate() {
     if (!this.$root.userRole) this.$router.push('/')
   },
@@ -220,6 +221,10 @@ export default {
     this.getAllCharacters();
     this.getCharacterSkills('Ephnel')
   },
+  mounted() {
+    const container = document.querySelector('.dashboard')
+    setTimeout(() => this.containerH = container.clientHeight + 'px', 1000)
+  }
 }
 </script>
 
@@ -230,8 +235,46 @@ export default {
     width: 95%;
     margin: 2em auto 4em auto;
   }
+  .dashboard::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    /* top: 0; */
+    width: 100%;
+    z-index: -999;
+    opacity: 0.8;
+    background: url('../assets/img/homepage.webp');
+    background-repeat: no-repeat;
+    height: var(--container-height);
+    box-shadow: inset 0 0 200px 175px black;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    animation: 1s ease-in 1s fadeIn;
+  }
 
+  /* Animation */
+    @-webkit-keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 0.8; }  
+  }
 
+  @keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 0.8; } 
+  }
+
+  /* Modal */
+  .modal-container {
+    position: fixed;
+    z-index: 999;
+    top: 85px;
+    width: 165px;
+    font-weight: 900;
+    border: 2px solid;
+  }
 
 
 

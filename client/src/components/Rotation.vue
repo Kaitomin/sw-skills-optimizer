@@ -21,7 +21,7 @@
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
     </div>
 
-    <hr>
+    <hr style="color: white">
   </div>
 </template>
 
