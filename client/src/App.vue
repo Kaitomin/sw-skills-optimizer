@@ -8,7 +8,6 @@
       </keep-alive>
       <component :is="Component" :key="$route.fullPath" v-if="!$route.meta.keepAlive"></component>
     </router-view>
-    <!-- <NavAdmin :userRole=userRole @logout=logout /> -->
   </div>
 </template>
 
