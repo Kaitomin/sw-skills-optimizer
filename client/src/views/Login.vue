@@ -11,6 +11,8 @@
       <input type="password" id="password" class="form-control" aria-describedby="passwordHelpBlock" v-model="password" required/>
       <span class="error">{{ error.password }}</span>
 
+      <input type="text" id="email" class="form-label hdn" v-model="hdn" tabindex="-1" autocomplete="off">
+
       <button class="btn btn-primary">Login</button>
 
       <p class="errMsg">{{ error.msg }}</p>
@@ -28,6 +30,7 @@ export default {
     return {
       username: '',
       password: '',
+      hdn: '',
       error: { username: '', password: '', msg: '' },
       loginAttempts: 3,
       timer: '1:00'
@@ -55,6 +58,8 @@ export default {
       }
     },
     async login() {
+      if (this.hdn) return // anti-spam
+
       this.handleErrors(this.username, this.password)
 
       if (!this.error.username && !this.error.password && this.loginAttempts > 0) {
@@ -66,8 +71,6 @@ export default {
           this.$router.go();
         } catch (error) {
           this.loginAttempts -= 1
-          console.log('Login attempts -', this.loginAttempts)
-
           this.error.msg = `Invalid credentials - Attempts left: ${this.loginAttempts}`
 
           if (this.loginAttempts == 0) this.disableForm()
@@ -135,6 +138,9 @@ export default {
   }
   form button {
     margin-top: 1rem;
+  }
+  .hdn {
+    display: none;
   }
   .error, .errMsg {
     color: red;
