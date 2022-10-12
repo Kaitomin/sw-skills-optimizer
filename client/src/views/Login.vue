@@ -11,6 +11,9 @@
       <input type="password" id="password" class="form-control" aria-describedby="passwordHelpBlock" v-model="password" required/>
       <span class="error">{{ error.password }}</span>
 
+      <label for="captcha" class="form-label">{{ this.captcha.num1 + '+' + this.captcha.num2 }} ?</label> 
+      <input type="number" id="captcha" class="form-control" v-model="userInput" min="0" max="50" placeholder="Enter result"/>
+
       <input type="text" id="email" class="form-label hdn" v-model="hdn" tabindex="-1" autocomplete="off">
 
       <button class="btn btn-primary">Login</button>
@@ -33,7 +36,9 @@ export default {
       hdn: '',
       error: { username: '', password: '', msg: '' },
       loginAttempts: 3,
-      timer: '1:00'
+      timer: '1:00',
+      captcha: { num1: '', num2: ''},
+      userInput: ''
     }
   },
   methods: {
@@ -58,7 +63,9 @@ export default {
       }
     },
     async login() {
-      if (this.hdn) return // anti-spam
+      // Anti-spam
+      if (this.hdn) return 
+      if (!this.validateCaptcha()) return 
 
       this.handleErrors(this.username, this.password)
 
@@ -107,6 +114,19 @@ export default {
       if (sec < 10 && sec >= 0) {sec = "0" + sec};
       if (sec < 0) {sec = "59"};
       return sec;
+    },
+    generateCaptcha() {
+      this.captcha.num1 = Math.trunc(Math.random() * 10)
+      this.captcha.num2 = Math.trunc(Math.random() * 10)
+    },
+    validateCaptcha() {
+      const captchaResult = this.captcha.num1 + this.captcha.num2
+
+      if (captchaResult === this.userInput) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   async beforeCreate() {
@@ -115,6 +135,9 @@ export default {
     } catch (error) {
       this.$router.push('/')
     }
+  },
+  created() {
+    this.generateCaptcha()
   }
 }
 </script>
