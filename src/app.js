@@ -5,6 +5,7 @@ const charRoutes = require('./routes/characterRoutes');
 const skillsRoutes = require('./routes/skillsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const targetRoutes = require('./routes/targetRoutes');
+const loggerRoutes = require('./routes/loggerRoute')
 const cookieParser = require("cookie-parser");
 const { getCurrUser } = require('./middleware/userMiddleware');
 const path = require('path');
@@ -34,6 +35,7 @@ app.use('/api', charRoutes);
 app.use('/api', skillsRoutes);
 app.use('/api', userRoutes);
 app.use('/api', targetRoutes);
+app.use('/api', loggerRoutes);
 
 // Serve file after page refresh
 app.get("*", (req, res) => {

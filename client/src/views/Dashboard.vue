@@ -3,84 +3,103 @@
     <div v-show="showModal == true" class="alert modal-container" :class="error ? 'alert-danger' : 'alert-success'" role="alert">
       {{ error ? 'Invalid input' : 'Skill updated'}}
     </div>
-    <div class="characters-container">
-      <div class="characters">
-        <div v-for="char in charList" :key="char._id" :class="currentCharacter === char.name ? 'active' : ''">
-          <div v-if='char.name !== "tmpChar"'  @click="getCharacterSkills(char.name)">
-            <img
-              :src="getCharacterIcon(char.icon)"
-              :alt="char.name + ' icon'"
-              width="150"
-              height="150"
-            >
-          </div>
+    <div class="logger-container">
+      <p>Changelog</p>
+      <div>
+        <div v-for="log in sortedLogger" :key="log._id">
+          {{ log.date }} | 
+          {{ log.skill.skillName }} 
+          ◼ Dmg = {{ log.skill.dmg }}
+          {{ log.skill.dmgBullet ? `◼ Dmg bullet = ${log.skill.dmgBullet}` : null }}
+          {{ log.skill.dmgRelease ? `◼ Dmg release = ${log.skill.dmgRelease}` : null }}
+          {{ log.skill.mark ? `◼ Mark = ${log.skill.mark}` : null }}
+          ◼ Cast = {{ log.skill.cast }}
+          ◼ Anim.cancel = {{ log.skill.castCancel }}
+          ◼ CD = {{ log.skill.cd }}
+          {{ log.skill.dwBoost ? `◼ DW = ${log.skill.dwBoost}` : null }}
         </div>
       </div>
-      <router-link  v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
     </div>
-    <div class="skills-container">
-      <table class="table table-striped skills-table">
-        <thead>
-          <tr>
-            <th scope="col">Icon</th>
-            <th scope="col" style="width: 340px">Skill</th>
-            <th scope="col">Damage</th>
-            <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
-            <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
-            <th scope="col">CD</th>
-            <th scope="col">Cast</th>
-            <th scope="col">Cast cancel</th>
-            <th scope="col">DW</th>
-            <th scope="col" v-if="currentCharacter === 'Chii'">Mark</th>
-            <th scope="col">Character</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="skill in skillsList" :key="skill._id" :id="`tr-${skill._id}`">
-            <td scope="row">
-              <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
-            </td>
-            <td>
-              <input type="text" name="skillName" class="skill-name" :value="skill.skillName" title="Alphanumeric ( - ) % " disabled>
-            </td>
-            <td>
-              <input type="text" name="dmg" class="skill-dmg" :value="skill.dmg" title="Integer" disabled>
-            </td>
-            <td v-if="currentCharacter === 'Ephnel'">
-              <input type="text" name="dmgBullet" class="ephnel-bullet" :value="skill.dmgBullet" title="Integer" disabled>
-            </td>
-            <td v-if="currentCharacter === 'Ephnel'">
-              <input type="text" name="dmgRelease" class="ephnel-release" :value="skill.dmgRelease" title="Integer" disabled>
-            </td>
-            <td>
-              <input type="text" name="cd" :value="skill.cd" title="Integer" disabled>
-            </td>
-            <td>
-              <input type="text" name="cast" :value="skill.cast" title="Integer" disabled>
-            </td>
-            <td>
-              <input type="text" name="castCancel" :value="skill.castCancel" title="Integer" disabled>
-            </td>
-            <td>
-              <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" title="Float (min 1 | max 4 digits after floating point)" disabled>
-            </td>
-            <td v-if="currentCharacter === 'Chii'">
-              <input type="text" name="mark" class="chii-mark" :value="skill.mark" title="Integer" disabled>
-            </td>
-            <td>
-              <input type="text" name="character" class="character-name" :value="skill.character" disabled>
-            </td>
-            <td class="actions">
-              <i class="fa-solid fa-pen-to-square" title="Edit skill" @click="editSkill($event, skill)"></i>
-              <div class="hidden">
-                <i class="fa-solid fa-check" title="Apply changes" @click="saveChanges($event, skill)"></i>
-                <i class="fa-solid fa-xmark" title="Cancel changes" @click="cancelChanges($event, skill)"></i>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div>
+      <div class="characters-container">
+        <div class="characters">
+          <div v-for="char in charList" :key="char._id" :class="currentCharacter === char.name ? 'active' : ''">
+            <div v-if='char.name !== "tmpChar"'  @click="getCharacterSkills(char.name)">
+              <img
+                :src="getCharacterIcon(char.icon)"
+                :alt="char.name + ' icon'"
+                width="150"
+                height="150"
+              >
+            </div>
+          </div>
+        </div>
+        <router-link v-if="$root.userRole === 'ADMIN'" to="/add-new-skill" class="add-character">Add skill</router-link>
+      </div>
+      <div class="skills-container">
+        <table class="table table-striped skills-table">
+          <thead>
+            <tr>
+              <th scope="col">Icon</th>
+              <th scope="col" style="width: 340px">Skill</th>
+              <th scope="col">Damage</th>
+              <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
+              <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
+              <th scope="col">CD</th>
+              <th scope="col">Cast</th>
+              <th scope="col">Cast cancel</th>
+              <th scope="col">DW</th>
+              <th scope="col" v-if="currentCharacter === 'Chii'">Mark</th>
+              <th scope="col">Character</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="skill in skillsList" :key="skill._id" :id="`tr-${skill._id}`">
+              <td scope="row">
+                <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+              </td>
+              <td>
+                <input type="text" name="skillName" class="skill-name" :value="skill.skillName" title="Alphanumeric ( - ) % " disabled>
+              </td>
+              <td>
+                <input type="text" name="dmg" class="skill-dmg" :value="skill.dmg" title="Integer" disabled>
+              </td>
+              <td v-if="currentCharacter === 'Ephnel'">
+                <input type="text" name="dmgBullet" class="ephnel-bullet" :value="skill.dmgBullet" title="Integer" disabled>
+              </td>
+              <td v-if="currentCharacter === 'Ephnel'">
+                <input type="text" name="dmgRelease" class="ephnel-release" :value="skill.dmgRelease" title="Integer" disabled>
+              </td>
+              <td>
+                <input type="text" name="cd" :value="skill.cd" title="Integer" disabled>
+              </td>
+              <td>
+                <input type="text" name="cast" :value="skill.cast" title="Integer" disabled>
+              </td>
+              <td>
+                <input type="text" name="castCancel" :value="skill.castCancel" title="Integer" disabled>
+              </td>
+              <td>
+                <input type="text" name="dwBoost" class="skill-dw" :value="skill.dwBoost" title="Float (min 1 | max 4 digits after floating point)" disabled>
+              </td>
+              <td v-if="currentCharacter === 'Chii'">
+                <input type="text" name="mark" class="chii-mark" :value="skill.mark" title="Integer" disabled>
+              </td>
+              <td>
+                <input type="text" name="character" class="character-name" :value="skill.character" disabled>
+              </td>
+              <td class="actions">
+                <i class="fa-solid fa-pen-to-square" title="Edit skill" @click="editSkill($event, skill)"></i>
+                <div class="hidden">
+                  <i class="fa-solid fa-check" title="Apply changes" @click="saveChanges($event, skill)"></i>
+                  <i class="fa-solid fa-xmark" title="Cancel changes" @click="cancelChanges($event, skill)"></i>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -88,6 +107,7 @@
 <script>
 import CharacterService from '../services/CharacterService';
 import SkillService from '../services/SkillService'
+import LoggerService from '../services/LoggerService'
 
 import { useGetCharactersIcons, useGetCharacterIcon, useGetSkillIcon } from '../composable/functions';
 
@@ -96,6 +116,7 @@ export default {
     return {
       charList: [],
       skillsList: [],
+      logger: [],
       currentCharacter: '',
       error: false,
       showModal: false,
@@ -118,6 +139,10 @@ export default {
         this.skillsList = res.data.skills
         this.currentCharacter = name
       })
+    },
+    getLogger() {
+      LoggerService.getLogger()
+      .then(res => this.logger = res.data.logger)
     },
     validateInput({name, value}) {
       switch(name) {
@@ -173,9 +198,25 @@ export default {
       } else {
 
         try {
+          // Modify skill
           await SkillService.updateSkill(skillObj)
           await this.getCharacterSkills(this.currentCharacter)
 
+          const date = new Date()
+
+          // Save current date to the logger
+          let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+          let month = (date.getMonth() + 1) < 10 ? '0' + date.getMonth() : date.getMonth() + 1;
+          let year = date.getFullYear()
+          let hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+          let minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+          let seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+          
+          const currentDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`
+
+          await LoggerService.setLogger({currentDate, skill: skillObj})
+
+          // Disable edit inputs
           inputs.forEach(input => {
             input.classList.remove('edit')
             input.disabled = true
@@ -191,6 +232,8 @@ export default {
         } catch(err) {
           console.log(err)
         }
+        
+        this.getLogger()
       }
     },
     cancelChanges(event, skill) {
@@ -213,6 +256,9 @@ export default {
       return {
         '--container-height': this.containerH
       }
+    },
+    sortedLogger() {
+      return Array.from(this.logger).reverse()
     }
   },
   beforeCreate() {
@@ -220,6 +266,7 @@ export default {
   },
   created() {
     this.getAllCharacters();
+    this.getLogger()
     this.getCharacterSkills('Ephnel')
   },
   mounted() {
@@ -230,7 +277,24 @@ export default {
 </script>
 
 <style scoped>
+  .logger-container {
+    color: white;
+  }
+  .logger-container > div {
+    overflow-y: scroll;
+    width: 91%;
+    margin: 0 auto;
+    height: 100px;
+    padding: 1em 2em;
+    text-align: left;
+  }
+  .logger-container p {
+    font-style: italic;
+  }
   .dashboard {
+    margin-top: 2em;
+  }
+  .dashboard > div:last-child {
     display: flex;
     justify-content: space-around;
     width: 95%;
@@ -272,9 +336,11 @@ export default {
     position: fixed;
     z-index: 999;
     top: 85px;
+    left: 50%;
     width: 165px;
     font-weight: 900;
     border: 2px solid;
+    transform: translate(-50%, 0px);
   }
 
 
@@ -417,7 +483,7 @@ export default {
   /* Responsive */
   /* ---------- */
   @media screen and (max-width: 1550px) {
-    .dashboard {
+    .dashboard > div:last-child {
       flex-direction: column;
       width: 100%;
       gap: 2em;
