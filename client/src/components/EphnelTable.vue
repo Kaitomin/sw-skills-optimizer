@@ -505,7 +505,7 @@ export default {
     })
     .catch(err => this.$router.push('/'));
 
-    this.description = "Data gathered from EN ver. [12/04/2022]"
+    this.description = "Data gathered from EN ver. [01/12/2022]"
     this.aspd = 200
   },
 }

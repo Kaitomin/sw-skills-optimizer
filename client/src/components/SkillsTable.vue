@@ -240,11 +240,11 @@ export default {
         this.aspd = 205
         break;
       case 'Iris':
-        this.description = "Data gathered from EN ver. [03/04/2022]"
+        this.description = "Data gathered from EN ver. [01/12/2022]"
         this.aspd = 200
         break;
       case 'Stella':
-        this.description = "Data gathered from EN ver. [05/04/2022]"
+        this.description = "Data gathered from EN ver. [01/12/2022]"
         this.aspd = 205
         break;
       case 'Haru':
