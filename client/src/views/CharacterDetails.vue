@@ -176,16 +176,20 @@ export default {
     }
   },
   created() {
-    try {
-      // Get character rotations from store
-      const charRotations = `${this.name.toLowerCase()}Rotations`
+    // if (this.name === "tmpChar" && !this.$root.userRole) {
+      // this.$router.push('/')
+    // } else {
+      try {
+        // Get character rotations from store
+        const charRotations = `${this.name.toLowerCase()}Rotations`
 
-      this.components = this.$store.getters.getRotations(charRotations)
-      this.rotationLimit = Array.from(this.components).length
-    } catch {
-      // Character does not exist in store
-      this.$router.push('/')
-    }
+        this.components = this.$store.getters.getRotations(charRotations)
+        this.rotationLimit = Array.from(this.components).length
+      } catch {
+        // Character does not exist in store
+        this.$router.push('/')
+      }
+    // }
   },
   mounted() {
     // Get client window Y to set background height
