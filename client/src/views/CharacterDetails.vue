@@ -176,9 +176,10 @@ export default {
     }
   },
   created() {
-    // if (this.name === "tmpChar" && !this.$root.userRole) {
-      // this.$router.push('/')
-    // } else {
+    if (this.name === "tmpChar" && !this.$root.userRole) {
+      this.$router.push('/')
+    }
+    //  else {
       try {
         // Get character rotations from store
         const charRotations = `${this.name.toLowerCase()}Rotations`
