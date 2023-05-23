@@ -739,7 +739,7 @@ export default {
       })
       .catch(err => this.$router.push("/"));
 
-    this.description = "Data gathered from EN ver. [18/05/2022]";
+    this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]";
     this.aspd = 200;
   }
 };

@@ -240,15 +240,15 @@ export default {
         this.aspd = 205
         break;
       case 'Iris':
-        this.description = "Data gathered from EN ver. [18/05/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Stella':
-        this.description = "Data gathered from EN ver. [18/05/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 205
         break;
       case 'Haru':
-        this.description = "Data gathered from EN ver. [18/05/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Nabi':
@@ -256,7 +256,7 @@ export default {
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data gathered by Yukawa from EN ver. [18/05/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Erwin':
