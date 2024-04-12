@@ -5,22 +5,11 @@
 }
 
 body {
-  background: black;
+  background: #21252d;
 }
 
 /* input range */
 input[type=range]#charCD {
-  /* -webkit-appearance: none;     
-  padding: 0;                   
-  font: inherit;            
-  outline: none;
-  color: #069;               
-  opacity: .8;
-  height: 15px;                
-  background: #CCC;           
-  box-sizing: border-box;     
-  transition: opacity .2s;
-  width: 100%; */
   cursor: pointer;
 }
 input[type=range]#charCD:hover {
@@ -147,7 +136,8 @@ input[type=range].custom-slider::-ms-fill-upper {
   text-align: left;
   padding: 10px;
   border: 1px solid white;
-  background: #000000a1;
+  background: #171c24;
+  border-radius: 5px;
 }
 
 .skills-container thead {
@@ -170,7 +160,7 @@ input[type=range].custom-slider::-ms-fill-upper {
 
 .skills-container .table-skills { 
   border-spacing: 0px;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.493);
   margin-top: 2em;
 }
 

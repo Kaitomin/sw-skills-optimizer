@@ -49,14 +49,18 @@ export default {}
   }
   #nav {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
-    background: #1c1c1c;
+    flex-direction: column;
+    gap: 4em 0;
+    background: #1d232c;
     padding: 10px 25px;
-    border-bottom: 1px solid white;
+    border-right: 1px solid #95989e;
+    position: fixed;
+    width: 169px;
+    height: 100vh;
   }
   #nav a {
-    font-size: 1.1em;
+    /* font-size: 1.1em; */
     font-weight: bold;
     color: #d9d9d9;
     text-decoration: none;
@@ -69,6 +73,7 @@ export default {}
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     flex-wrap: wrap;
     margin: 0;
   }

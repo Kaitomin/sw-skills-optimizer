@@ -70,7 +70,7 @@ export default {
     width: 100%;
     z-index: -999;
     opacity: 0.4;
-    background: url('../assets/img/homepage.webp');
+    /* background: url('../assets/img/homepage.webp'); */
     background-repeat: no-repeat;
     height: 100%;
   }
@@ -79,6 +79,7 @@ export default {
     color: white;
     text-align: left;
     background-color: #1c1c1c;
+    border-radius: 5px;
   }
   .contact p {
     margin-bottom: 0;

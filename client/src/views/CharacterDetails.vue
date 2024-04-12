@@ -1,5 +1,5 @@
 <template>
-  <div class="skills-container" :class="name.toLowerCase()" :style="[containerHeight, characterThemeColors, { '--character-bg': `url(${require(`@/assets/img/${this.name.toLowerCase()}_bg.webp`)})` }]">
+  <div class="skills-container" :class="name.toLowerCase()">
     <!-- Skills table -->
     <EphnelTable 
       v-if="name == 'Ephnel'"
@@ -194,13 +194,13 @@ export default {
   },
   mounted() {
     // Get client window Y to set background height
-    setTimeout(() => {
-      this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    }, 1000)
+    // setTimeout(() => {
+    //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+    // }, 1000)
   },
-  updated() {
-    this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-  },
+  // updated() {
+  //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
+  // },
   unmounted() {
     this.components = null
     this.rotationLimit = null
@@ -210,15 +210,20 @@ export default {
 </script>
 
 <style scoped>
+  .skills-rotation {
+    padding-top: 3em;
+  }
+
   /* --------------------- */
   /* SkillsTable component */
   /* --------------------- */
   .skills-container {
     display: flex;
     justify-content: space-around;
+    margin-left: 169px;
   }
+  
   .skills-container:before {
-    height: var(--container-height);
     animation: 2s ease-in 1s fadeIn forwards;
   }
   p {
@@ -245,60 +250,12 @@ export default {
     100% { opacity: 1; } 
   }
 
-  /* Character Theme */
-  .skills-container:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: -999;
-    opacity: 0;
-    background: var(--character-bg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-  .skills-container :deep(.skills-details) .char-info {
-    background-color: var(--primary);
-  }
-  .skills-container :deep(.skills-details) .table-skills th:first-child {
-    width: 10%;
-  }
-  .skills-container :deep(.skills-details) .table-skills th {
-    background-color: var(--tertiary);
-    width: 5%;
-  }
-  .skills-container :deep(.skills-details) .table-skills tbody tr {
-    background-color: var(--secondary);
-  }
-  .skills-container :deep(.skills-details) .table-skills tbody > tr:nth-of-type(odd) {
-    background-color: var(--primary);
-  }
-
-
-  
-
-
   /* ------------------- */
   /* Rotation component */
   /* ------------------- */
-  .skills-rotation {
-    padding-top: 3em;
-  }
-  .skills-rotation :deep(.chains-container) .table:first-child .info {
-    border-left: 1px solid white;
-  }
-  .skills-rotation :deep(.chains-container) .table:last-child .info {
-    border-right: 1px solid white;
-  }
-  .skills-rotation :deep(.info) {
-    background-color: var(--secondary);
-  }
   .chain-bonus {
     padding: 0.5em;
     margin-bottom: 1em;
-    background-color: var(--primary);
   }
   button.rotation {
     display: inline-block;
@@ -307,6 +264,7 @@ export default {
     color: white;
     margin-bottom: 1em;
     border: 1px solid white;
+    border-radius: 5px;
   }
   button.disabled-rotation {
     background: #5c5c5c;
@@ -315,36 +273,19 @@ export default {
   }
   .btn-info {
     color: white;
-    border-radius: 0;
-    background-color: var(--primary);
-    border-color: #ffffff !important;
+    border-radius: 5px;
+    border-color: #95989e !important;
+    background-color: #48515e !important;
   }
   .btn-info:hover {
     cursor: pointer;
-    background: var(--secondary);
   }
 
-  /* Character Theme */
   button.add-rotation {
-    background-color: var(--primary);
+    background-color: #48515e;
+    border-color: #95989e;
     transition: background-color 0.2s;
   }
-  button.add-rotation:hover {
-    background-color: var(--secondary);
-  }
-  .skills-container :deep(.skills-rotation) .chains-container .dropdown-toggle {
-    color: white;
-    border: 1px solid white;
-    background-color: var(--secondary);
-  }
-
-  .skills-container :deep(.skills-rotation) .chains-container .dropdown-toggle:hover {
-    background-color: var(--secondary);
-  }
-
-
-
-
 
   /* ---------- */
   /* Responsive */

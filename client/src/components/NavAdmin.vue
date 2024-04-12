@@ -28,12 +28,11 @@ export default {
   .nav-admin {
     width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: end;
+    gap: 0 3em;
     align-items: center;
-    height: 50px;
-    font-weight: 900;
-    font-size: 1.1rem;
-    background: #1c1c1c;
-    border-bottom: 1px solid white;
+    padding: 0.5em 1em;
+    background: #1d232c;
+    border-bottom: 1px solid #95989e2b;
   }
 </style>
