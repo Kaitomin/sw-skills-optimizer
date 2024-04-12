@@ -271,14 +271,14 @@ export default {
 </script>
 
 <style scoped>
-  .char-info,
+  /* .char-info,
   .table-skills {
     border-radius: 5px;
   }
   .char-info {
     background-color: #2d343f;
     border: 1px solid rgba(255, 255, 255, 0.493);
-  }
+  } */
   .description {
     color: white;
   }
@@ -340,7 +340,7 @@ export default {
     opacity: 0;
   }
 
-  .table-skills {
+  /* .table-skills {
     border-collapse: separate;
   }
   .table-skills th:first-child {
@@ -368,7 +368,7 @@ export default {
   }
   .table-skills tbody > tr:nth-of-type(odd) {
     background-color: #2f3742;
-  }
+  } */
 
 
 

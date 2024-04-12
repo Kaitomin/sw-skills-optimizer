@@ -382,11 +382,12 @@ export default {
     border-bottom: 1px solid white;
     padding: 0.5rem 1rem;
     color: white;
-    background-color: #380019f0;
+    background-color: #2d343f;
   }
   .chii-explosion p {
     margin-bottom: 0;
     padding: 0.5em 0.5em;
+    border-radius: 5px;
   }
   .chii-explosion p:first-child {
     box-shadow: inset 0 0 1px 1px white;

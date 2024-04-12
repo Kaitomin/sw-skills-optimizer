@@ -807,7 +807,7 @@ export default {
   border-left: 1px solid white;
   border-right: 1px solid white;
   border-bottom: 1px solid white;
-  background-color: #003827f0;
+  background-color: #2d343f;
 }
 .ephnel-buff p {
   margin: 0;
@@ -821,10 +821,12 @@ export default {
   color: white;
   height: 40px;
   box-shadow: 0 0 0 0 white;
+  border-radius: 5px
 }
 .ephnel-buff button:hover {
   box-shadow: 0 0 0 1px white;
   background-color: #ffffff1a;
+  border-radius: 5px
 }
 .ephnel-buff button.active-buff {
   background-color: #008751;
