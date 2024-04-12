@@ -6,9 +6,13 @@ const targetSchema = new Schema({
     type: String,
     required: true
   },
-  defRate: {
+  slug: {
     type: String,
     required: true
+  },
+  defRate: {
+    type: String,
+    required: false
   },
   defense: {
     type: String,
@@ -16,13 +20,16 @@ const targetSchema = new Schema({
   },
   defReduction: {
     type: String,
-    required: true
+    required: false
+  },
+  evasion: {
+    type: String,
+    required: false
   },
   level: {
     type: String,
     required: true
   },
-
 });
 
 const Target = mongoose.model('Target', targetSchema);

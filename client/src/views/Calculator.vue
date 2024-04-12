@@ -23,7 +23,7 @@
           </div>
 
           <div class="target-container" @click="assignTarget">
-            <div data-target="aculus_edgar">Arculus/Edgar N</div>
+            <!-- <div data-target="aculus_edgar">Arculus/Edgar N</div>
             <div data-target="junk_queen">Junk Queen N</div>
             <div data-target="junk_queen_h">Junk Queen H</div>
             <div data-target="flemma_p1" class="selected-target">Flemma P1</div>
@@ -39,7 +39,8 @@
             <div data-target="ferdelanceM_p1">Ferdelance M P1</div>
             <div data-target="ferdelanceM_p2">Ferdelance M P2</div>
             <div data-target="raphakumba">Raphakumba</div>
-            <div data-target="flemma_solo">Flemma Solo</div>
+            <div data-target="flemma_solo">Flemma Solo</div> -->
+            <div v-for="target in targets" :data-target="target.name">{{ target.name }}</div>
           </div>
         </div>
 
@@ -54,7 +55,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #003c3ce6; border: 1px solid white"
+            style="background-color: #1c1c1c; border: 1px solid white"
           />
 
           <div class="info">
@@ -86,7 +87,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <!-- <tr>
                 <td>Raphakumba</td>
                 <td>68</td>
                 <td>2060</td>
@@ -204,6 +205,14 @@
                 <td>3520</td>
                 <td>0</td>
                 <td>0</td>
+              </tr> -->
+
+              <tr v-for="target in targets">
+                <td>{{ target.name }}</td>
+                <td>{{ target.level }}</td>
+                <td>{{ target.defense }}</td>
+                <td>{{ target.evasion }}</td>
+                <td>{{ target.dmgReduction }}%</td>
               </tr>
             </tbody>
           </table>
@@ -307,6 +316,7 @@ export default {
       containerH: '',
       target: 'flemma_p1',
       selectedTarget: '',
+      targets: [],
       save: false
     }
   },
@@ -326,6 +336,10 @@ export default {
     async getTarget(t) {
       const res = await TargetService.getTargetInfo(t)
       this.selectedTarget = res.data.target
+    },
+    async getTargets() {
+      const res = await TargetService.getTargets()
+      this.targets = res.data.target
     },
     displayGraph(event) {
       const index = event.id
@@ -358,12 +372,14 @@ export default {
     },
     backgroundBlack() {
       return {
-        '--bg-black': '#003c3ce6'
+        '--bg-black': '#1c1c1c'
       }
     }
   },
   created() {
     this.getTarget(this.target)
+
+    this.getTargets()
   },
   mounted() {
     setTimeout(() => {
@@ -382,7 +398,7 @@ export default {
     width: 125px;
   }
   optgroup {
-    background: black;
+    background: #1c1c1c;
   }
   .calculator-container:before {
     content: ' ';
@@ -392,7 +408,7 @@ export default {
     width: 100%;
     height: var(--container-height);
     z-index: -999;
-    opacity: 0.7;
+    opacity: 0.4;
     background: url('../assets/img/bg_3840.webp');
     background-position: center;
     background-size: cover;
@@ -402,11 +418,11 @@ export default {
 
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; }  
+    100% { opacity: 0.4; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; } 
+    100% { opacity: 0.4; } 
   }
 
   .calculator {
@@ -472,7 +488,7 @@ export default {
   }
   .target-container > div:hover {
     cursor: pointer;
-    background: #007878e6;
+    background: #1c1c1c;
   }
   .target-container label {
     font-size: 16px;

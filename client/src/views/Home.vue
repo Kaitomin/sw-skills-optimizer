@@ -2,10 +2,10 @@
   <div class="home" :style="containerHeight">
     <div class="contact">
       <p>- Admin - <br> Kaitomin</p>
-      <p>- Editor - <br> Tatufo</p> 
+      <p>- Editor - <br> AFN</p> 
       <p>- Contact - <br>
-        <i class="fa-brands fa-discord"></i> Kaitomin#6973<br>
-        <i class="fa-brands fa-discord"></i> Tatufo#0001
+        <i class="fa-brands fa-discord"></i> kaitomin<br>
+        <i class="fa-brands fa-discord"></i> afn99
       </p>
       <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia & Asvra</p>
       <p class="copyrights"><i>All images used belong to <a href="http://www.liongames.co.kr/" target="_blank">LIONS GAMES</a> licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">CC BY-NC-SA 3.0</a></i></p>
@@ -78,7 +78,7 @@ export default {
     border: 1px solid white;
     color: white;
     text-align: left;
-    background-color: #003434ad;
+    background-color: #1c1c1c;
   }
   .contact p {
     margin-bottom: 0;

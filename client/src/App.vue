@@ -50,52 +50,18 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  background: #1c1c1c;
-  padding: 10px 25px;
-  border-bottom: 1px solid white;
-}
-#nav a {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #d9d9d9;
-  text-decoration: none;
-}
-#nav > a {
-  display: block;
-  width: max-content;
-}
-.menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 0;
-}
-.menu a {
-  display: block;
-  padding: 0.5em 0;
-}
-#nav a.router-link-exact-active {
-  color: #00ffff8f;
-}
-.separator {
-  border-left: 1px solid white;
-  height: 15px;
-}
-.logout:hover {
-  cursor: pointer;
-}
-
-
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+  .separator {
+    border-left: 1px solid white;
+    height: 15px;
+  }
+  .logout:hover {
+    cursor: pointer;
+  }
 </style>
