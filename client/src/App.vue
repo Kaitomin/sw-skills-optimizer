@@ -14,9 +14,12 @@
 </template>
 
 <script>
+import { version } from '../package.json';
+
 import Nav from '@/components/Nav.vue'
 import NavAdmin from './components/NavAdmin.vue'
 import UserService from './services/UserService';
+import VersionService from './services/VersionService'
 
 import "@/assets/global.css";
 
@@ -53,6 +56,32 @@ export default {
       console.log("Error during retrieving user")
     }
   },
+  watch: {
+    '$route': {
+      async handler(newValue, oldValue) {
+        console.log('Old route - ', oldValue);
+        console.log('New route - ', newValue);
+
+        console.log('Package before ver - ', version);
+
+        if (oldValue && newValue && oldValue.fullPath != newValue.fullPath) {
+          let latestVer = await VersionService.getVersion()
+          latestVer = latestVer.data
+
+          console.log('Current version - ', latestVer);
+          console.log('Package after ver - ', version);
+
+          if (version !== latestVer) {
+            // console.log('RELOAD');
+            location.reload()
+          }
+        
+        }
+      },
+      immediate: true,
+      deep: true,
+    }
+  }
 }
 </script>
 
