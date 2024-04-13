@@ -59,20 +59,18 @@ export default {
   watch: {
     '$route': {
       async handler(newValue, oldValue) {
-        console.log('Old route - ', oldValue);
-        console.log('New route - ', newValue);
-
-        console.log('Package before ver - ', version);
+        // console.log('Old route - ', oldValue);
+        // console.log('New route - ', newValue);
+        // console.log('Package before ver - ', version);
 
         if (oldValue && newValue && oldValue.fullPath != newValue.fullPath) {
           let latestVer = await VersionService.getVersion()
           latestVer = latestVer.data
 
-          console.log('Current version - ', latestVer);
-          console.log('Package after ver - ', version);
+          // console.log('Current version - ', latestVer);
+          // console.log('Package after ver - ', version);
 
           if (version !== latestVer) {
-            // console.log('RELOAD');
             location.reload()
           }
         
