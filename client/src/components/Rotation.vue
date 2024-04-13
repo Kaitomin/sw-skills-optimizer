@@ -1,8 +1,8 @@
 <template>
   <div class="rotations-container">
     <div class="actions">
-      <button class="btn" @click="reset = true">Reset</button>
-      <button class="btn" @click="deleteComponent">Delete</button>
+      <button class="btn" @click="reset = true" title="Reset"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+      <button class="btn" @click="deleteComponent" title="Delete"><i class="fa-solid fa-trash"></i></button>
     </div>
 
     <div class="chains-container">
@@ -21,7 +21,7 @@
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
     </div>
 
-    <hr>
+    <hr style="color: white">
   </div>
 </template>
 
@@ -126,13 +126,19 @@ export default {
     flex-direction: column;
   }
   .btn {
-    background: #00000052;
+    background: #48515e;
     color: white;
-    border: 1px solid white;
+    border: 1px solid #95989e;
+  }
+  .fa-arrow-rotate-right {
+    color: white;
+  } 
+  .fa-trash {
+    color: red;
   }
   .btn:hover {
     cursor: pointer;
-    background: #ffffff2b;
+    background: #ffffff46;
     border: 1px solid white;
   }
   .actions > button:first-child {
@@ -141,6 +147,12 @@ export default {
   p {
     color: white;
   }
+
+
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 640px) {
     .rotations-container {
       padding: 0 5px;

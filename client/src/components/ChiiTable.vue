@@ -2,26 +2,44 @@
   <!-- Skills -->
     <div class="skills-details">
       <div v-if="char">
-        <p class="description"><i>{{ description }} <br>(click on criteria to sort the table)</i></p>
         <div class="char-info">
-          <div class="cdInput">
-            <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" /><br>
-            <label id="cdInput" for="charCD">Character CDR : {{ charCD +'%' }}</label>
+          <div>
+            <img :src="getCharacterIcon(char.icon)" :alt="char.name + ' icon'" width="80" height="80">
           </div>
 
-          <div class="dw-container" @click="toggleDesire">
-            <p>Desire Worker</p>
-          </div>
+          <div>
+            <p class="description"><i>{{ description }}<br></i></p>
 
-          <div class="cast-container" @click="toggleCastCancel">
-            <p>Animation cancel</p>
+            <div>
+              <div class="cd-input">
+                <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" />
+                <label id="cd-input" for="charCD">Character CDR : {{ charCD +'%' }}</label>
+              </div>
+
+              <!-- DW toggle -->
+              <div class="d-flex flex-column justify-evenly align-items-center">
+                <label  class="switch">
+                  <input type="checkbox">
+                  <span class="slider round" @click="toggleDesire"></span>
+                </label>
+                <p>Desire worker</p>
+              </div>
+              <!-- Animation cancel toggle -->
+              <div class="d-flex flex-column justify-evenly align-items-center">
+                <label class="switch">
+                  <input type="checkbox">
+                  <span class="slider round" @click="toggleCastCancel"></span>
+                </label>
+                <p>Animation cancel</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Chii marks -->
         <div class="chii-explosion">
           <div class="chii-counter" >
-            <p>Detonation</p>
+            <p>Marks</p>
             <p class="mark-count active-mark" @click="detonateMarks(0)">0</p>
             <p class="mark-count" @click="detonateMarks(1)">1</p>
             <p class="mark-count" @click="detonateMarks(2)">2</p>
@@ -34,18 +52,17 @@
         <table v-if="clientWidth > 550" class="table table-striped table-skills">
           <thead>
             <tr 
-              @mouseover="displayTooltips"
-              @mouseout="hideTooltips"
+              @mouseover="displayTooltip"
+              @mouseout="hideTooltip"
             >
               <th scope="col" class="tooltip-container">Skill<span class="tooltip-msg">[Marks count]</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
-              <th class="separator-th"></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DMG/Cast</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
           </thead>
           <tbody>
@@ -55,10 +72,9 @@
                 <p>{{ skill.skillName }} <span v-if="skill.mark > 0">[{{ skill.mark }}]</span> </p>
               </td>
               <td>{{ skill.dmg }}%</td>
-              <td :class="castChecked && (skill.castCancel < skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
+              <td :class="castChecked && (+skill.castCancel < +skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
-              <td class="separator-td"></td>
               <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
               <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
               <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
@@ -68,8 +84,8 @@
         <table v-else class="table table-striped table-skills">
           <thead>
             <tr 
-              @mouseover="displayTooltips" 
-              @mouseout="hideTooltips"
+              @mouseover="displayTooltip" 
+              @mouseout="hideTooltip"
             >
               <th scope="col" class="tooltip-container">Skill<span class="tooltip-msg">[Marks count]</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier (DPS)</span></th>
@@ -85,7 +101,7 @@
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
-              <td :class="(castChecked && (skill.castCancel < skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
+              <td :class="(castChecked && (+skill.castCancel < +skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
               <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
             </tr>
@@ -98,6 +114,8 @@
 
 <script>
 import CharacterService from '../services/CharacterService';
+
+import { useGetSkillIcon, useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
 
 export default {
   props: ['charName'],
@@ -116,19 +134,16 @@ export default {
     }
   },
   methods: {
+    getCharacterIcon(iconUrl) {
+      return useGetCharacterIcon(iconUrl)
+    },
     getImgUrl(iconUrl) {
-      try {
-        return require('@/assets/uploads/skills/' + iconUrl)
-      } catch (e) {
-        return 
-      }
+      return useGetSkillIcon(iconUrl)
     },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;
       
-      if (this.dwChecked) {
-        document.querySelector('.dw-container').classList.add('active')
-        
+      if (this.dwChecked) {        
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg * skill.dwBoost)
@@ -141,8 +156,6 @@ export default {
           dwChecked: this.dwChecked
         })
       } else {
-        document.querySelector('.dw-container').classList.remove('active')
-
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg / skill.dwBoost)
@@ -160,10 +173,8 @@ export default {
       this.castChecked = !this.castChecked;
 
       if (this.castChecked) {
-        document.querySelector('.cast-container').classList.add('active')
         this.$emit('cast-cancel', this.castChecked)
       } else {
-        document.querySelector('.cast-container').classList.remove('active')
         this.$emit('cast-cancel', this.castChecked)
       }
     },
@@ -263,25 +274,11 @@ export default {
           break;
       }
     },
-    sortTab() {
-      let tbody = document.querySelector('tbody');
-      let tr = Array.from(document.querySelectorAll('tbody tr'));
-
-      tr.forEach(tr => tr.remove())
-      tr.sort((a, b) => {
-        return a.querySelector('td.dps').textContent - b.querySelector('td.dps').textContent
-      })
-      tr.forEach(tr => tbody.append(tr))
+    displayTooltip(e) {
+      useDisplayTooltip(e)
     },
-    displayTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "block"
-      }
-    },
-    hideTooltips(e) {
-      if (e.target.classList.contains("tooltip-container")) {
-        e.target.children[0].style.display = "none"
-      }
+    hideTooltip(e) {
+      useHideTooltip(e)
     },
   },
   computed: {
@@ -294,7 +291,7 @@ export default {
     .then(res => {
       this.char = res.data.character;
       this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
-      this.displayTooltips
+      this.displayTooltip
       this.$emit('skills-table', {
         skillsTable: this.skillsTable,
         dwChecked: this.dwChecked
@@ -315,6 +312,9 @@ export default {
 </script>
 
 <style scoped>
+.char-info {
+  border-radius: 5px 5px 0 0;
+}
   .description {
     color: white;
   }
@@ -327,16 +327,10 @@ export default {
   }
   /* SKills details */
   .skills-details {
+    width: 800px;
     min-width: 715px;
     margin: 0 1em;
     padding-top: 3em;
-  }
-  .char-info {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-bottom: 1em;
-    color: white;
   }
   .cancel-active {
     color: #00fdce;
@@ -367,25 +361,7 @@ export default {
   .disabled {
     opacity: 0;
   }
-  .tooltip-container {
-    position: relative;
-  }
-  .tooltip-container:hover {
-    cursor: pointer;
-  }
-  .tooltip-msg {
-    display: none;
-    position: absolute;
-    max-width: 200px;
-    width: max-content;
-    z-index: 999;
-    top: 50px;
-    right: 0;
-    text-align: left;
-    padding: 10px;
-    border: 1px solid white;
-    background: #000000a1;
-  }
+
   thead {
     position: sticky;
     top: -1px;
@@ -400,52 +376,26 @@ export default {
   td {
     padding: 0.7rem 0 0.3rem 0;
     color: white;
-    /* border-top: 0; */
-  }
-  .table-skills { 
-    border-spacing: 0px;
-    border: 1px solid white;
-    margin-top: 2em;
-  }
-  thead > tr > td:first-child,
-  tbody > tr > td:first-child {
-    padding-left: 0.5rem;
   }
 
-  tbody {
-    text-align: center;
-    font-size: 15px;
-  }
-  th {
-    color: white;
-    padding: 5px 0;
-  }
-   td {
-    vertical-align: middle;
-  }
-  th.separator-th {
-    width: 1px !important;
-    background: #ffffff7a;
-  }
-  .separator-td {
-    width: 1px;
-    background: #ffffff7a;
-  }
-  .table-skills p {
-    margin: 0;
-  }
   .chii-explosion {
     margin-bottom: 1em;
-    border-top: 1px solid white;
-    padding-top: 1em;
+    border-left: 1px solid #95989e;
+    border-right: 1px solid #95989e;
+    border-bottom: 1px solid #95989e;
+    padding: 0.5rem 1rem;
     color: white;
+    background-color: #2d343f;
+    border-radius: 0 0 5px 5px;
   }
   .chii-explosion p {
     margin-bottom: 0;
     padding: 0.5em 0.5em;
+    border-radius: 5px;
   }
   .chii-explosion p:first-child {
     box-shadow: inset 0 0 1px 1px white;
+    background: #80003c;
   }
   .chii-explosion p:not(:first-child):hover {
     cursor: pointer;
@@ -472,7 +422,7 @@ export default {
     }
   }
   @media screen and (max-width: 500px) {
-    .char-info {
+    /* .char-info {
       flex-direction: column;
       align-items: center;
       height: 200px;
@@ -489,7 +439,7 @@ export default {
     }
     .checkmark {
       margin-right: 10px;
-    }
+    } */
     .chii-counter p:not(:first-child) {
       height: 50px;
       display: flex;

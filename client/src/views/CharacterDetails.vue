@@ -1,5 +1,5 @@
 <template>
-  <div class="skills-container" :class="name.toLowerCase()" :style="containerHeight">
+  <div class="skills-container" :class="name.toLowerCase()">
     <!-- Skills table -->
     <EphnelTable 
       v-if="name == 'Ephnel'"
@@ -20,7 +20,6 @@
       v-else
       :charName="name"
       @skills-table="toggleDesire"
-      @ephnel-dmg="toggleEphDmg"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
@@ -31,7 +30,7 @@
         <p><i>No selectable 2nd row bonus nor 3rd row DMG% bonus for now</i></p>
         <p v-if="name=='Nabi'" class="nabi-note">Enter number of bombs detonated below each chain</p>
       </div>
-      <button v-if="rotationLimit > 0" class="btn btn-info btn-save" @click="saveRotations">Save templates</button>
+      <button v-if="rotationLimit > 0" class="btn btn-info btn-save" @click="saveRotations"><i class="fa-solid fa-floppy-disk"></i> Save templates</button>
       <Rotation
         v-for="component in components"
         :key="component[0]"
@@ -74,7 +73,7 @@ export default {
       save: { save: false, deleteId: this.deleteId },
       sortOrder: false,
       containerH: '',
-      ephDmg: ''
+      ephDmg: '',
     }
   },
   components: { 
@@ -125,33 +124,24 @@ export default {
     },
   },
   computed: {
-    containerHeight() {
-      return {
-        '--container-height': this.containerH
-      }
-    },
   },
   created() {
+    if (this.name == 'tmpChar' && this.$root.userRole != 'ADMIN') {
+      this.$router.push('/')
+    }
+
     try {
       // Get character rotations from store
       const charRotations = `${this.name.toLowerCase()}Rotations`
-      // Import CSS Theme
-      import(`@/assets/theme_${this.name.toLowerCase()}.css`);
-    
+
       this.components = this.$store.getters.getRotations(charRotations)
       this.rotationLimit = Array.from(this.components).length
     } catch {
+      // Character does not exist in store
       this.$router.push('/')
     }
   },
   mounted() {
-    // Get client window Y to set background height
-    setTimeout(() => {
-      this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    }, 500)
-  },
-  updated() {
-    this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
   },
   unmounted() {
     this.components = null
@@ -162,37 +152,50 @@ export default {
 </script>
 
 <style scoped>
-  /* Skills container */
+  .skills-rotation {
+    padding-top: 3em;
+  }
+
+  /* --------------------- */
+  /* SkillsTable component */
+  /* --------------------- */
   .skills-container {
     display: flex;
     justify-content: space-around;
   }
+  
   .skills-container:before {
-    height: var(--container-height);
-    animation: 2s ease-in 0s fadeIn;
-  }
-  .skills-rotation {
-    padding-top: 3em;
-  }
-  @-webkit-keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.5; }  
-  }
-  @keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.5; } 
+    animation: 2s ease-in 1s fadeIn forwards;
   }
   p {
     margin-bottom: 0;
   }
-  p, label, table {
+  p, 
+  label, 
+  table {
     color: white;
   }
   p.nabi-note {
     font-style: italic;
     color: cyan;
   }
+
+  /* Animation */
+  @-webkit-keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; }  
+  }
+
+  @keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; } 
+  }
+
+  /* ------------------- */
+  /* Rotation component */
+  /* ------------------- */
   .chain-bonus {
+    padding: 0.5em;
     margin-bottom: 1em;
   }
   button.rotation {
@@ -202,6 +205,7 @@ export default {
     color: white;
     margin-bottom: 1em;
     border: 1px solid white;
+    border-radius: 5px;
   }
   button.disabled-rotation {
     background: #5c5c5c;
@@ -210,25 +214,36 @@ export default {
   }
   .btn-info {
     color: white;
-    border-radius: 0;
-    background-color: transparent;
-    border-color: #ffffff !important;
+    border-radius: 5px;
+    border-color: #95989e !important;
+    background-color: #48515e !important;
   }
   .btn-info:hover {
     cursor: pointer;
-    background: #ffffff2b;
   }
+
+  button.add-rotation {
+    background-color: #48515e;
+    border-color: #95989e;
+    transition: background-color 0.2s;
+  }
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 1400px) {
     .skills-container {
       flex-direction: column;
       align-items: center;
     }
   }
+
   @media screen and (max-width: 750px) {
     .skills-container {
       min-width: 100%;
     }
   }
+
   @media screen and (max-width: 640px) {
     .skills-rotation {
       width: 100%;

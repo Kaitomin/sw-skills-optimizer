@@ -4,46 +4,93 @@
       <img src="@/assets/img/logo_130x70.png" alt="soulworker logo" width="130" height="70">
     </router-link>
     <div class="menu">
-      <router-link to="/character/Iris">
-        <img src="@/assets/img/iris_nav.png" alt="iris icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Lily">
-        <img src="@/assets/img/lily_nav.png" alt="lily icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Haru">
-        <img src="@/assets/img/haru_nav.png" alt="haru icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Stella">
-        <img src="@/assets/img/stella_nav.png" alt="stella icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Ephnel">
-        <img src="@/assets/img/ephnel_nav.png" alt="ephnel icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Chii">
-        <img src="@/assets/img/chii_nav.png" alt="chii icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Nabi">
-        <img src="@/assets/img/nabi_nav.png" alt="nabi icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Dana">
-        <img src="@/assets/img/dana_nav.png" alt="dana icon" width="120" height="50">
-      </router-link>
-      <router-link to="/character/Erwin">
-        <img src="@/assets/img/erwin_nav.png" alt="erwin icon" width="120" height="50">
+      <router-link 
+        v-for="character in characters"
+        :key="character._id"
+        :to="'/character/' + character.name"
+        class="character"
+      >
+        <img
+          v-if="character.name != 'tmpChar'"
+          :src="require('@/assets/img/' + character.name.toLowerCase() + '_nav.png')" 
+          :alt="character.name + ' avatar'" 
+          width="120" 
+          height="50"
+        >
       </router-link>
     </div>
     <div>
-      <router-link to="/calculator"><i class="fa-solid fa-calculator"></i> Calculator</router-link>
+      <router-link to="/calculator">
+        <i class="fa-solid fa-calculator"></i> 
+        Calculator
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import CharacterService from '../services/CharacterService';
 
-export default {}
+export default {
+  data() {
+    return {
+      characters: []
+    }
+  },
+  async created() {
+    const res = await CharacterService.getAllCharacters()
+    this.characters = res.data.charList
+  }
+}
 </script>
 
 <style scoped>
+  #nav a.router-link-exact-active {
+    color: #00ffff8f;
+  }
+  #nav {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 4em 0;
+    background: #2d343f;
+    padding: 10px 25px;
+    border-right: 1px solid #95989e;
+    position: fixed;
+    width: 145px;
+    height: 100vh;
+    overflow-y: scroll;
+    z-index: 5;
+  }
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
+  #nav a {
+    color: #d9d9d9;
+    text-decoration: none;
+  }
+  #nav > a {
+    display: block;
+    width: max-content;
+  }
+  .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  .menu a {
+    display: block;
+    padding: 0.5em 0;
+  }
+  .router-link-active.character {
+    border-radius: 5px;
+    background-color: #00ffff75;
+  }
+  
   /* Responsive */
   @media screen and (max-width: 1380px) {
     #nav {

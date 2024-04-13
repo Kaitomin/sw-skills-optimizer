@@ -9,12 +9,12 @@ const routes = [
     path: '/',
     name: 'Home',
     meta: { title: 'Soulworker | Skills Optimizer', content: 'Soulworker skills details and rotations optimization' },
-    component: lazyLoad('CharactersList')
+    component: lazyLoad('Home')
   },
   {
     path: '/character/:name',
     name: 'CharacterDetails',
-    meta: { title: ' | Skills & Rotations', content: ' skills table and rotation templates' },
+    meta: { title: '', content: ' skills table and rotation templates' },
     component: lazyLoad('CharacterDetails'),
     props: true
   },
@@ -36,11 +36,17 @@ const routes = [
     meta: { title: 'Dashboard', content: 'Add or edit existing skills' },
     component: lazyLoad('Dashboard')
   },
+  {
+    path: '/login',
+    name: 'Login',
+    meta: { title: 'Login', content: 'Login to access edit feature' },
+    component: lazyLoad('Login')
+  },
   // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   meta: { title: 'Login', content: 'Login to access edit feature' },
-  //   component: lazyLoad('Login')
+  //   path: '/register',
+  //   name: 'Register',
+  //   meta: { title: 'New account', content: 'Create a new account' },
+  //   component: lazyLoad('Register')
   // },
   {
     path: '/calculator',

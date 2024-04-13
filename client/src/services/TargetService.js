@@ -1,7 +1,10 @@
 import Api from '@/services/Api'
 
 export default {
-  getTargetInfo(data) {
-    return Api().get('/target/' +  data);
+  getTargets() {
+    return Api().get('/target');
+  },
+  getTargetInfo(slug) {
+    return Api().get('/target/' +  slug);
   },
 }

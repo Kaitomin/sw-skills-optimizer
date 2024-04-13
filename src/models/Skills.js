@@ -29,6 +29,20 @@ const skillSchema = new Schema({
   character: {
     type: String,
     required: true
+  },
+  dwBoost: {
+    type: String
+  },
+  // Chii mark
+  mark: {
+    type: String
+  },
+  // Ephnel buff
+  dmgBullet: {
+    type: String
+  },
+  dmgRelease: {
+    type: String
   }
 });
 

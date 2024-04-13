@@ -3,11 +3,11 @@
     <h3>Setup {{id + 1}}</h3>
     <div>
       <label>ATK</label>
-      <input type="number" min="0" max="150000" v-model="atk" @keypress="sanitizeValues($event)">
+      <input type="number" min="0" max="500000" v-model="atk" @keypress="sanitizeValues($event)">
     </div>
     <div>
       <label>CDMG</label>
-      <input type="number" min="0" max="200000" v-model="cdmg" @keypress="sanitizeValues($event)">
+      <input type="number" min="0" max="500000" v-model="cdmg" @keypress="sanitizeValues($event)">
     </div>
     <div>
       <label>AB</label>
@@ -15,7 +15,7 @@
     </div>
     <div>
       <label>BDMG</label>
-      <input type="number" min="0" max="350" v-model="bdmg" @keypress="sanitizeValues($event)">
+      <input type="number" min="0" max="9999" v-model="bdmg" @keypress="sanitizeValues($event)">
     </div>
     <div>
       <label>Skill</label>
@@ -46,10 +46,10 @@ export default {
   methods: {
     calculateDmg() {
       // Check inputs
-      this.atk = this.checkInput(this.atk, 0, 150000)
-      this.cdmg = this.checkInput(this.cdmg, 0, 200000)
+      this.atk = this.checkInput(this.atk, 0, 500000)
+      this.cdmg = this.checkInput(this.cdmg, 0, 500000)
       this.ab = this.checkInput(this.ab, 0, 100)
-      this.bdmg = this.checkInput(this.bdmg, 0, 500)
+      this.bdmg = this.checkInput(this.bdmg, 0, 9999)
       this.skill = this.checkInput(this.skill, 0, 40000)
 
       // Calculate target defense rate
@@ -124,7 +124,7 @@ export default {
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
-    background: #00000047;
+    background: #2d343f;
     border: 1px solid white;
   }
   label {
@@ -153,7 +153,7 @@ export default {
     border: none;	
     outline: none;
     border-bottom: 1px solid #3ce7d7;
-    background: #ffffff47;
+    background: #ffffff6e;
   }
   .stats input[type='color'] {
     width: 65px;
