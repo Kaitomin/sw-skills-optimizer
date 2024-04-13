@@ -1,5 +1,11 @@
 <template>
-  <div class="dashboard" :style="containerHeight">
+  <ModalForm 
+    v-if="showModalEdit" 
+    :skill="selectedSkill" 
+    @close-modal="showModalEdit = false" 
+    @submit="saveChanges"
+  />
+  <div class="dashboard">
     <div
       v-show="showModal == true"
       class="alert modal-container"
@@ -39,6 +45,7 @@
               v-for="char in charList"
               :key="char._id"
               :class="currentCharacter === char.name ? 'active' : ''"
+              @click="currentCharacter = char.name"
             >
               <div
                 v-if="char.name !== 'tmpChar'"
@@ -51,6 +58,20 @@
                   height="150"
                 />
               </div>
+
+              <!-- Temp for test -->
+              <div
+                v-if="char.name == 'tmpChar' && $root.userRole == 'ADMIN'"
+                @click="getCharacterSkills(char.name)"
+              >
+                <img
+                  :src="getCharacterIcon(char.icon)"
+                  :alt="char.name + ' icon'"
+                  width="150"
+                  height="150"
+                />
+              </div>
+
             </div>
           </div>
           <router-link
@@ -194,20 +215,8 @@
                   <i
                     class="fa-solid fa-pen-to-square"
                     title="Edit skill"
-                    @click="editSkill($event, skill)"
+                    @click="editSkill(skill)"
                   ></i>
-                  <div class="hidden">
-                    <i
-                      class="fa-solid fa-check"
-                      title="Apply changes"
-                      @click="saveChanges($event, skill)"
-                    ></i>
-                    <i
-                      class="fa-solid fa-xmark"
-                      title="Cancel changes"
-                      @click="cancelChanges($event, skill)"
-                    ></i>
-                  </div>
                 </td>
               </tr>
             </tbody>
@@ -220,13 +229,15 @@
 
 <script>
 import CharacterService from "../services/CharacterService";
-import SkillService from "../services/SkillService";
 import LoggerService from "../services/LoggerService";
+
+import { defineAsyncComponent } from 'vue'
 
 import {
   useGetCharactersIcons,
   useGetCharacterIcon,
-  useGetSkillIcon
+  useGetSkillIcon,
+  useSetLogger
 } from "../composable/functions";
 
 export default {
@@ -238,8 +249,13 @@ export default {
       currentCharacter: "",
       error: false,
       showModal: false,
-      containerH: ""
-    };
+      showModalEdit: false,
+      containerH: "",
+      selectedSkill: {}
+    }
+  },
+  components: {
+    ModalForm: defineAsyncComponent(() => import('../components/ModalForm.vue'))
   },
   methods: {
     async getAllCharacters() {
@@ -260,111 +276,21 @@ export default {
     getLogger() {
       LoggerService.getLogger().then(res => (this.logger = res.data.logger));
     },
-    validateInput({ name, value }) {
-      switch (name) {
-        case "dmg":
-        case "cd":
-        case "cast":
-        case "castCancel":
-        case "dmgBullet":
-        case "dmgRelease":
-        case "mark":
-          if (!/^[0-9]+$/.test(value)) this.error = true;
-          break;
-        case "skillName":
-          if (!/^[-a-z0-9()%>:' ]+$/i.test(value)) this.error = true;
-          break;
-        case "dwBoost":
-          if (!/^[0-9]{1}([.][0-9]{1,4})$/.test(value)) this.error = true;
-          break;
-        default:
-          break;
-      }
+    editSkill(event) {
+      this.selectedSkill = event
+      this.showModalEdit = true
     },
-    editSkill(event, skill) {
-      const inputs = document.querySelectorAll(`#tr-${skill._id} input`);
-
-      inputs.forEach(input => {
-        if (
-          (input.name === "dwBoost" && input.value == "") ||
-          input.name === "character"
-        )
-          return;
-
-        input.classList.add("edit");
-        input.disabled = false;
-      });
-
-      event.target.classList.add("hidden");
-      event.target.nextElementSibling.className = "";
-    },
-    async saveChanges(event, skill) {
-      this.error = false;
-
-      const inputs = document.querySelectorAll(`#tr-${skill._id} input`);
-      const skillObj = { ...skill };
-
-      inputs.forEach(input => {
-        if (input.name === "dwBoost" && input.value == "") return;
-
-        this.validateInput({ name: input.name, value: input.value });
-        skillObj[input.name] = input.value;
-      });
-
-      if (this.error) {
-        this.showModal = true;
-        setTimeout(() => (this.showModal = false), 1000);
-        return;
-      } else {
-        try {
-          // Modify skill
-          await SkillService.updateSkill(skillObj);
-          await this.getCharacterSkills(this.currentCharacter);
-
-          const date = new Date();
-
-          // Save current date to the logger
-          let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-          let month =
-            date.getMonth() + 1 < 10
-              ? "0" + date.getMonth()
-              : date.getMonth() + 1;
-          let year = date.getFullYear();
-          let hours =
-            date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-          let minutes =
-            date.getMinutes() < 10
-              ? "0" + date.getMinutes()
-              : date.getMinutes();
-          let seconds =
-            date.getSeconds() < 10
-              ? "0" + date.getSeconds()
-              : date.getSeconds();
-
-          const currentDate = `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
-
-          await LoggerService.setLogger({ currentDate, skill: skillObj });
-
-          // Disable edit inputs
-          inputs.forEach(input => {
-            input.classList.remove("edit");
-            input.disabled = true;
-          });
-
-          event.target.parentElement.className = "hidden";
-          event.target.parentElement.previousElementSibling.classList.remove(
-            "hidden"
-          );
-
-          this.showModal = true;
-
-          setTimeout(() => (this.showModal = false), 1000);
-        } catch (err) {
-          console.log(err);
-        }
-
-        this.getLogger();
+    async saveChanges(skill) {
+      try {
+        this.showModalEdit = false
+        
+        await this.getCharacterSkills(this.currentCharacter);
+        await useSetLogger(skill)
+      } catch (err) {
+        console.log(err);
       }
+
+      this.getLogger();
     },
     cancelChanges(event, skill) {
       const inputs = document.querySelectorAll(`#tr-${skill._id} input`);
@@ -384,11 +310,6 @@ export default {
     }
   },
   computed: {
-    containerHeight() {
-      return {
-        "--container-height": this.containerH
-      };
-    },
     sortedLogger() {
       return Array.from(this.logger).reverse();
     }
@@ -399,231 +320,232 @@ export default {
   created() {
     this.getAllCharacters();
     this.getLogger();
-    this.getCharacterSkills("Ephnel");
+    this.getCharacterSkills("Iris");
   },
   mounted() {
-    const container = document.querySelector(".dashboard");
-    setTimeout(() => (this.containerH = container.clientHeight + "px"), 1000);
   }
-};
+}
 </script>
 
 <style scoped>
-.logger-container {
-  color: white;
-}
-.logger-container > div {
-  overflow-y: scroll;
-  margin: 0 auto;
-  height: 100px;
-  padding: 1em 2em;
-  text-align: left;
-  border: 1px solid #95989e;
-  border-radius: 5px;
-  background: #2d343f;
-}
-.logger-container p {
-  font-style: italic;
-}
-.logger-container ~ div {
-  display: flex;
-  justify-content: space-between;
-}
-.dashboard {
-  margin-top: 2em;
-  margin-left: 169px;
-}
-.dashboard > div:last-child {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  gap: 2em 0;
-  width: 90%;
-  margin: 2em auto 4em auto;
-}
-.dashboard::before {
-  content: " ";
-  display: block;
-  position: absolute;
-  left: 0;
-  /* top: 0; */
-  width: 100%;
-  z-index: -999;
-  opacity: 0.8;
-  box-shadow: inset 0 0 200px 175px black;
-  -moz-transform: scaleX(-1);
-  -o-transform: scaleX(-1);
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-  animation: 1s ease-in 1s fadeIn;
-}
-
-/* Animation */
-@-webkit-keyframes fadeIn {
-  0% {
-    opacity: 0;
+  .table-skills {
+    margin: 0;
   }
-  100% {
-    opacity: 0.8;
+  .logger-container {
+    color: white;
   }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
+  .logger-container > div {
+    overflow-y: scroll;
+    margin: 0 auto;
+    height: 100px;
+    padding: 1em 2em;
+    text-align: left;
+    border: 1px solid #95989e;
+    border-radius: 5px;
+    background: #2d343f;
   }
-  100% {
-    opacity: 0.8;
+  .logger-container p {
+    font-style: italic;
   }
-}
-
-/* Modal */
-.modal-container {
-  position: fixed;
-  z-index: 999;
-  top: 85px;
-  left: 50%;
-  width: 165px;
-  font-weight: 900;
-  border: 2px solid;
-  transform: translate(-50%, 0px);
-}
-
-/* ---------- */
-/* Characters */
-/* ---------- */
-.characters-container {
-  display: flex;
-  flex-direction: column;
-  gap: 30px 0;
-  width: 275px;
-}
-.characters {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  height: fit-content;
-  gap: 10px;
-  border: 1px solid #95989e;
-  background: #2d343f;
-  padding: 1em 10px;
-  border-radius: 5px;
-}
-.characters img {
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-}
-.characters > div {
-  border-radius: 100%;
-  width: 120px;
-  height: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.characters > div:not(div:last-child):hover {
-  cursor: pointer;
-  background-color: #ffffff29;
-}
-.active {
-  background-color: #00b8ff6b !important;
-}
-
-/* ------------ */
-/* Skills Table */
-/* ------------ */
-.skills-container {
-  min-width: 1000px;
-  width: 1200px;
-  height: fit-content;
-}
-.skills-container th {
-  width: 7.5%;
-}
-.add-character {
-  float: left;
-  padding: 0.2em 0.5em;
-  background: none;
-  border: 2px solid #95989e;
-  text-decoration: none;
-  color: white;
-  border-radius: 5px;
-}
-.add-character:hover {
-  background: #ffffff21;
-}
-
-/* Stats inputs */
-input {
-  background: none;
-  /* outline: 0; */
-  border: 0;
-  color: white;
-  text-align: center;
-  width: 60px;
-}
-input.skill-name {
-  width: 100%;
-}
-input.skill-dmg,
-input.character-name,
-input.skill-dw {
-  width: 60px;
-}
-input::placeholder {
-  color: white;
-}
-
-/* Actions icons */
-.actions .fa-solid:hover {
-  cursor: pointer;
-}
-.fa-pen-to-square:hover {
-  color: #00b8ff;
-}
-.fa-check,
-.fa-xmark {
-  font-size: 20px;
-}
-.fa-check {
-  color: green;
-}
-
-.fa-xmark {
-  color: red;
-}
-.edit {
-  background: #ffffff61;
-}
-.hidden {
-  display: none !important;
-}
-.actions > div {
-  display: flex;
-  justify-content: space-around;
-}
-
-/* ---------- */
-/* Responsive */
-/* ---------- */
-@media screen and (max-width: 1550px) {
+  .logger-container ~ div {
+    display: flex;
+    justify-content: space-between;
+  }
+  .dashboard {
+    margin-top: 2em;
+    margin-left: 169px;
+  }
   .dashboard > div:last-child {
+    display: flex;
+    justify-content: space-around;
     flex-direction: column;
+    gap: 2em 0;
+    width: 90%;
+    margin: 2em auto 4em auto;
+  }
+  .dashboard::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 0;
+    /* top: 0; */
     width: 100%;
-    gap: 2em;
+    z-index: -999;
+    opacity: 0.8;
+    box-shadow: inset 0 0 200px 175px black;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    animation: 1s ease-in 1s fadeIn;
   }
 
+  /* Animation */
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0.8;
+    }
+  }
+
+  /* Modal */
+  .modal-container {
+    position: fixed;
+    z-index: 999;
+    top: 85px;
+    left: 50%;
+    width: 165px;
+    font-weight: 900;
+    border: 2px solid;
+    transform: translate(-50%, 0px);
+  }
+
+  /* ---------- */
   /* Characters */
+  /* ---------- */
   .characters-container {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px 0;
+    width: 275px;
+  }
+  .characters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    height: fit-content;
+    gap: 10px;
+    border: 1px solid #95989e;
+    background: #2d343f;
+    padding: 1em 10px;
+    border-radius: 5px;
+  }
+  .characters img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+  }
+  .characters > div {
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .characters > div:not(div:last-child):hover {
+    cursor: pointer;
+    background-color: #ffffff29;
+  }
+  .active {
+    background-color: #00b8ff6b !important;
   }
 
-  /* Skills */
+  /* ------------ */
+  /* Skills Table */
+  /* ------------ */
   .skills-container {
-    min-width: 0;
+    min-width: 1000px;
+    width: 1200px;
+    height: fit-content;
+  }
+  .skills-container th {
+    width: 7.5%;
+  }
+  .add-character {
+    float: left;
+    padding: 0.2em 0.5em;
+    background: none;
+    border: 2px solid #95989e;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+  }
+  .add-character:hover {
+    background: #ffffff21;
+  }
+
+  /* Stats inputs */
+  input {
+    background: none;
+    /* outline: 0; */
+    border: 0;
+    color: white;
+    text-align: center;
+    width: 60px;
+  }
+  input.skill-name {
     width: 100%;
   }
-}
+  input.skill-dmg,
+  input.character-name,
+  input.skill-dw {
+    width: 60px;
+  }
+  input::placeholder {
+    color: white;
+  }
+
+  /* Actions icons */
+  .actions .fa-solid:hover {
+    cursor: pointer;
+  }
+  .fa-pen-to-square:hover {
+    color: #00b8ff;
+  }
+  .fa-check,
+  .fa-xmark {
+    font-size: 20px;
+  }
+  .fa-check {
+    color: green;
+  }
+
+  .fa-xmark {
+    color: red;
+  }
+  .edit {
+    background: #ffffff61;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .actions > div {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
+  @media screen and (max-width: 1550px) {
+    .dashboard > div:last-child {
+      flex-direction: column;
+      width: 100%;
+      gap: 2em;
+    }
+
+    /* Characters */
+    .characters-container {
+      width: 100%;
+    }
+
+    /* Skills */
+    .skills-container {
+      min-width: 0;
+      width: 100%;
+    }
+  }
 </style>

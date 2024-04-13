@@ -78,7 +78,7 @@ export default {
     border: 1px solid white;
     color: white;
     text-align: left;
-    background-color: #1c1c1c;
+    background-color: #2d343f;
     border-radius: 5px;
   }
   .contact p {

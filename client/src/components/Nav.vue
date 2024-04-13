@@ -52,7 +52,7 @@ export default {}
     align-items: center;
     flex-direction: column;
     gap: 4em 0;
-    background: #1d232c;
+    background: #2d343f;
     padding: 10px 25px;
     border-right: 1px solid #95989e;
     position: fixed;
