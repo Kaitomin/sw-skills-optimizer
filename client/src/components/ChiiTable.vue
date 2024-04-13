@@ -62,7 +62,7 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DMG/Cast</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
           </thead>
           <tbody>
@@ -143,9 +143,7 @@ export default {
     toggleDesire() {
       this.dwChecked = !this.dwChecked;
       
-      if (this.dwChecked) {
-        document.querySelector('.dw-container').classList.add('active')
-        
+      if (this.dwChecked) {        
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg * skill.dwBoost)
@@ -158,8 +156,6 @@ export default {
           dwChecked: this.dwChecked
         })
       } else {
-        document.querySelector('.dw-container').classList.remove('active')
-
         Array.from(this.skillsTable).map(skill => {
           if (skill.dwBoost) {
             skill.dmg = Math.round(skill.dmg / skill.dwBoost)
@@ -177,10 +173,8 @@ export default {
       this.castChecked = !this.castChecked;
 
       if (this.castChecked) {
-        document.querySelector('.cast-container').classList.add('active')
         this.$emit('cast-cancel', this.castChecked)
       } else {
-        document.querySelector('.cast-container').classList.remove('active')
         this.$emit('cast-cancel', this.castChecked)
       }
     },
@@ -280,9 +274,6 @@ export default {
           break;
       }
     },
-    // sortTab() {
-    //   useSortTable()
-    // },
     displayTooltip(e) {
       useDisplayTooltip(e)
     },
@@ -321,6 +312,9 @@ export default {
 </script>
 
 <style scoped>
+.char-info {
+  border-radius: 5px 5px 0 0;
+}
   .description {
     color: white;
   }
@@ -382,21 +376,22 @@ export default {
   td {
     padding: 0.7rem 0 0.3rem 0;
     color: white;
-    /* border-top: 0; */
   }
 
   .chii-explosion {
     margin-bottom: 1em;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    border-left: 1px solid #95989e;
+    border-right: 1px solid #95989e;
+    border-bottom: 1px solid #95989e;
     padding: 0.5rem 1rem;
     color: white;
-    background-color: #44001ed1;
+    background-color: #2d343f;
+    border-radius: 0 0 5px 5px;
   }
   .chii-explosion p {
     margin-bottom: 0;
     padding: 0.5em 0.5em;
+    border-radius: 5px;
   }
   .chii-explosion p:first-child {
     box-shadow: inset 0 0 1px 1px white;

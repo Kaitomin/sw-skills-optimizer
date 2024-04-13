@@ -12,6 +12,7 @@ const store = createStore({
     nabiChains: JSON.parse(localStorage.getItem('nabi-chains')) ?? [],
     danaChains: JSON.parse(localStorage.getItem('dana-chains')) ?? [],
     erwinChains: JSON.parse(localStorage.getItem('erwin-chains')) ?? [],
+    tmpcharChains: JSON.parse(localStorage.getItem('tmpchar-chains')) ?? [],
     // Rotations
     lilyRotations: new Map(JSON.parse(localStorage.getItem('lily-rotations'))),
     irisRotations: new Map(JSON.parse(localStorage.getItem('iris-rotations'))),
@@ -22,6 +23,7 @@ const store = createStore({
     nabiRotations: new Map(JSON.parse(localStorage.getItem('nabi-rotations'))),
     danaRotations: new Map(JSON.parse(localStorage.getItem('dana-rotations'))),
     erwinRotations: new Map(JSON.parse(localStorage.getItem('erwin-rotations'))),
+    tmpcharRotations: new Map(JSON.parse(localStorage.getItem('tmpchar-rotations'))),
     // Calculator setups
     calculatorSetups: JSON.parse(localStorage.getItem('calculator-setups')) ?? []
   },

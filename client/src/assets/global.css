@@ -5,22 +5,11 @@
 }
 
 body {
-  background: black;
+  background: #21252d;
 }
 
 /* input range */
 input[type=range]#charCD {
-  /* -webkit-appearance: none;     
-  padding: 0;                   
-  font: inherit;            
-  outline: none;
-  color: #069;               
-  opacity: .8;
-  height: 15px;                
-  background: #CCC;           
-  box-sizing: border-box;     
-  transition: opacity .2s;
-  width: 100%; */
   cursor: pointer;
 }
 input[type=range]#charCD:hover {
@@ -86,10 +75,6 @@ input[type=range].custom-slider::-ms-fill-upper {
   background: transparent;
 }
 
-
-
-
-
 /* -------------------- */
 /* Skills Table tooltip */
 /* -------------------- */
@@ -106,7 +91,7 @@ input[type=range].custom-slider::-ms-fill-upper {
   justify-content: space-evenly;
   align-items: center;
   color: white;
-  border: 1px solid white;
+  /* border: 1px solid white; */
 }
 
 .skills-container .char-info p {
@@ -147,7 +132,8 @@ input[type=range].custom-slider::-ms-fill-upper {
   text-align: left;
   padding: 10px;
   border: 1px solid white;
-  background: #000000a1;
+  background: #171c24;
+  border-radius: 5px;
 }
 
 .skills-container thead {
@@ -170,7 +156,7 @@ input[type=range].custom-slider::-ms-fill-upper {
 
 .skills-container .table-skills { 
   border-spacing: 0px;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.493);
   margin-top: 2em;
 }
 
@@ -266,11 +252,69 @@ input[type=range].custom-slider::-ms-fill-upper {
   border-radius: 50%;
 }
 
-@media screen and (max-width: 500px) {
-  .char-info {
+.char-info,
+.table-skills {
+  border-radius: 5px;
+}
+.char-info {
+  background-color: #2d343f;
+  border: 1px solid #95989e;
+}
+
+/* ------------ */
+/* Table skills */
+/* ------------ */
+.table-skills {
+  border-collapse: separate;
+}
+.table-skills th:first-child {
+  border-radius: 5px 0 0 0;
+}
+.table-skills th:last-child {
+  border-radius: 0 5px 0 0;
+}
+.table-skills tbody tr:last-child > td:first-child {
+  border-radius: 0 0 0 5px;
+}
+.table-skills tbody tr:last-child > td:last-child {
+  border-radius: 0 0 5px 0;
+}
+.table-skills th:first-child {
+  width: 10%;
+}
+.table-skills th {
+  background-color: #1d232c;
+  width: 5%;
+  border-bottom-color: #95989e !important;
+}
+.table-skills tbody tr {
+  background-color: #1d232c;
+}
+.table-skills tbody > tr:nth-of-type(odd) {
+  background-color: #2f3742;
+}
+
+/* ---------- */
+/* Responsive */
+/* ---------- */
+@media screen and (max-width: 860px) {
+  .skills-details {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+  .tooltip-msg {
+    width: 150px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .skills-container .char-info {
     flex-direction: column;
     align-items: center;
-    height: 200px;
+    height: 100%;
+  }
+  .skills-container .char-info > div:last-child > div {
+    flex-direction: column;
+    gap: 30px 0;
   }
   .description {
     margin-bottom: 0;

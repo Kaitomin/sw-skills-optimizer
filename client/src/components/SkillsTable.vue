@@ -52,7 +52,7 @@
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DPS</span><br>[{{ +charCD + 15 }}% ]</th>
+              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DMG/Cast</span><br>[{{ +charCD + 15 }}% ]</th>
             </tr>
           </thead>
           <tbody>
@@ -133,7 +133,7 @@ export default {
     getSkillIcon(iconUrl) {
       return useGetSkillIcon(iconUrl)
     },
-    toggleDesire(e) {
+    toggleDesire() {
       this.dwChecked = !this.dwChecked;
 
       if (this.dwChecked) {
@@ -240,15 +240,15 @@ export default {
         this.aspd = 205
         break;
       case 'Iris':
-        this.description = "Data gathered from EN ver. [03/04/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Stella':
-        this.description = "Data gathered from EN ver. [05/04/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 205
         break;
       case 'Haru':
-        this.description = "Data gathered from EN ver. [06/04/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Nabi':
@@ -256,7 +256,7 @@ export default {
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data gathered by Yukawa from KR ver. [27/07/2022]"
+        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Erwin':
@@ -271,6 +271,14 @@ export default {
 </script>
 
 <style scoped>
+  /* .char-info,
+  .table-skills {
+    border-radius: 5px;
+  }
+  .char-info {
+    background-color: #2d343f;
+    border: 1px solid rgba(255, 255, 255, 0.493);
+  } */
   .description {
     color: white;
   }
@@ -287,7 +295,7 @@ export default {
   }
   /* SKills details */
   .skills-details {
-    width: 800px;
+    /* width: 800px; */
     min-width: 715px;
     margin: 0 1em;
     padding-top: 3em;
@@ -331,23 +339,17 @@ export default {
   .disabled {
     opacity: 0;
   }
-
-  
-
-
-
-
-
   
   /* Responsive */
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 860px) {
     .skills-details {
       min-width: 100%;
+      width: 100%;
     }
     .tooltip-msg {
       width: 150px;
     }
-  }
+  } */
   /* @media screen and (max-width: 500px) {
     .char-info {
       flex-direction: column;

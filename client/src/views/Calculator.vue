@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <div class="calculator-container" :style="[containerHeight, backgroundBlack]">
+    <div class="calculator-container" :style="[blackColor]">
       <div class="calculator">
         <div class="data">
           <div class="stats-container">
@@ -22,24 +22,14 @@
             <button class="btn-save" @click="saveSetups">Save setups</button>
           </div>
 
-          <div class="target-container" @click="assignTarget">
-            <div data-target="aculus_edgar">Arculus/Edgar N</div>
-            <div data-target="junk_queen">Junk Queen N</div>
-            <div data-target="junk_queen_h">Junk Queen H</div>
-            <div data-target="flemma_p1" class="selected-target">Flemma P1</div>
-            <div data-target="flemma_p2">Flemma P2</div>
-            <div data-target="flemma_p3">Flemma P3</div>
-            <div data-target="tenebrisN_p1">Tenebris N P1</div>
-            <div data-target="tenebrisN_p2">Tenebris N P2</div>
-            <div data-target="tenebrisH">Tenebris H</div>     
-            <div data-target="ferdelanceN_p1">Ferdelance N P1</div>
-            <div data-target="ferdelanceN_p2">Ferdelance N P2</div>
-            <div data-target="ferdelanceH_p1">Ferdelance H P1</div>
-            <div data-target="ferdelanceH_p2">Ferdelance H P2</div>
-            <div data-target="ferdelanceM_p1">Ferdelance M P1</div>
-            <div data-target="ferdelanceM_p2">Ferdelance M P2</div>
-            <div data-target="raphakumba">Raphakumba</div>
-            <div data-target="flemma_solo">Flemma Solo</div>
+          <div class="target-container">
+            <div 
+              v-for="target in targets" 
+              :class="{'selected-target': target.slug == selectedTarget.slug}"
+              @click="getTarget(target.slug)"
+            >
+              {{ target.name }}
+            </div>
           </div>
         </div>
 
@@ -54,7 +44,7 @@
             :styles="styles"
             :width="width"
             :height="height"
-            style="background-color: #000000b5; border: 1px solid white"
+            style="background-color: #2d343f; border: 1px solid white"
           />
 
           <div class="info">
@@ -69,7 +59,7 @@
 
         <div class="notes">
           <div>
-            <p>⬥ ATK = character max atk value</p>
+            <p>⬥ ATK = character max attack value</p>
             <p>⬥ Skill % can be found on character's skills page (don't forget to activate DW and/or specific dmg modifier e.g Chii's mark, Ephnel's bullet)</p>
             <p>⬥ Difference & ratio are calculated with Setup 1 as reference ("Setup 1 does more/less dmg than Setup 2")</p>
             <p>⬥ Damage formula taken from : <a href="https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js" target="_blank">https://github.com/Mush-0/sw-dmg-chart/blob/main/dmgCalc.js</a></p>
@@ -86,129 +76,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Raphakumba</td>
-                <td>68</td>
-                <td>2060</td>
-                <td>807</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Arculus/Edgar N</td>
-                <td>72</td>
-                <td>1440</td>
-                <td>1098</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Junk Queen N</td>
-                <td>72</td>
-                <td>2847</td>
-                <td>1098</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Junk Queen H</td>
-                <td>77</td>
-                <td>4510</td>
-                <td>1199</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Flemma P1</td>
-                <td>76</td>
-                <td>2680</td>
-                <td>1198</td>
-                <td>10%</td>
-              </tr>
-              <tr>
-                <td>Flemma P2</td>
-                <td>77</td>
-                <td>3310</td>
-                <td>1199</td>
-                <td>10%</td>
-              </tr>
-              <tr>
-                <td>Flemma P3</td>
-                <td>77</td>
-                <td>4510</td>
-                <td>1199</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Flemma Solo</td>
-                <td>68</td>
-                <td>2440</td>
-                <td>1193</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Tenebris N P1</td>
-                <td>80</td>
-                <td>2800</td>
-                <td>1201</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Tenebris N P2</td>
-                <td>81</td>
-                <td>3430</td>
-                <td>1201</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Tenebris H</td>
-                <td>81</td>
-                <td>4630</td>
-                <td>1501</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance N P1</td>
-                <td>83</td>
-                <td>2890</td>
-                <td>1503</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance N P2</td>
-                <td>84</td>
-                <td>3520</td>
-                <td>1503</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance H P1</td>
-                <td>83</td>
-                <td>2890</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance H P2</td>
-                <td>84</td>
-                <td>3520</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance M P1</td>
-                <td>83</td>
-                <td>2890</td>
-                <td>0</td>
-                <td>0</td>
-              </tr>
-              <tr>
-                <td>Ferdelance M P2</td>
-                <td>84</td>
-                <td>3520</td>
-                <td>0</td>
-                <td>0</td>
+              <tr v-for="target in targets">
+                <td>{{ target.name }}</td>
+                <td>{{ target.level }}</td>
+                <td>{{ target.defense }}</td>
+                <td>{{ target.evasion }}</td>
+                <td>{{ target.dmgReduction }}%</td>
               </tr>
             </tbody>
           </table>
         </div>
-      
       </div>
     </div>
   </keep-alive>
@@ -304,9 +181,9 @@ export default {
         }
       },
       setups: [],
-      containerH: '',
       target: 'flemma_p1',
       selectedTarget: '',
+      targets: [],
       save: false
     }
   },
@@ -326,6 +203,10 @@ export default {
     async getTarget(t) {
       const res = await TargetService.getTargetInfo(t)
       this.selectedTarget = res.data.target
+    },
+    async getTargets() {
+      const res = await TargetService.getTargets()
+      this.targets = res.data.target
     },
     displayGraph(event) {
       const index = event.id
@@ -351,24 +232,17 @@ export default {
       if (ratio <= 0 || !isFinite(ratio)) return 0
       return ratio.toFixed(6)
     },
-    containerHeight() {
+    blackColor() {
       return {
-        '--container-height': this.containerH
-      }
-    },
-    backgroundBlack() {
-      return {
-        '--bg-black': '#000000b5'
+        '--bg-black': '#2d343f'
       }
     }
   },
   created() {
     this.getTarget(this.target)
+    this.getTargets()
   },
   mounted() {
-    setTimeout(() => {
-      this.containerH = document.querySelector('.calculator-container').offsetHeight + 'px'
-    }, 500)
   }
 }
 </script>
@@ -382,31 +256,17 @@ export default {
     width: 125px;
   }
   optgroup {
-    background: black;
-  }
-  .calculator-container:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: var(--container-height);
-    z-index: -999;
-    opacity: 0.7;
-    background: url('../assets/img/bg_3840.webp');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    animation: 2s ease-in 0s fadeIn;
+    background: #2d343f;
   }
   @-webkit-keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; }  
+    100% { opacity: 0.4; }  
   }
   @keyframes fadeIn { 
     0% { opacity: 0; }
-    100% { opacity: 0.7; } 
+    100% { opacity: 0.4; } 
   }
+
   .calculator {
     display: grid;
     justify-content: space-between;
@@ -436,7 +296,7 @@ export default {
   .stats-container > div:nth-child(2) {
     grid-area: setup2
   }
-  .stats-container > button.btn-save {
+  button.btn-save {
     grid-area: save;
     color: white;
     padding: 5px 0;
@@ -448,8 +308,8 @@ export default {
     border-right: 1px solid white;
     border-bottom: 1px solid white;
   }
-  .stats-container > button.btn-save:hover {
-    background: #0000009a;
+  button.btn-save:hover {
+    background: #2d343fce;
     /* -webkit-transition: background 0.1s linear;
     -ms-transition: background 0.1s linear;
     transition: background 0.1s linear; */
@@ -470,7 +330,7 @@ export default {
   }
   .target-container > div:hover {
     cursor: pointer;
-    background: #0000009f;
+    background: #2d343fce;
   }
   .target-container label {
     font-size: 16px;
@@ -526,7 +386,7 @@ export default {
     text-decoration: none;
   }
   .selected-target {
-    background: #00ffff5e !important;
+    background: #00b5b1 !important;
   }
   .positive {
     color: #00ff14;
@@ -545,6 +405,9 @@ export default {
     background: #0000006b;
   }
 
+  /* ---------- */
+  /* Responsive */
+  /* ---------- */
   @media screen and (max-width: 1080px) {
     .calculator {
       justify-content: center;
@@ -566,11 +429,16 @@ export default {
 
   @media screen and (max-width: 566px) {
     .stats-container {
-      flex-direction: column;
+      grid-template-areas: "setup1" 
+                           "setup2"
+                           "save";
+      gap: 10px 0;
     }
-    .stats {
-      /* width: 100%; */
-      /* margin: 0 auto; */
+    .stats-container > div[data-v-19334bbc]:first-child {
+      border-right: 1px solid white;
+    }
+    button.btn-save {
+      border-top: 1px solid white;
     }
     .notes {
       text-align: center;

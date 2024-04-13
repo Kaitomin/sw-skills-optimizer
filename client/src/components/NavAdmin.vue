@@ -1,7 +1,7 @@
 <template>
-  <div v-if="userRole === 'ADMIN'" class="nav-admin">
-    <router-link to="/add-new-char" ><i class="fa-solid fa-user-plus"></i> Character</router-link>
-    <router-link to="/dashboard"><i class="fa-solid fa-book"></i> Dashboard</router-link>
+  <div v-if="userRole === 'ADMIN' || 'EDITOR'" class="nav-admin">
+    <router-link v-if="userRole === 'ADMIN'" to="/add-new-char" ><i class="fa-solid fa-user-plus"></i> Character</router-link>
+    <router-link to="/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</router-link>
     <a class="logout" @click="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
   </div>
 </template>
@@ -26,17 +26,13 @@ export default {
     color: #d9d9d9;
   }
   .nav-admin {
-    position: fixed;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: end;
+    gap: 0 3em;
     align-items: center;
-    background: white;
-    height: 50px;
-    bottom: 0;
-    font-weight: 900;
-    font-size: 1.1rem;
-    background: rgba(0, 0, 0, 0.788);
-    border-top: 1px solid white;
+    padding: 0.5em 1em;
+    /* background: #2d343f; */
+    border-bottom: 1px solid #95989e2b;
   }
 </style>

@@ -337,8 +337,8 @@ export default {
   td, th {
     padding: 0.6rem 0.2rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
+    border-top: 1px solid #95989e;
+    border-bottom: 1px solid #95989e;
   }
   .table > tr:first-child > td {
     border-top: none;
@@ -346,6 +346,16 @@ export default {
   .chains-container {
     display: flex;
     flex-direction: column-reverse;
+  }
+  .chains-container .dropdown-toggle {
+    color: white;
+    border: 1px solid #95989e;
+    /* background-color: white; */
+    border-radius: 5px;
+  }
+
+  .chains-container .dropdown-toggle:hover {
+    background-color: #95989e2b;
   }
   input {
     width: 100%;
@@ -370,6 +380,7 @@ export default {
   .btn {
     height: 72px;
     width: 72px;
+    /* border: 1px solid #95989e !important; */
   }
   ul.dropdown-menu {
     padding: 0.2rem 0.5rem;

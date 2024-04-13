@@ -21,7 +21,7 @@
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
     </div>
 
-    <hr>
+    <hr style="color: white">
   </div>
 </template>
 
@@ -126,18 +126,19 @@ export default {
     flex-direction: column;
   }
   .btn {
-    background: #ffffffad;
+    background: #48515e;
     color: white;
+    border: 1px solid #95989e;
   }
   .fa-arrow-rotate-right {
-    color: blue;
+    color: white;
   } 
   .fa-trash {
     color: red;
   }
   .btn:hover {
     cursor: pointer;
-    background: #ffffff6e;
+    background: #ffffff46;
     border: 1px solid white;
   }
   .actions > button:first-child {
@@ -148,8 +149,6 @@ export default {
   }
 
 
-
-  
 
   /* ---------- */
   /* Responsive */

@@ -1,5 +1,5 @@
 <template>
-  <div class="skills-container" :class="name.toLowerCase()" :style="[containerHeight, characterThemeColors, { '--character-bg': `url(${require(`@/assets/img/${this.name.toLowerCase()}_bg.webp`)})` }]">
+  <div class="skills-container" :class="name.toLowerCase()">
     <!-- Skills table -->
     <EphnelTable 
       v-if="name == 'Ephnel'"
@@ -20,7 +20,6 @@
       v-else
       :charName="name"
       @skills-table="toggleDesire"
-      @ephnel-dmg="toggleEphDmg"
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
@@ -75,44 +74,6 @@ export default {
       sortOrder: false,
       containerH: '',
       ephDmg: '',
-      colors: {
-        '--erwin-primary': '#001938e0',
-        '--erwin-secondary': '#00224ce0',
-        '--erwin-tertiary': '#00295c',
-
-        '--iris-primary': '#380000e0',
-        '--iris-secondary': '#4c0000e0',
-        '--iris-tertiary': '#5c0000',
-
-        '--dana-primary': '#160038e0',
-        '--dana-secondary': '#1d004ce0',
-        '--dana-tertiary': '#1f005c',
-
-        '--stella-primary': '#250038e0',
-        '--stella-secondary': '#2f004ce0',
-        '--stella-tertiary': '#30005c',
-
-        '--chii-primary': '#44001ed1',
-        '--chii-secondary': '#87003ba3',
-        '--chii-tertiary': '#9f0045',
-
-        '--ephnel-primary': '#00441bd1',
-        '--ephnel-secondary': '#008749a3',
-        '--ephnel-tertiary': '#009f5d',
-
-        '--lily-primary': '#380038e0',
-        '--lily-secondary': '#4b004ce0',
-        '--lily-tertiary': '#5c005b',
-
-        '--nabi-primary': '#002e38e0',
-        '--nabi-secondary': '#00414ce0',
-        '--nabi-tertiary': '#004b5c',
-
-        '--haru-primary': '#382400e0',
-        '--haru-secondary': '#4c3100e0',
-        '--haru-tertiary': '#5c3300',
-
-      }
     }
   },
   components: { 
@@ -163,40 +124,24 @@ export default {
     },
   },
   computed: {
-    containerHeight() {
-      return {
-        '--container-height': this.containerH
-      }
-    },
-    characterThemeColors() {
-      return {
-        '--primary': this.colors[`--${this.name.toLowerCase()}-primary`],
-        '--secondary': this.colors[`--${this.name.toLowerCase()}-secondary`],
-        '--tertiary': this.colors[`--${this.name.toLowerCase()}-tertiary`],
-      }
-    }
   },
   created() {
+    if (this.name == 'tmpChar' && this.$root.userRole != 'ADMIN') {
+      this.$router.push('/')
+    }
+
     try {
       // Get character rotations from store
       const charRotations = `${this.name.toLowerCase()}Rotations`
-      // Import CSS Theme
-      // import(`@/assets/theme_${this.name.toLowerCase()}.css`);
-    
+
       this.components = this.$store.getters.getRotations(charRotations)
       this.rotationLimit = Array.from(this.components).length
     } catch {
+      // Character does not exist in store
       this.$router.push('/')
     }
   },
   mounted() {
-    // Get client window Y to set background height
-    setTimeout(() => {
-      this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    }, 500)
-  },
-  updated() {
-    this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
   },
   unmounted() {
     this.components = null
@@ -207,6 +152,10 @@ export default {
 </script>
 
 <style scoped>
+  .skills-rotation {
+    padding-top: 3em;
+  }
+
   /* --------------------- */
   /* SkillsTable component */
   /* --------------------- */
@@ -214,82 +163,41 @@ export default {
     display: flex;
     justify-content: space-around;
   }
-
+  
   .skills-container:before {
-    height: var(--container-height);
-    animation: 2s ease-in 0s fadeIn;
+    animation: 2s ease-in 1s fadeIn forwards;
   }
-
   p {
     margin-bottom: 0;
   }
-
   p, 
   label, 
   table {
     color: white;
   }
-
   p.nabi-note {
     font-style: italic;
     color: cyan;
   }
 
-
-  /* Character Theme */
-  .skills-container:before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: -999;
-    opacity: 0.7;
-    background: var(--character-bg);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+  /* Animation */
+  @-webkit-keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; }  
   }
 
-  .skills-container :deep(.skills-details) .char-info {
-    background-color: var(--primary);
-  }
-  .skills-container :deep(.skills-details) .table-skills th:first-child {
-    width: 10%;
-  }
-  .skills-container :deep(.skills-details) .table-skills th {
-    background-color: var(--tertiary);
-    width: 5%;
-  }
-   
-  .skills-container :deep(.skills-details) .table-skills tbody tr {
-    background-color: var(--secondary);
+  @keyframes fadeIn { 
+    0% { opacity: 0; }
+    100% { opacity: 1; } 
   }
 
-  .skills-container :deep(.skills-details) .table-skills tbody > tr:nth-of-type(odd) {
-    background-color: var(--primary);
-  }
-
-  
   /* ------------------- */
   /* Rotation component */
   /* ------------------- */
-  .skills-rotation {
-    padding-top: 3em;
-  }
-  .skills-rotation :deep(.chains-container) .table:first-child .info {
-    border-left: 1px solid white;
-  }
-  .skills-rotation :deep(.chains-container) .table:last-child .info {
-    border-right: 1px solid white;
-  }
-  .skills-rotation :deep(.info) {
-    background-color: var(--secondary);
-  }
   .chain-bonus {
+    padding: 0.5em;
     margin-bottom: 1em;
   }
-
   button.rotation {
     display: inline-block;
     width: 120px;
@@ -297,62 +205,28 @@ export default {
     color: white;
     margin-bottom: 1em;
     border: 1px solid white;
+    border-radius: 5px;
   }
-
   button.disabled-rotation {
     background: #5c5c5c;
     color: black;
     cursor: default;
   }
-
   .btn-info {
     color: white;
-    border-radius: 0;
-    background-color: var(--primary);
-    border-color: #ffffff !important;
+    border-radius: 5px;
+    border-color: #95989e !important;
+    background-color: #48515e !important;
   }
-
   .btn-info:hover {
     cursor: pointer;
-    background: var(--secondary);
   }
 
-  /* Character Theme */
   button.add-rotation {
-    background-color: var(--primary);
+    background-color: #48515e;
+    border-color: #95989e;
     transition: background-color 0.2s;
   }
-  button.add-rotation:hover {
-    background-color: var(--secondary);
-  }
-  .skills-container :deep(.skills-rotation) .chains-container .dropdown-toggle {
-    color: white;
-    border: 1px solid white;
-    background-color: var(--secondary);
-  }
-
-  .skills-container :deep(.skills-rotation) .chains-container .dropdown-toggle:hover {
-    background-color: var(--secondary);
-  }
-
-
-
-
-
-  /* Animation */
-  @-webkit-keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.7; }  
-  }
-
-  @keyframes fadeIn { 
-    0% { opacity: 0; }
-    100% { opacity: 0.7; } 
-  }
-
-
-
-
 
   /* ---------- */
   /* Responsive */
