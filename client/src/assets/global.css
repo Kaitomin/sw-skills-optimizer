@@ -258,7 +258,7 @@ input[type=range].custom-slider::-ms-fill-upper {
 }
 .char-info {
   background-color: #2d343f;
-  border: 1px solid rgba(255, 255, 255, 0.493);
+  border: 1px solid #95989e;
 }
 
 /* ------------ */
@@ -297,7 +297,7 @@ input[type=range].custom-slider::-ms-fill-upper {
 /* ---------- */
 /* Responsive */
 /* ---------- */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 860px) {
   .skills-details {
     min-width: 100% !important;
     width: 100% !important;

@@ -74,3 +74,8 @@ export async function useSetLogger(skill) {
 
   await LoggerService.setLogger({ currentDate, skill });
 }
+
+/**
+ * Hash version for production
+ */
+export const hash = Math.floor(Math.random() * 90000) + 10000;

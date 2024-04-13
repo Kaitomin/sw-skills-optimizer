@@ -75,7 +75,10 @@ export default {
             username: this.username.toLowerCase(),
             password: this.password
           });
-          this.$router.go();
+          // this.$router.go();
+          this.$router
+            .push({ path: 'Home' })
+            .then(() => { this.$router.go(0) })
         } catch (error) {
           this.loginAttempts -= 1
           this.error.msg = `Invalid credentials - Attempts left: ${this.loginAttempts}`
@@ -146,14 +149,19 @@ export default {
   h1, label {
     color: white;
   }
+  .login-container {
+    display: flex;
+    justify-content: center;
+    padding: 5em 0;
+  }
   form {
     display: flex;
     flex-direction: column;
     width: 250px;
-    margin: 3em auto 0 auto;
-    border: 1px solid white;
-    background: #003232;
+    border: 1px solid #95989e;
+    background: #2d343f;
     padding: 2rem;
+    border-radius: 5px;
   }
   form input {
     border-radius: 5px;

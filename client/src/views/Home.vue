@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
   .home {
-    padding-top: 2em;
+    padding-top: 5em;
     /* height: var(--container-height); */
     /* height: 100%; */
     display: flex;
@@ -75,7 +75,7 @@ export default {
     height: 100%;
   }
   .contact {
-    border: 1px solid white;
+    border: 1px solid #95989e;
     color: white;
     text-align: left;
     background-color: #2d343f;

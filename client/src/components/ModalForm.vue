@@ -2,47 +2,49 @@
   <div class="blocker"></div>
   <form class="form-modal" @submit="saveChanges">
     <img :src="getSkillIcon(skill.icon)" alt="skill icon" width="50">
-    <div>
-      <label for="skill-name">Name</label>
-      <input type="text" class="text" id="skill-name" v-model="skillUpdated.skillName">
-    </div>
-    <div>
-      <label for="skill-dmg">Dmg</label>
-      <input type="text" class="text" id="skill-dmg" v-model="skillUpdated.dmg">
-    </div>
-    <div>
-      <label for="skill-time">Cast full (frame)</label>
-      <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast">
-    </div>
-    <div>
-      <label for="skill-cancel">Cast cancel (frame)</label>
-      <input type="text" class="text" id="skill-cancel" v-model="skillUpdated.castCancel">
-    </div>
-    <div>
-      <label for="skill-cd">CD</label>
-      <input type="text" class="text" id="skill-cd" v-model="skillUpdated.cd">
-    </div>
-    <div v-if="skillUpdated.dwBoost">
-      <label for="skill-dw">DW boost</label>
-      <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost">
-    </div>
-    <div v-if="skillUpdated.mark">
-      <label for="skill-mark">Mark</label>
-      <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark">
-    </div>
-    <div v-if="skillUpdated.dmgBullet">
-      <label for="skill-dmgBullet">Dmg bullet</label>
-      <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet">
-    </div>
-    <div v-if="skillUpdated.dmgRelease">
-      <label for="skill-dmgRelease">Dmg release</label>
-      <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease">
-    </div>
-    <div>
-      <label for="character">Character</label>
-      <select name="character" id="character" v-model="skillUpdated.character">
-        <option v-for="char in characters" :key="char._id" :value="char.name">{{ char.name }}</option>
-      </select>
+    <div class="form-inputs">
+      <div>
+        <label for="skill-name">Name</label>
+        <input type="text" class="text" id="skill-name" v-model="skillUpdated.skillName">
+      </div>
+      <div>
+        <label for="skill-dmg">Damage (%)</label>
+        <input type="text" class="text" id="skill-dmg" v-model="skillUpdated.dmg">
+      </div>
+      <div>
+        <label for="skill-time">Cast full (frame)</label>
+        <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast">
+      </div>
+      <div>
+        <label for="skill-cancel">Cast cancel (frame)</label>
+        <input type="text" class="text" id="skill-cancel" v-model="skillUpdated.castCancel">
+      </div>
+      <div>
+        <label for="skill-cd">CD (s)</label>
+        <input type="text" class="text" id="skill-cd" v-model="skillUpdated.cd">
+      </div>
+      <div v-if="skillUpdated.dwBoost">
+        <label for="skill-dw">DW boost</label>
+        <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost">
+      </div>
+      <div v-if="skillUpdated.mark">
+        <label for="skill-mark">Mark</label>
+        <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark">
+      </div>
+      <div v-if="skillUpdated.dmgBullet">
+        <label for="skill-dmgBullet">Dmg bullet</label>
+        <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet">
+      </div>
+      <div v-if="skillUpdated.dmgRelease">
+        <label for="skill-dmgRelease">Dmg release</label>
+        <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease">
+      </div>
+      <div>
+        <label for="character">Character</label>
+        <select name="character" id="character" v-model="skillUpdated.character">
+          <option v-for="char in characters" :key="char._id" :value="char.name">{{ char.name }}</option>
+        </select>
+      </div>
     </div>
     <span v-if="error.isError" class="error-msg">{{ error.msg }}</span>
     <button class="btn-save">Save</button>
@@ -142,7 +144,7 @@
     height: 100vh;
     position: fixed;
     top: 0;
-    /* filter: blur(5px); */
+    left: 0;
     background: #0000008a;
     opacity: 0.5;
     z-index: 9;
@@ -150,7 +152,7 @@
   .form-modal {
     display: flex;
     flex-direction: column;
-    gap: 0.2em 0;
+    gap: 2em 0;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -162,7 +164,12 @@
     border: 1px solid white;
     color: white;
   }
-  .form-modal > div {
+  .form-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em 0;
+  }
+  .form-inputs > div {
     display: flex;
     justify-content: space-between;
     gap: 0 1em;
@@ -174,8 +181,8 @@
     color: red
   }
   .btn-save {
-    border: 1px solid white;
-    background-color: black;
+    border: 1px solid #95989e;
+    background-color: #00ffff75;
     color: white;
     border-radius: 5px;
   }
@@ -185,8 +192,14 @@
     right: 10px;
     color: red;
     border: 0;
-    background: #a5a5a5;
+    /* background: #a5a5a5; */
+    background: transparent;
     border-radius: 5px;
     padding: 0px 10px;
+    font-weight: 900;
+    transition: background 0.1s ease-in-out;
+  }
+  .btn-cancel:hover {
+    background: #95989e;
   }
 </style>

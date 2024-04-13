@@ -124,7 +124,7 @@ export default {
     padding: 1em 2em;
     display: flex;
     flex-direction: column;
-    background: #1c1c1c;
+    background: #2d343f;
     border: 1px solid white;
   }
   label {

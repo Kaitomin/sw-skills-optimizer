@@ -746,6 +746,9 @@ export default {
 </script>
 
 <style scoped>
+.char-info {
+  border-radius: 5px 5px 0 0;
+}
 .description {
   color: white;
 }
@@ -804,10 +807,11 @@ export default {
   /* width: 650px; */
   margin: 0 auto;
   padding: 0.5rem 10rem;
-  border-left: 1px solid white;
-  border-right: 1px solid white;
-  border-bottom: 1px solid white;
+  border-left: 1px solid #95989e;
+  border-right: 1px solid #95989e;
+  border-bottom: 1px solid #95989e;
   background-color: #2d343f;
+  border-radius: 0 0 5px 5px;
 }
 .ephnel-buff p {
   margin: 0;

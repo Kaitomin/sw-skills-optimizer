@@ -74,44 +74,6 @@ export default {
       sortOrder: false,
       containerH: '',
       ephDmg: '',
-      colors: {
-        '--erwin-primary': '#001938f0',
-        '--erwin-secondary': '#00224ce6',
-        '--erwin-tertiary': '#00295c',
-
-        '--iris-primary': '#380000f0',
-        '--iris-secondary': '#4c0000e6',
-        '--iris-tertiary': '#5c0000',
-
-        '--dana-primary': '#160038f0',
-        '--dana-secondary': '#1d004ce6',
-        '--dana-tertiary': '#1f005c',
-
-        '--stella-primary': '#250038f0',
-        '--stella-secondary': '#2f004ce6',
-        '--stella-tertiary': '#30005c',
-
-        '--chii-primary': '#380019f0',
-        '--chii-secondary': '#4c0025e6',
-        '--chii-tertiary': '#5c0026',
-
-        '--ephnel-primary': '#003827f0',
-        '--ephnel-secondary': '#004c32e6',
-        '--ephnel-tertiary': '#005c3a',
-
-        '--lily-primary': '#380038f0',
-        '--lily-secondary': '#4b004ce6',
-        '--lily-tertiary': '#5c005b',
-
-        '--nabi-primary': '#002e38f0',
-        '--nabi-secondary': '#00414ce6',
-        '--nabi-tertiary': '#004b5c',
-
-        '--haru-primary': '#382400f0',
-        '--haru-secondary': '#4c3100e6',
-        '--haru-tertiary': '#5c3300',
-
-      }
     }
   },
   components: { 
@@ -162,45 +124,25 @@ export default {
     },
   },
   computed: {
-    containerHeight() {
-      return {
-        '--container-height': this.containerH
-      }
-    },
-    characterThemeColors() {
-      return {
-        '--primary': this.colors[`--${this.name.toLowerCase()}-primary`],
-        '--secondary': this.colors[`--${this.name.toLowerCase()}-secondary`],
-        '--tertiary': this.colors[`--${this.name.toLowerCase()}-tertiary`],
-      }
-    }
   },
   created() {
-    if (this.name === "tmpChar" && !this.$root.userRole) {
+    if (this.name == 'tmpChar' && this.$root.userRole != 'ADMIN') {
       this.$router.push('/')
     }
-    //  else {
-      try {
-        // Get character rotations from store
-        const charRotations = `${this.name.toLowerCase()}Rotations`
 
-        this.components = this.$store.getters.getRotations(charRotations)
-        this.rotationLimit = Array.from(this.components).length
-      } catch {
-        // Character does not exist in store
-        this.$router.push('/')
-      }
-    // }
+    try {
+      // Get character rotations from store
+      const charRotations = `${this.name.toLowerCase()}Rotations`
+
+      this.components = this.$store.getters.getRotations(charRotations)
+      this.rotationLimit = Array.from(this.components).length
+    } catch {
+      // Character does not exist in store
+      this.$router.push('/')
+    }
   },
   mounted() {
-    // Get client window Y to set background height
-    // setTimeout(() => {
-    //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-    // }, 1000)
   },
-  // updated() {
-  //   this.containerH = document.querySelector('.skills-container').offsetHeight + 'px'
-  // },
   unmounted() {
     this.components = null
     this.rotationLimit = null
@@ -220,7 +162,6 @@ export default {
   .skills-container {
     display: flex;
     justify-content: space-around;
-    margin-left: 169px;
   }
   
   .skills-container:before {

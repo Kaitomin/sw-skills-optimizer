@@ -4,7 +4,7 @@ export default {
   getTargets() {
     return Api().get('/target');
   },
-  getTargetInfo(data) {
-    return Api().get('/target/' +  data);
+  getTargetInfo(slug) {
+    return Api().get('/target/' +  slug);
   },
 }

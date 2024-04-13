@@ -32,7 +32,7 @@ export default {
     gap: 0 3em;
     align-items: center;
     padding: 0.5em 1em;
-    background: #2d343f;
+    /* background: #2d343f; */
     border-bottom: 1px solid #95989e2b;
   }
 </style>

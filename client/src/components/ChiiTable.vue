@@ -312,6 +312,9 @@ export default {
 </script>
 
 <style scoped>
+.char-info {
+  border-radius: 5px 5px 0 0;
+}
   .description {
     color: white;
   }
@@ -377,12 +380,13 @@ export default {
 
   .chii-explosion {
     margin-bottom: 1em;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    border-bottom: 1px solid white;
+    border-left: 1px solid #95989e;
+    border-right: 1px solid #95989e;
+    border-bottom: 1px solid #95989e;
     padding: 0.5rem 1rem;
     color: white;
     background-color: #2d343f;
+    border-radius: 0 0 5px 5px;
   }
   .chii-explosion p {
     margin-bottom: 0;

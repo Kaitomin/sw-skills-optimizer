@@ -2,12 +2,14 @@
   <div>
     <Nav />
     <NavAdmin v-if="userRole" :userRole=userRole @logout=logout />
-    <router-view v-slot="{ Component }">
-      <keep-alive>
-        <component :is="Component" :key="$route.fullPath" v-if="$route.meta.keepAlive"></component>
-      </keep-alive>
-      <component :is="Component" :key="$route.fullPath" v-if="!$route.meta.keepAlive"></component>
-    </router-view>
+    <div class="content">
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" :key="$route.fullPath" v-if="$route.meta.keepAlive"></component>
+        </keep-alive>
+        <component :is="Component" :key="$route.fullPath" v-if="!$route.meta.keepAlive"></component>
+      </router-view>
+    </div>
   </div>
 </template>
 
@@ -21,13 +23,18 @@ import "@/assets/global.css";
 export default {
   data() {
     return {
-      userRole: ''
+      userRole: '',
+      selectedItemMenu: ''
     }
   },
   components: { 
     Nav, NavAdmin
   },
   methods: {
+    setSelectedItem(event) {
+      console.log('selectedItem - ', event);
+      this.selectedItemMenu = event
+    },
     async logout() {
       try {
         await UserService.logout_post();
@@ -56,6 +63,9 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+  }
+  .content {
+    margin-left: 145px
   }
   .separator {
     border-left: 1px solid white;

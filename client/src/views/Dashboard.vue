@@ -44,7 +44,10 @@
             <div
               v-for="char in charList"
               :key="char._id"
-              :class="currentCharacter === char.name ? 'active' : ''"
+              :class="{
+                active: currentCharacter === char.name, 
+                hide: char.name == 'tmpChar'
+              }"
               @click="currentCharacter = char.name"
             >
               <div
@@ -60,7 +63,7 @@
               </div>
 
               <!-- Temp for test -->
-              <div
+              <!-- <div
                 v-if="char.name == 'tmpChar' && $root.userRole == 'ADMIN'"
                 @click="getCharacterSkills(char.name)"
               >
@@ -70,7 +73,7 @@
                   width="150"
                   height="150"
                 />
-              </div>
+              </div> -->
 
             </div>
           </div>
@@ -350,10 +353,10 @@ export default {
   .logger-container ~ div {
     display: flex;
     justify-content: space-between;
+    gap: 1em;
   }
   .dashboard {
     margin-top: 2em;
-    margin-left: 169px;
   }
   .dashboard > div:last-child {
     display: flex;
@@ -422,7 +425,7 @@ export default {
   }
   .characters {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
     height: fit-content;
@@ -433,14 +436,14 @@ export default {
     border-radius: 5px;
   }
   .characters img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 100%;
   }
   .characters > div {
     border-radius: 100%;
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -450,7 +453,10 @@ export default {
     background-color: #ffffff29;
   }
   .active {
-    background-color: #00b8ff6b !important;
+    background-color: #00ffff8f !important;
+  }
+  .hide {
+    display: none !important;
   }
 
   /* ------------ */
@@ -533,8 +539,11 @@ export default {
   @media screen and (max-width: 1550px) {
     .dashboard > div:last-child {
       flex-direction: column;
-      width: 100%;
       gap: 2em;
+    }
+
+    .logger-container ~ div {
+      flex-direction: column;
     }
 
     /* Characters */

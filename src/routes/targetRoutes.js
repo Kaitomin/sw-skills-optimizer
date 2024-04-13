@@ -11,9 +11,9 @@ router.get('/target', async (req, res) => {
   }
 });
 
-router.get('/target/:name', async (req, res) => {
+router.get('/target/:slug', async (req, res) => {
   try {
-    const target = await Target.findOne({ name: req.params.name});
+    const target = await Target.findOne({ slug: req.params.slug});
     return res.status(200).json({ target });
   } catch (err) {
     return res.status(400).send(err);
