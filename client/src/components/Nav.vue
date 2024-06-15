@@ -12,7 +12,7 @@
       >
         <img
           v-if="character.name != 'tmpChar'"
-          :src="require('@/assets/img/' + character.name.toLowerCase() + '_nav.png')" 
+          :src="'src/assets/img/' + character.name.toLowerCase() + '_nav.png'" 
           :alt="character.name + ' avatar'" 
           width="120" 
           height="50"
@@ -28,20 +28,13 @@
   </div>
 </template>
 
-<script>
-import CharacterService from '../services/CharacterService';
+<script setup>
+  import CharacterService from '../services/CharacterService';
 
-export default {
-  data() {
-    return {
-      characters: []
-    }
-  },
-  async created() {
-    const res = await CharacterService.getAllCharacters()
-    this.characters = res.data.charList
-  }
-}
+  let characters = []
+
+  const res = await CharacterService.getAllCharacters()
+  characters = res.data.charList
 </script>
 
 <style scoped>

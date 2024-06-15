@@ -1,6 +1,13 @@
 <template>
   <div>
-    <Nav />
+    <Suspense>
+      <template #default>
+        <Nav />
+      </template>
+      <template #fallback>
+        <span>Loading...</span>
+      </template>
+    </Suspense>
     <NavAdmin v-if="userRole" :userRole=userRole @logout=logout />
     <div class="content">
       <router-view v-slot="{ Component }">
@@ -13,74 +20,69 @@
   </div>
 </template>
 
-<script>
-import { version } from '../package.json';
+<script setup>
+  import { onBeforeMount } from 'vue'
+  import { version } from '../package.json'
 
-import Nav from '@/components/Nav.vue'
-import NavAdmin from './components/NavAdmin.vue'
-import UserService from './services/UserService';
-import VersionService from './services/VersionService'
+  import Nav from '@/components/Nav.vue'
+  import NavAdmin from './components/NavAdmin.vue'
+  import UserService from './services/UserService'
+  import VersionService from './services/VersionService'
 
-import "@/assets/global.css";
+  import "@/assets/global.css";
 
-export default {
-  data() {
-    return {
-      userRole: '',
-      selectedItemMenu: ''
-    }
-  },
-  components: { 
-    Nav, NavAdmin
-  },
-  methods: {
-    setSelectedItem(event) {
-      console.log('selectedItem - ', event);
-      this.selectedItemMenu = event
-    },
-    async logout() {
-      try {
-        await UserService.logout_post();
-        this.userRole = null;
-        this.$router.push('/')
-      } catch (error) {
-        console.log("Logout err :", error)
-      }
-    },
-  },
-  async created() {
+  let userRole = ''
+  // const selectedItemMenu = ''
+  
+  // function setSelectedItem(event) {
+  //   console.log('selectedItem - ', event);
+  //   this.selectedItemMenu = event
+  // }
+
+  // async function logout() {
+  //   try {
+  //     await UserService.logout_post();
+  //     this.userRole = null;
+  //     this.$router.push('/')
+  //   } catch (error) {
+  //     console.log("Logout err :", error)
+  //   }
+  // }
+
+  onBeforeMount(async() => {
     try {
       const res = await UserService.getCurrentUser()
-      this.userRole = res.data.role
+      userRole = res.data.role
     } catch (error) {
       console.log("Error during retrieving user")
     }
-  },
-  watch: {
-    '$route': {
-      async handler(newValue, oldValue) {
-        // console.log('Old route - ', oldValue);
-        // console.log('New route - ', newValue);
-        // console.log('Package before ver - ', version);
+  })
 
-        if (oldValue && newValue && oldValue.fullPath != newValue.fullPath) {
-          let latestVer = await VersionService.getVersion()
-          latestVer = latestVer.data
+  // watch: {
+  //   '$route': {
+  //     async handler(newValue, oldValue) {
+  //       // console.log('Old route - ', oldValue);
+  //       // console.log('New route - ', newValue);
+  //       // console.log('Package before ver - ', version);
 
-          // console.log('Current version - ', latestVer);
-          // console.log('Package after ver - ', version);
+  //       if (oldValue && newValue && oldValue.fullPath != newValue.fullPath) {
+  //         let latestVer = await VersionService.getVersion()
+  //         latestVer = latestVer.data
 
-          if (version !== latestVer) {
-            location.reload()
-          }
+  //         // console.log('Current version - ', latestVer);
+  //         // console.log('Package after ver - ', version);
+
+  //         if (version !== latestVer) {
+  //           location.reload()
+  //         }
         
-        }
-      },
-      immediate: true,
-      deep: true,
-    }
-  }
-}
+  //       }
+  //     },
+  //     immediate: true,
+  //     deep: true,
+  //   }
+  // }
+
 </script>
 
 <style>

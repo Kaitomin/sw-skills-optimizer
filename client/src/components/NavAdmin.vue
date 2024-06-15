@@ -1,20 +1,32 @@
 <template>
   <div v-if="userRole === 'ADMIN' || 'EDITOR'" class="nav-admin">
-    <router-link v-if="userRole === 'ADMIN'" to="/add-new-char" ><i class="fa-solid fa-user-plus"></i> Character</router-link>
-    <router-link to="/dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</router-link>
-    <a class="logout" @click="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    <router-link v-if="userRole === 'ADMIN'" to="/add-new-char">
+      <i class="fa-solid fa-user-plus"> </i>
+      Character
+    </router-link>
+    <router-link to="/dashboard">
+      <i class="fa-solid fa-gauge"> </i>
+      Dashboard
+    </router-link>
+    <a class="logout" @click="logout">
+      <i class="fa-solid fa-right-from-bracket"> </i> 
+      Logout
+    </a>
   </div>
 </template>
 
-<script>
-export default {
-  props: ['userRole'],
-  methods: {
-    logout() {
-      this.$emit('logout');
+<script setup>
+  const props = defineProps(['userRole'])
+
+  const logout = async() => {
+    try {
+      await UserService.logout_post();
+      userRole = null;
+      this.$router.push('/')
+    } catch (error) {
+      console.log("Logout err :", error)
     }
   }
-}
 </script>
 
 <style scoped>
