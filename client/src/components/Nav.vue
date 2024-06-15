@@ -12,7 +12,7 @@
       >
         <img
           v-if="character.name != 'tmpChar'"
-          :src="'src/assets/img/' + character.name.toLowerCase() + '_nav.png'" 
+          :src="'/src/assets/img/' + character.name.toLowerCase() + '_nav.png'" 
           :alt="character.name + ' avatar'" 
           width="120" 
           height="50"

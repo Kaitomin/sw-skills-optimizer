@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-  import { onBeforeMount } from 'vue'
+  import { onBeforeMount, provide, ref } from 'vue'
   import { version } from '../package.json'
 
   import Nav from '@/components/Nav.vue'
@@ -31,7 +31,9 @@
 
   import "@/assets/global.css";
 
-  let userRole = ''
+  let userRole = ref('')
+  provide('userRole', userRole)
+
   // const selectedItemMenu = ''
   
   // function setSelectedItem(event) {
@@ -52,7 +54,7 @@
   onBeforeMount(async() => {
     try {
       const res = await UserService.getCurrentUser()
-      userRole = res.data.role
+      userRole.value = res.data.role
     } catch (error) {
       console.log("Error during retrieving user")
     }

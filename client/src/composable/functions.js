@@ -14,11 +14,11 @@ export async function useGetCharactersIcons() {
 }
 
 export function useGetCharacterIcon(url) {
-  return require('@/assets/uploads/characters/' + url.split('.')[0] + '.png')
+  return ('/src/assets/uploads/characters/' + url.split('.')[0] + '.png')
 }
 
 export function useGetSkillIcon(url) {
-  return require('@/assets/uploads/skills/' + url.split('.')[0] + '.png')
+  return ('/src/assets/uploads/skills/' + url.split('.')[0] + '.png')
 }
 
 /*

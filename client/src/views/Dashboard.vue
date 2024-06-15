@@ -64,7 +64,7 @@
 
               <!-- Temp for test -->
               <!-- <div
-                v-if="char.name == 'tmpChar' && $root.userRole == 'ADMIN'"
+                v-if="char.name == 'tmpChar' && userRole.value == 'ADMIN'"
                 @click="getCharacterSkills(char.name)"
               >
                 <img
@@ -78,7 +78,7 @@
             </div>
           </div>
           <router-link
-            v-if="$root.userRole === 'ADMIN'"
+            v-if="userRole === 'ADMIN'"
             to="/add-new-skill"
             class="add-character"
             >Add skill</router-link
@@ -230,104 +230,82 @@
   </div>
 </template>
 
-<script>
-import CharacterService from "../services/CharacterService";
-import LoggerService from "../services/LoggerService";
+<script setup>
+  import { computed, inject, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-import { defineAsyncComponent } from 'vue'
+  import ModalForm from '../components/ModalForm.vue'
+  import CharacterService from "../services/CharacterService";
+  import LoggerService from "../services/LoggerService";
 
-import {
-  useGetCharactersIcons,
-  useGetCharacterIcon,
-  useGetSkillIcon,
-  useSetLogger
-} from "../composable/functions";
+  import {
+    useGetCharactersIcons,
+    useGetCharacterIcon,
+    useGetSkillIcon,
+    useSetLogger
+  } from "../composable/functions";
 
-export default {
-  data() {
-    return {
-      charList: [],
-      skillsList: [],
-      logger: [],
-      currentCharacter: "",
-      error: false,
-      showModal: false,
-      showModalEdit: false,
-      containerH: "",
-      selectedSkill: {}
-    }
-  },
-  components: {
-    ModalForm: defineAsyncComponent(() => import('../components/ModalForm.vue'))
-  },
-  methods: {
-    async getAllCharacters() {
-      this.charList = await useGetCharactersIcons();
-    },
-    getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl);
-    },
-    getSkillIcon(iconUrl) {
-      return useGetSkillIcon(iconUrl);
-    },
-    getCharacterSkills(name) {
-      CharacterService.getCharacterInfo(name).then(res => {
-        this.skillsList = res.data.skills;
-        this.currentCharacter = name;
-      });
-    },
-    getLogger() {
-      LoggerService.getLogger().then(res => (this.logger = res.data.logger));
-    },
-    editSkill(event) {
-      this.selectedSkill = event
-      this.showModalEdit = true
-    },
-    async saveChanges(skill) {
-      try {
-        this.showModalEdit = false
-        
-        await this.getCharacterSkills(this.currentCharacter);
-        await useSetLogger(skill)
-      } catch (err) {
-        console.log(err);
-      }
 
-      this.getLogger();
-    },
-    cancelChanges(event, skill) {
-      const inputs = document.querySelectorAll(`#tr-${skill._id} input`);
+  let charList = ref([])
+  let skillsList = ref([])
+  let logger = ref([])
+  let currentCharacter = ""
+  let error = false
+  let showModal = false
+  let showModalEdit = ref(false)
+  let selectedSkill = {}
+  let userRole = inject('userRole')
 
-      inputs.forEach(input => {
-        input.classList.remove("edit");
-        input.disabled = true;
-
-        if (!input.value) input.value = "";
-        else input.value = skill[input.name];
-      });
-
-      event.target.parentElement.className = "hidden";
-      event.target.parentElement.previousElementSibling.classList.remove(
-        "hidden"
-      );
-    }
-  },
-  computed: {
-    sortedLogger() {
-      return Array.from(this.logger).reverse();
-    }
-  },
-  beforeCreate() {
-    if (!this.$root.userRole) this.$router.push("/");
-  },
-  created() {
-    this.getAllCharacters();
-    this.getLogger();
-    this.getCharacterSkills("Iris");
-  },
-  mounted() {
+  const getAllCharacters = async() => {
+    charList.value = await useGetCharactersIcons();
   }
-}
+
+  const getCharacterIcon = (iconUrl) => {
+    return useGetCharacterIcon(iconUrl);
+  }
+
+  const getSkillIcon = (iconUrl) => {
+    return useGetSkillIcon(iconUrl);
+  }
+
+  const getCharacterSkills = (name) => {
+    CharacterService.getCharacterInfo(name).then(res => {
+      skillsList.value = res.data.skills;
+      currentCharacter = name;
+    });
+  }
+
+  const getLogger = () => {
+    LoggerService.getLogger().then(res => (logger.value = res.data.logger));
+  }
+
+  const editSkill = (event) => {
+    selectedSkill = event
+    showModalEdit.value = true
+  }
+
+  const saveChanges= async(skill) => {
+    try {
+      showModalEdit.value = false
+      
+      await getCharacterSkills(currentCharacter)
+      await useSetLogger(skill)
+    } catch (err) {
+      console.log(err)
+    }
+
+    getLogger()
+  }
+
+  const sortedLogger = computed(() => Array.from(logger.value).reverse())
+
+  const router = useRouter()
+
+  if (!userRole.value) router.push("/")
+  
+  getAllCharacters()
+  getLogger()
+  getCharacterSkills("Iris")
 </script>
 
 <style scoped>
