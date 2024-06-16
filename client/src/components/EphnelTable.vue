@@ -148,7 +148,7 @@
           <tr v-for="skill in skillsTable" :key="skill._id">
             <td>
               <img
-                :src="getImgUrl(skill.icon)"
+                :src="skill.icon"
                 :alt="skill.skillName + ' icon'"
                 width="48"
                 height="48"
@@ -245,7 +245,7 @@
           <tr v-for="skill in skillsTable" :key="skill._id">
             <td>
               <img
-                :src="getImgUrl(skill.icon)"
+                :src="skill.icon"
                 :alt="skill.skillName + 'icon'"
               />
               <p>{{ skill.skillName }}</p>
@@ -319,7 +319,6 @@
 import CharacterService from "../services/CharacterService";
 
 import {
-  useGetSkillIcon,
   useDisplayTooltip,
   useHideTooltip,
   useGetCharacterIcon
@@ -344,9 +343,6 @@ export default {
   methods: {
     getCharacterIcon(iconUrl) {
       return useGetCharacterIcon(iconUrl);
-    },
-    getImgUrl(iconUrl) {
-      return useGetSkillIcon(iconUrl);
     },
     toggleEphnelDesire() {
       this.dwChecked = !this.dwChecked;

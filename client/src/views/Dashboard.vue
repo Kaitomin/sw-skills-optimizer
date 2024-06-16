@@ -242,7 +242,6 @@
   import {
     useGetCharactersIcons,
     useGetCharacterIcon,
-    useGetSkillIcon,
     useSetLogger
   } from "../composable/functions";
 

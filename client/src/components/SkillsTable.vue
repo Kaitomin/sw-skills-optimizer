@@ -110,7 +110,7 @@
 <script>
 import CharacterService from '../services/CharacterService';
 
-import { useGetSkillIcon, useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
+import { useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
 
 export default {
   props: ['charName'],
@@ -129,9 +129,6 @@ export default {
   methods: {
     getCharacterIcon(iconUrl) {
       return useGetCharacterIcon(iconUrl)
-    },
-    getSkillIcon(iconUrl) {
-      return useGetSkillIcon(iconUrl)
     },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;

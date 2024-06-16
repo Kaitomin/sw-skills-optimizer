@@ -68,7 +68,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 <p>{{ skill.skillName }} <span v-if="skill.mark > 0">[{{ skill.mark }}]</span> </p>
               </td>
               <td>{{ skill.dmg }}%</td>
@@ -97,7 +97,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + 'icon'">
+                <img :src="skill.icon" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
@@ -115,7 +115,7 @@
 <script>
 import CharacterService from '../services/CharacterService';
 
-import { useGetSkillIcon, useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
+import { useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
 
 export default {
   props: ['charName'],
@@ -136,9 +136,6 @@ export default {
   methods: {
     getCharacterIcon(iconUrl) {
       return useGetCharacterIcon(iconUrl)
-    },
-    getImgUrl(iconUrl) {
-      return useGetSkillIcon(iconUrl)
     },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;

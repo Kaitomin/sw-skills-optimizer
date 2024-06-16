@@ -65,10 +65,6 @@
 <script>
   import CharacterService from '../services/CharacterService';
   import SkillService from '../services/SkillService';
-
-  import {
-    useGetSkillIcon
-  } from "../composable/functions";
   
   export default {
     props: [
@@ -108,9 +104,6 @@
       },
       closeModal() {
         this.$emit('close-modal')
-      },
-      getSkillIcon(iconUrl) {
-        return useGetSkillIcon(iconUrl);
       },
       onSelect() {
         const file = this.$refs.skillIcon.files[0]
