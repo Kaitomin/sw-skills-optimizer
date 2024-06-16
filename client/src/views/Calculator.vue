@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <div class="calculator-container" :style="[blackColor]">
+    <div class="calculator-container">
       <div class="calculator">
         <div class="data">
           <div class="stats-container">
@@ -48,9 +48,9 @@
           />
 
           <div class="info">
-            <div>
-              {{ this.chartData.datasets[0].data[0] ? this.chartData.datasets[0].data[0].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }} │
-              {{ this.chartData.datasets[0].data[1] ? this.chartData.datasets[0].data[1].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }}
+            <div v-if="chartData.value">
+              {{ chartData.value.datasets[0].data[0] ? chartData.value.datasets[0].data[0].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }} │
+              {{ chartData.value.datasets[0].data[1] ? chartData.value.datasets[0].data[1].toLocaleString(undefined, { minimumFractionDigits: 2 }) : 0 }}
             </div>
             <p>Raw difference = <span :class="setupDiff >= 0 ? 'positive' : 'negative'">{{ setupDiff.toLocaleString(undefined, { minimumFractionDigits: 2 }) }}</span></p>
             <p>Ratio = <span :class="setupRatio >= 1 ? 'positive' : 'negative'">{{ setupRatio }}</span></p>
@@ -91,18 +91,17 @@
   </keep-alive>
 </template>
 
-<script>
-import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+<script setup>
+  import { Bar } from 'vue-chartjs'
+  import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
-import TargetService from '../services/TargetService';
-import Stats from '../components/Stats';
+  import TargetService from '../services/TargetService';
+  import Stats from '../components/Stats.vue';
+  import { computed, ref } from 'vue';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-export default {
-  components: { Bar, Stats },
-  props: {
+  const props = defineProps({
     chartId: {
       type: String,
       default: 'bar-chart'
@@ -131,120 +130,113 @@ export default {
       type: Object,
       default: () => {}
     }
-  },
-  data() {
-    return {
-      chartData: {
-        labels: [],
-        datasets: [{
-          barThickness: 50,
-          maxBarThickness: 75,
-          data: [],
-          backgroundColor: [],
-          borderColor: [
-            'rgb(250, 250, 250)'
-          ],
-        }],
-        hoverOffset: 10
-      },
-      chartOptions: {
-        responsive: true,
-        layout: {
-          padding: 20
-        },
-        elements: {
-          bar: {
-            borderWidth: 1
-          }
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: 'white'
-            }
-          },
-          y: {
-            ticks: {
-              color: 'white'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: false,
-          },
-          tooltip: {
-            displayColors: false,
-            borderColor: 'white',
-            borderWidth: 1,
-          },
+  })
+
+  const chartData = ref({
+    labels: [],
+    datasets: [{
+      barThickness: 50,
+      maxBarThickness: 75,
+      data: [],
+      backgroundColor: [],
+      borderColor: [
+        'rgb(250, 250, 250)'
+      ],
+    }],
+    hoverOffset: 10
+  })
+
+  const chartOptions = {
+    responsive: true,
+    layout: {
+      padding: 20
+    },
+    elements: {
+      bar: {
+        borderWidth: 1
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'white'
         }
       },
-      setups: [],
-      target: 'flemma_p1',
-      selectedTarget: '',
-      targets: [],
-      save: false
-    }
-  },
-  methods: {
-    assignTarget(e) {
-      if (!e.target.dataset.target) return 
-
-      const div = document.querySelectorAll('.target-container > div')
-
-      div.forEach(d => {
-        d.dataset.target == e.target.dataset.target ? d.classList.add('selected-target') : d.classList.remove('selected-target')
-      })
-
-      this.target = e.target.dataset.target;
-      this.getTarget(this.target)
+      y: {
+        ticks: {
+          color: 'white'
+        }
+      }
     },
-    async getTarget(t) {
-      const res = await TargetService.getTargetInfo(t)
-      this.selectedTarget = res.data.target
-    },
-    async getTargets() {
-      const res = await TargetService.getTargets()
-      this.targets = res.data.target
-    },
-    displayGraph(event) {
-      const index = event.id
-
-      this.chartData.labels[index] = "Setup " + ++event.id
-      this.chartData.datasets[0].data[index] = event.dmg
-      this.chartData.datasets[0].backgroundColor[index] = event.color
-    },
-    saveSetups() {
-      this.save = true
-      this.$router.go()
-    },
-    setSave() {
-      this.save = false
-    }
-  },
-  computed: {
-    setupDiff() {
-      return (this.chartData.datasets[0].data[0] - this.chartData.datasets[0].data[1])
-    },
-    setupRatio() {
-      const ratio = ((this.chartData.datasets[0].data[0] / this.chartData.datasets[0].data[1]))
-      if (ratio <= 0 || !isFinite(ratio)) return 0
-      return ratio.toFixed(6)
-    },
-    blackColor() {
-      return {
-        '--bg-black': '#2d343f'
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        displayColors: false,
+        borderColor: 'white',
+        borderWidth: 1,
       }
     }
-  },
-  created() {
-    this.getTarget(this.target)
-    this.getTargets()
-  },
-  mounted() {
   }
-}
+
+  const bg = ref('#2d343f');
+
+  let target = 'flemma_p1'
+  let selectedTarget = ref('')
+  let targets = ref([])
+  let save = false
+  
+  // const assignTarget = (e) => {
+  //   if (!e.target.dataset.target) return 
+
+  //   const div = document.querySelectorAll('.target-container > div')
+
+  //   div.forEach(d => {
+  //     d.dataset.target == e.target.dataset.target ? 
+  //       d.classList.add('selected-target') : 
+  //       d.classList.remove('selected-target')
+  //   })
+
+  //   target = e.target.dataset.target;
+  //   getTarget(target)
+  // }
+
+  const getTarget = async(t) => {
+    const res = await TargetService.getTargetInfo(t)
+    selectedTarget.value = res.data.target
+  }
+  
+  const getTargets = async() => {
+    const res = await TargetService.getTargets()
+    targets.value = res.data.target
+  }
+
+  const displayGraph = (event) => {
+    const index = event.id
+
+    chartData.value.labels[index] = "Setup " + ++event.id
+    chartData.value.datasets[0].data[index] = event.dmg
+    chartData.value.datasets[0].backgroundColor[index] = event.color
+  }
+
+  const saveSetups = () => {
+    save = true
+    $router.go()
+  }
+
+  const setSave = () => save = false
+
+  const setupDiff = computed(() => chartData.value.datasets[0].data[0] - chartData.value.datasets[0].data[1])
+  const setupRatio = computed(() => {
+    const ratio = chartData.value.datasets[0].data[0] / chartData.value.datasets[0].data[1]
+
+    if (ratio <= 0 || !isFinite(ratio)) return 0
+    return ratio.toFixed(6)
+  })
+
+  getTarget(target)
+  getTargets()
 </script>
 
 <style scoped>
@@ -300,7 +292,7 @@ export default {
     grid-area: save;
     color: white;
     padding: 5px 0;
-    background-color: var(--bg-black);
+    background-color: v-bind(bg);
     height: 50px;
     font-weight: 900;
     border-left: 1px solid white;
@@ -326,7 +318,7 @@ export default {
     border: 1px solid white;
     padding: 5px 10px;
     cursor: default;
-    background: var(--bg-black);
+    background: v-bind(bg);
   }
   .target-container > div:hover {
     cursor: pointer;
@@ -360,7 +352,7 @@ export default {
     border-left: 1px solid white;
     border-bottom: 1px solid white;
     border-right: 1px solid white;
-    background: var(--bg-black);
+    background: v-bind(bg);
   }
   .info p {
     margin-bottom: 0;
@@ -375,7 +367,7 @@ export default {
   }
   .notes > div {
     padding: 10px;
-    background: var(--bg-black);
+    background: v-bind(bg);
     margin-bottom: 1em;
   }
   .notes p {
@@ -399,7 +391,7 @@ export default {
     max-width: 650px;
     text-align: center;
     color: white;
-    background: var(--bg-black);
+    background: v-bind(bg);
   }
   .boss-table thead {
     background: #0000006b;

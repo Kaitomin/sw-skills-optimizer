@@ -1,13 +1,14 @@
 import Api from '@/services/Api'
+import axios from 'axios'
 
 export default {
-  getAllCharacters() {
-    return Api().get('/');
+  async getAllCharacters() {
+    return Api().get('/')
   },
   getCharacterInfo(data) {
-    return Api().get('/character/' +  data);
+    return Api().get('/character/' + data)
   },
   addNewCharacter(data) {
-    return Api().post('/add-new-char', data);
+    return Api().post('/add-new-char', data)
   }
 }

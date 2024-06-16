@@ -1,47 +1,57 @@
 <template>
   <div class="blocker"></div>
   <form class="form-modal" @submit="saveChanges">
-    <img :src="getSkillIcon(skill.icon)" alt="skill icon" width="50">
+    <img 
+      v-if="action == 'update'"
+      :src="skill.icon" 
+      alt="skill icon" 
+      width="50"
+    >
     <div class="form-inputs">
       <div>
         <label for="skill-name">Name</label>
-        <input type="text" class="text" id="skill-name" v-model="skillUpdated.skillName">
+        <input type="text" class="text" id="skill-name" v-model="skillUpdated.skillName" required>
       </div>
       <div>
         <label for="skill-dmg">Damage (%)</label>
-        <input type="text" class="text" id="skill-dmg" v-model="skillUpdated.dmg">
+        <input type="text" class="text" id="skill-dmg" v-model="skillUpdated.dmg" required>
       </div>
       <div>
         <label for="skill-time">Cast full (frame)</label>
-        <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast">
+        <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast" required>
       </div>
       <div>
         <label for="skill-cancel">Cast cancel (frame)</label>
-        <input type="text" class="text" id="skill-cancel" v-model="skillUpdated.castCancel">
+        <input type="text" class="text" id="skill-cancel" v-model="skillUpdated.castCancel" required>
       </div>
       <div>
         <label for="skill-cd">CD (s)</label>
-        <input type="text" class="text" id="skill-cd" v-model="skillUpdated.cd">
+        <input type="text" class="text" id="skill-cd" v-model="skillUpdated.cd" required>
       </div>
       <div v-if="skillUpdated.dwBoost">
         <label for="skill-dw">DW boost</label>
-        <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost">
+        <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost" required>
       </div>
       <div v-if="skillUpdated.mark">
         <label for="skill-mark">Mark</label>
-        <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark">
+        <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark" required>
       </div>
       <div v-if="skillUpdated.dmgBullet">
         <label for="skill-dmgBullet">Dmg bullet</label>
-        <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet">
+        <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet" required>
       </div>
       <div v-if="skillUpdated.dmgRelease">
         <label for="skill-dmgRelease">Dmg release</label>
-        <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease">
+        <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease" required>
       </div>
       <div>
+        <label>Icon</label>
+        <input type="file" name="icon" accept="image/*" ref="skillIcon" class="btn-file" @change="onSelect">
+      </div>
+
+      <div>
         <label for="character">Character</label>
-        <select name="character" id="character" v-model="skillUpdated.character">
+        <select name="character" id="character" v-model="skillUpdated.character" required>
           <option v-for="char in characters" :key="char._id" :value="char.name">{{ char.name }}</option>
         </select>
       </div>
@@ -55,21 +65,19 @@
 <script>
   import CharacterService from '../services/CharacterService';
   import SkillService from '../services/SkillService';
-
-  import {
-    useGetSkillIcon
-  } from "../composable/functions";
   
   export default {
     props: [
-      'skill'
+      'skill',
+      'action'
     ],
     emits: ['close-modal', 'submit'],
     data() {
       return {
         characters: [],
         skillUpdated: {},
-        error: { isError: false, msg: '' }
+        error: { isError: false, msg: '' },
+        skillIcon: ''
       }
     },
     methods: {
@@ -97,15 +105,20 @@
       closeModal() {
         this.$emit('close-modal')
       },
-      getSkillIcon(iconUrl) {
-        return useGetSkillIcon(iconUrl);
+      onSelect() {
+        const file = this.$refs.skillIcon.files[0]
+        this.skillIcon = file
       },
       async saveChanges(e) {
         e.preventDefault()
-
+   
         this.error = { isError: false, msg: '' }
 
-        // console.log(this.skill);
+        if (this.action == 'add' && !this.skillIcon) {
+          this.error.isError = true
+          this.error.msg = 'File icon is missing'
+          return
+        } 
 
         // Check errors
         const arr = Object.entries(this.skillUpdated)
@@ -119,8 +132,34 @@
         }
 
         try { 
-          await SkillService.updateSkill(this.skillUpdated);
-          this.$emit('submit', this.skillUpdated)
+          const formData = new FormData()
+
+          formData.append('_id', this.skillUpdated._id)
+          formData.append('icon', this.skillIcon)
+          formData.append('skillName', this.skillUpdated.skillName)
+          formData.append('dmg', this.skillUpdated.dmg)
+          formData.append('cast', this.skillUpdated.cast)
+          formData.append('castCancel', this.skillUpdated.castCancel)
+          formData.append('cd', this.skillUpdated.cd)
+          formData.append('character', this.skillUpdated.character)
+          formData.append('secureUrl', this.skillUpdated.icon)
+
+          for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1])
+          }
+
+          switch (this.action) {
+            case 'update':
+              await SkillService.update(formData)
+              this.$emit('submit', this.skillUpdated)
+              break;
+            case 'add':
+              await SkillService.add(formData)
+              this.$emit('submit', this.skillUpdated)
+              break;
+            default:
+              console.log('Action type not defined')
+          }
         } catch (e) {
           console.log(e);
         }
@@ -130,11 +169,8 @@
       const res = await CharacterService.getAllCharacters()
       this.characters = res.data.charList
 
-      this.skillUpdated = {...this.skill}
+      if (this.action == 'update') this.skillUpdated = {...this.skill}
     },
-    mounted() {
-
-    }
   }
 </script>
 
@@ -168,6 +204,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em 0;
+    margin-top: 1em;
   }
   .form-inputs > div {
     display: flex;
@@ -185,6 +222,12 @@
     background-color: #00ffff75;
     color: white;
     border-radius: 5px;
+  }
+  .btn-file {
+    width: 190px;
+    max-width:100%;  
+    white-space: normal;
+    word-wrap: break-word; 
   }
   .btn-cancel {
     position: absolute;

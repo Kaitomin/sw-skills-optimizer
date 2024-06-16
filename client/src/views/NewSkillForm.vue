@@ -36,7 +36,7 @@
 
       <div>
         <label>Icon</label>
-        <input type="file" name="icon" accept="image/*" ref="file" @change="onSelect">
+        <input type="file" name="icon" accept="image/*" ref="skillIcon" @change="onSelect">
       </div>
 
       <button>Add skill</button>
@@ -45,66 +45,67 @@
   </div>
 </template>
 
-<script>
+<script setup>
+  import { inject, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-import CharacterService from '../services/CharacterService'
-import SkillService from '../services/SkillService';
+  import CharacterService from '../services/CharacterService'
+  import SkillService from '../services/SkillService'
 
-export default {
-  data() {
-    return {
-      skillName: '',
-      dmg: '',
-      cast: '',
-      castCancel: '',
-      cd: '',
-      character: '',
-      characters: [],
-      file: ''
+  const skillIcon = ref(null)
+  let skillName = ''
+  let dmg = ''
+  let cast = ''
+  let castCancel = ''
+  let cd = ''
+  let character = ''
+  let characters = ref([])
+  let userRole = inject('userRole')
+
+  const getAllCharacters = async() => {
+    try {
+      const res = await CharacterService.getAllCharacters()
+      characters.value = res.data.charList.map(char => char)
+    } catch (error) {
+      console.log(error)
     }
-  },
-
-  methods: {
-    async getAllCharacters() {
-      try {
-        const res = await CharacterService.getAllCharacters();
-        this.characters = res.data.charList.map(char => char);
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    onSelect() {
-      const file = this.$refs.file.files[0];
-      this.file = file;
-    },
-    async addNewSkill() {
-      try {
-        const formData = new FormData();
-
-        formData.append('icon', this.file);
-        formData.append('skillName', this.skillName);
-        formData.append('dmg', this.dmg);
-        formData.append('cast', this.cast);
-        formData.append('castCancel', this.castCancel);
-        formData.append('cd', this.cd);
-        formData.append('character', this.character);
-
-        await SkillService.addNewSkill(formData);
-        this.message = "Skill added !"
-      } catch (error) {
-        console.log(error);
-        this.message = "Something went wrong :("
-      }
-    },
-  },
-  beforeCreate() {
-    if (this.$root.userRole !== 'ADMIN') this.$router.push('/')
-  },
-  created() {
-    this.getAllCharacters()
   }
-  
-}
+
+  const onSelect = () => {
+    // const file = skillIcon.value.file.files[0]
+    skillIcon.value = skillIcon.value.files[0]
+  }
+
+  const addNewSkill = async() => {
+    try {
+      const formData = new FormData()
+
+      console.log(skillIcon)
+
+      formData.append('icon', skillIcon.value)
+      formData.append('skillName', skillName)
+      formData.append('dmg', dmg)
+      formData.append('cast', cast)
+      formData.append('castCancel', castCancel)
+      formData.append('cd', cd)
+      formData.append('character', character)
+
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1])
+      }
+
+      await SkillService.add(formData)
+      // message = "Skill added !"
+    } catch (error) {
+      console.log(error);
+      // message = "Something went wrong :("
+    }
+  }
+
+  const router = useRouter()
+  if (!userRole) router.push('/')
+
+  getAllCharacters()
 </script>
 
 <style scoped>
