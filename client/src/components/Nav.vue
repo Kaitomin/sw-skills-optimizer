@@ -10,7 +10,6 @@
         :to="'/character/' + character.name"
         class="character"
       >
-      <!-- :src="getCharacterIcon(character.name.toLowerCase() + '_nav')"  -->
         <img
           v-if="character.name != 'tmpChar'"
           :src="'/' + character.name.toLowerCase() + '_nav.png'"
@@ -32,18 +31,7 @@
 <script setup>
   import CharacterService from '../services/CharacterService'
 
-  import {
-    useGetCharacterIcon,
-  } from "../composable/functions";
-
   let characters = []
-
-  const getCharacterIcon = (iconUrl) => {
-    const url = useGetCharacterIcon(iconUrl)
-    const tmp = new URL(url, import.meta.url)
-    console.log(tmp)
-    return new URL(url, import.meta.url)
-  }
 
   const res = await CharacterService.getAllCharacters()
   characters = res.data.charList

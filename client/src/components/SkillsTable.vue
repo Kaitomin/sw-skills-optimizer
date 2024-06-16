@@ -4,7 +4,7 @@
       <div v-if="char">
         <div class="char-info">
           <div>
-            <img :src="getCharacterIcon(char.icon)" :alt="char.name + ' icon'" width="80" height="80">
+            <img :src="'/' + char.icon" :alt="char.name + ' icon'" width="80" height="80">
           </div>
 
           <div>
@@ -110,7 +110,7 @@
 <script>
 import CharacterService from '../services/CharacterService';
 
-import { useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
+import { useDisplayTooltip, useHideTooltip } from '../composable/functions';
 
 export default {
   props: ['charName'],
@@ -127,10 +127,6 @@ export default {
     }
   },
   methods: {
-    getCharacterIcon(iconUrl) {
-      const url = useGetCharacterIcon(iconUrl)
-      return new URL(url, import.meta.url)
-    },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;
 

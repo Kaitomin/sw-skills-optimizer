@@ -56,7 +56,7 @@
                 @click="getCharacterSkills(char.name)"
               >
                 <img
-                  :src="getCharacterIcon(char.icon)"
+                  :src="'/' + char.icon"
                   :alt="char.name + ' icon'"
                   width="150"
                   height="150"
@@ -68,7 +68,7 @@
                 @click="getCharacterSkills(char.name)"
               >
                 <img
-                  :src="getCharacterIcon(char.icon)"
+                  :src="'/' + char.icon"
                   :alt="char.name + ' icon'"
                   width="150"
                   height="150"
@@ -241,7 +241,6 @@
 
   import {
     useGetCharactersIcons,
-    useGetCharacterIcon,
     useSetLogger
   } from "../composable/functions";
 
@@ -260,12 +259,6 @@
   const getAllCharacters = async() => {
     charList.value = await useGetCharactersIcons();
   }
-
-  const getCharacterIcon = (iconUrl) => {
-    const url = useGetCharacterIcon(iconUrl)
-    return new URL(url, import.meta.url)
-  }
-
 
   const getCharacterSkills = (name) => {
     CharacterService.getCharacterInfo(name).then(res => {

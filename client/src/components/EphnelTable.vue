@@ -5,7 +5,7 @@
       <div class="char-info">
         <div>
           <img
-            :src="getCharacterIcon(char.icon)"
+            :src="'/' + char.icon"
             :alt="char.name + ' icon'"
             width="80"
             height="80"
@@ -321,7 +321,6 @@ import CharacterService from "../services/CharacterService";
 import {
   useDisplayTooltip,
   useHideTooltip,
-  useGetCharacterIcon
 } from "../composable/functions";
 
 export default {
@@ -341,9 +340,6 @@ export default {
     };
   },
   methods: {
-    getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl);
-    },
     toggleEphnelDesire() {
       this.dwChecked = !this.dwChecked;
       this.ephnelDW();
