@@ -144,9 +144,11 @@
           formData.append('character', this.skillUpdated.character)
           formData.append('secureUrl', this.skillUpdated.icon)
 
-          for (const pair of formData.entries()) {
-            console.log(pair[0], pair[1])
-          }
+          // for (const pair of formData.entries()) {
+          //   console.log(pair[0], pair[1])
+          // }
+          
+          if (this.skillUpdated.dwBoost) formData.append('dwBoost', this.skillUpdated.dwBoost)
 
           switch (this.action) {
             case 'update':
