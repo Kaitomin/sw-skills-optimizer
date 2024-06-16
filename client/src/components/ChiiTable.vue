@@ -295,7 +295,7 @@ export default {
 
     switch(this.charName) {
       case 'Chii':
-        this.description = "Data gathered by Yukawa from KR ver. S2 rebalance [23/03/2022]"
+        this.description = "Data by Yukawa from KR ver. S2 rebalance [23/03/2022]"
         this.aspd = 201
         break;
       default :

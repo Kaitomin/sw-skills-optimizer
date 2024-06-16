@@ -230,27 +230,27 @@ export default {
 
     switch(this.charName) {
       case 'Lily': 
-        this.description = "Data gathered from KR ver. S2 rebalance [23/03/2022]"
+        this.description = "Data from KR ver. S2 rebalance [23/03/2022]"
         this.aspd = 205
         break;
       case 'Iris':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
-        this.aspd = 200
+        this.description = "Data by AFN from EN ver. [16/06/2024]"
+        this.aspd = 240
         break;
       case 'Stella':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 205
         break;
       case 'Haru':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
-        this.aspd = 200
+        this.description = "Data by Anave from EN ver. [04/06/2024]"
+        this.aspd = 240
         break;
       case 'Nabi':
-        this.description = "Data gathered from EN ver. [29/05/2022]"
+        this.description = "Data from EN ver. [29/05/2022]"
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Erwin':
