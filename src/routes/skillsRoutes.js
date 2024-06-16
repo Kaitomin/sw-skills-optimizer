@@ -54,6 +54,8 @@ router.put('/update-skill', uploadMiddleware, async(req, res) => {
     icon: req.body.secureUrl
   }
 
+  if (req.body.dwBoost) skill.dwBoost = req.body.dwBoost
+
   try {
     if (req.file) {
       await runMiddleware(req, res, uploadMiddleware)
