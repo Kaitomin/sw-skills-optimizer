@@ -262,7 +262,8 @@
   }
 
   const getCharacterIcon = (iconUrl) => {
-    return useGetCharacterIcon(iconUrl);
+    const url = useGetCharacterIcon(iconUrl)
+    return new URL(url, import.meta.url)
   }
 
 

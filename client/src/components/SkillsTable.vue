@@ -128,7 +128,8 @@ export default {
   },
   methods: {
     getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl)
+      const url = useGetCharacterIcon(iconUrl)
+      return new URL(url, import.meta.url)
     },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;

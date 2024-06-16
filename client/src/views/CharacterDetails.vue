@@ -124,7 +124,7 @@ export default {
   },
   created() {
     // For testing
-    if (this.name == 'tmpChar') this.$router.push('/')
+    // if (this.name == 'tmpChar') this.$router.push('/')
 
     try {
       // Get character rotations from store
