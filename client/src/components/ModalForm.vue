@@ -151,11 +151,11 @@
           switch (this.action) {
             case 'update':
               await SkillService.update(formData)
-              // this.$emit('submit', this.skillUpdated)
+              this.$emit('submit', this.skillUpdated)
               break;
             case 'add':
               await SkillService.add(formData)
-              // this.$emit('submit', this.skillUpdated)
+              this.$emit('submit', this.skillUpdated)
               break;
             default:
               console.log('Action type not defined')
