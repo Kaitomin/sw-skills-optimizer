@@ -4,7 +4,7 @@
       <div v-if="char">
         <div class="char-info">
           <div>
-            <img :src="getCharacterIcon(char.icon)" :alt="char.name + ' icon'" width="80" height="80">
+            <img :src="'/' + char.icon" :alt="char.name + ' icon'" width="80" height="80">
           </div>
 
           <div>
@@ -58,7 +58,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 <p>{{ skill.skillName }}</p>
               </td>
 
@@ -92,7 +92,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + 'icon'">
+                <img :src="skill.icon" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
@@ -110,7 +110,7 @@
 <script>
 import CharacterService from '../services/CharacterService';
 
-import { useGetSkillIcon, useDisplayTooltip, useHideTooltip, useGetCharacterIcon } from '../composable/functions';
+import { useDisplayTooltip, useHideTooltip } from '../composable/functions';
 
 export default {
   props: ['charName'],
@@ -127,12 +127,6 @@ export default {
     }
   },
   methods: {
-    getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl)
-    },
-    getSkillIcon(iconUrl) {
-      return useGetSkillIcon(iconUrl)
-    },
     toggleDesire() {
       this.dwChecked = !this.dwChecked;
 
@@ -236,27 +230,27 @@ export default {
 
     switch(this.charName) {
       case 'Lily': 
-        this.description = "Data gathered from KR ver. S2 rebalance [23/03/2022]"
+        this.description = "Data from KR ver. S2 rebalance [23/03/2022]"
         this.aspd = 205
         break;
       case 'Iris':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
-        this.aspd = 200
+        this.description = "Data by AFN from EN ver. [16/06/2024]"
+        this.aspd = 240
         break;
       case 'Stella':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 205
         break;
       case 'Haru':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
-        this.aspd = 200
+        this.description = "Data by Anave from EN ver. [04/06/2024]"
+        this.aspd = 240
         break;
       case 'Nabi':
-        this.description = "Data gathered from EN ver. [29/05/2022]"
+        this.description = "Data from EN ver. [29/05/2022]"
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
         this.aspd = 200
         break;
       case 'Erwin':

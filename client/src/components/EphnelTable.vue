@@ -5,7 +5,7 @@
       <div class="char-info">
         <div>
           <img
-            :src="getCharacterIcon(char.icon)"
+            :src="'/' + char.icon"
             :alt="char.name + ' icon'"
             width="80"
             height="80"
@@ -77,7 +77,7 @@
         <!-- <div> -->
         <div>
           <img
-            src="@/assets/img/ephnel_bullet.png"
+            src="/ephnel_bullet.png"
             alt=""
             width="40"
             height="40"
@@ -148,7 +148,7 @@
           <tr v-for="skill in skillsTable" :key="skill._id">
             <td>
               <img
-                :src="getImgUrl(skill.icon)"
+                :src="skill.icon"
                 :alt="skill.skillName + ' icon'"
                 width="48"
                 height="48"
@@ -245,7 +245,7 @@
           <tr v-for="skill in skillsTable" :key="skill._id">
             <td>
               <img
-                :src="getImgUrl(skill.icon)"
+                :src="skill.icon"
                 :alt="skill.skillName + 'icon'"
               />
               <p>{{ skill.skillName }}</p>
@@ -319,10 +319,8 @@
 import CharacterService from "../services/CharacterService";
 
 import {
-  useGetSkillIcon,
   useDisplayTooltip,
   useHideTooltip,
-  useGetCharacterIcon
 } from "../composable/functions";
 
 export default {
@@ -342,12 +340,6 @@ export default {
     };
   },
   methods: {
-    getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl);
-    },
-    getImgUrl(iconUrl) {
-      return useGetSkillIcon(iconUrl);
-    },
     toggleEphnelDesire() {
       this.dwChecked = !this.dwChecked;
       this.ephnelDW();
@@ -739,7 +731,7 @@ export default {
       })
       .catch(err => this.$router.push("/"));
 
-    this.description = "Data gathered by Tatufo from EN ver. [18/05/2023]";
+    this.description = "Data by Tatufo from EN ver. [18/05/2023]";
     this.aspd = 200;
   }
 };

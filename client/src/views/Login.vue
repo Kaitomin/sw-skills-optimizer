@@ -74,8 +74,8 @@ export default {
           await UserService.login({
             username: this.username.toLowerCase(),
             password: this.password
-          });
-          // this.$router.go();
+          })
+
           this.$router
             .push({ path: 'Home' })
             .then(() => { this.$router.go(0) })

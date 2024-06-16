@@ -1,13 +1,13 @@
 import Api from '@/services/Api'
  
 export default {
-  addNewSkill_get() {
-    return Api().get('/add-new-skill');
+  // addNewSkill_get() {
+  //   return Api().get('/add-new-skill');
+  // },
+  add(skill) {
+    return Api().post('/add-skill', skill)
   },
-  addNewSkill(data) {
-    return Api().post('add-new-skill', data);
-  },
-  updateSkill(skill) {
-    return Api().put('/dashboard', skill)
+  update(skill) {
+    return Api().put('/update-skill', skill)
   }
 }

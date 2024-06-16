@@ -1,8 +1,9 @@
 <template>
   <ModalForm 
-    v-if="showModalEdit" 
+    v-if="showModalForm" 
     :skill="selectedSkill" 
-    @close-modal="showModalEdit = false" 
+    :action="actionType"
+    @close-modal="showModalForm = false" 
     @submit="saveChanges"
   />
   <div class="dashboard">
@@ -46,42 +47,42 @@
               :key="char._id"
               :class="{
                 active: currentCharacter === char.name, 
-                hide: char.name == 'tmpChar'
+                // hide: char.name == 'tmpChar' // For testing
               }"
               @click="currentCharacter = char.name"
             >
-              <div
+              <!-- <div
                 v-if="char.name !== 'tmpChar'"
                 @click="getCharacterSkills(char.name)"
               >
                 <img
-                  :src="getCharacterIcon(char.icon)"
-                  :alt="char.name + ' icon'"
-                  width="150"
-                  height="150"
-                />
-              </div>
-
-              <!-- Temp for test -->
-              <!-- <div
-                v-if="char.name == 'tmpChar' && $root.userRole == 'ADMIN'"
-                @click="getCharacterSkills(char.name)"
-              >
-                <img
-                  :src="getCharacterIcon(char.icon)"
+                  :src="'/' + char.icon"
                   :alt="char.name + ' icon'"
                   width="150"
                   height="150"
                 />
               </div> -->
 
+              <!-- For testing -->
+              <div
+                @click="getCharacterSkills(char.name)"
+              >
+                <img
+                  :src="'/' + char.icon"
+                  :alt="char.name + ' icon'"
+                  width="150"
+                  height="150"
+                />
+              </div>
+
             </div>
           </div>
-          <router-link
-            v-if="$root.userRole === 'ADMIN'"
-            to="/add-new-skill"
-            class="add-character"
-            >Add skill</router-link
+          <button
+            class="add-skill"
+            @click="addSkill"
+          >
+            Add skill
+          </button
           >
         </div>
         <div class="skills-container">
@@ -112,7 +113,7 @@
               >
                 <td scope="row">
                   <img
-                    :src="getSkillIcon(skill.icon)"
+                    :src="skill.icon"
                     :alt="skill.skillName + ' icon'"
                     width="48"
                     height="48"
@@ -218,7 +219,7 @@
                   <i
                     class="fa-solid fa-pen-to-square"
                     title="Edit skill"
-                    @click="editSkill(skill)"
+                    @click="updateSkill(skill)"
                   ></i>
                 </td>
               </tr>
@@ -230,104 +231,79 @@
   </div>
 </template>
 
-<script>
-import CharacterService from "../services/CharacterService";
-import LoggerService from "../services/LoggerService";
+<script setup>
+  import { computed, inject, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-import { defineAsyncComponent } from 'vue'
+  import ModalForm from '../components/ModalForm.vue'
+  import CharacterService from "../services/CharacterService";
+  import LoggerService from "../services/LoggerService";
 
-import {
-  useGetCharactersIcons,
-  useGetCharacterIcon,
-  useGetSkillIcon,
-  useSetLogger
-} from "../composable/functions";
+  import {
+    useGetCharactersIcons,
+    useSetLogger
+  } from "../composable/functions";
 
-export default {
-  data() {
-    return {
-      charList: [],
-      skillsList: [],
-      logger: [],
-      currentCharacter: "",
-      error: false,
-      showModal: false,
-      showModalEdit: false,
-      containerH: "",
-      selectedSkill: {}
-    }
-  },
-  components: {
-    ModalForm: defineAsyncComponent(() => import('../components/ModalForm.vue'))
-  },
-  methods: {
-    async getAllCharacters() {
-      this.charList = await useGetCharactersIcons();
-    },
-    getCharacterIcon(iconUrl) {
-      return useGetCharacterIcon(iconUrl);
-    },
-    getSkillIcon(iconUrl) {
-      return useGetSkillIcon(iconUrl);
-    },
-    getCharacterSkills(name) {
-      CharacterService.getCharacterInfo(name).then(res => {
-        this.skillsList = res.data.skills;
-        this.currentCharacter = name;
-      });
-    },
-    getLogger() {
-      LoggerService.getLogger().then(res => (this.logger = res.data.logger));
-    },
-    editSkill(event) {
-      this.selectedSkill = event
-      this.showModalEdit = true
-    },
-    async saveChanges(skill) {
-      try {
-        this.showModalEdit = false
-        
-        await this.getCharacterSkills(this.currentCharacter);
-        await useSetLogger(skill)
-      } catch (err) {
-        console.log(err);
-      }
 
-      this.getLogger();
-    },
-    cancelChanges(event, skill) {
-      const inputs = document.querySelectorAll(`#tr-${skill._id} input`);
+  let charList = ref([])
+  let skillsList = ref([])
+  let logger = ref([])
+  let currentCharacter = ""
+  let error = false
+  let showModal = false
+  let showModalForm = ref(false)
+  let selectedSkill = {}
+  let userRole = inject('userRole')
+  let actionType = ref(null)
 
-      inputs.forEach(input => {
-        input.classList.remove("edit");
-        input.disabled = true;
-
-        if (!input.value) input.value = "";
-        else input.value = skill[input.name];
-      });
-
-      event.target.parentElement.className = "hidden";
-      event.target.parentElement.previousElementSibling.classList.remove(
-        "hidden"
-      );
-    }
-  },
-  computed: {
-    sortedLogger() {
-      return Array.from(this.logger).reverse();
-    }
-  },
-  beforeCreate() {
-    if (!this.$root.userRole) this.$router.push("/");
-  },
-  created() {
-    this.getAllCharacters();
-    this.getLogger();
-    this.getCharacterSkills("Iris");
-  },
-  mounted() {
+  const getAllCharacters = async() => {
+    charList.value = await useGetCharactersIcons();
   }
-}
+
+  const getCharacterSkills = (name) => {
+    CharacterService.getCharacterInfo(name).then(res => {
+      skillsList.value = res.data.skills;
+      currentCharacter = name;
+    })
+  }
+
+  const getLogger = () => {
+    LoggerService.getLogger().then(res => (logger.value = res.data.logger));
+  }
+
+  const updateSkill = (event) => {
+    selectedSkill = event
+    actionType.value = 'update'
+    showModalForm.value = true
+  }
+
+  const addSkill = () => {
+    actionType.value = 'add'
+    showModalForm.value = true
+  }
+
+  const saveChanges= async(skill) => {
+    try {
+      showModalForm.value = false
+
+      await getCharacterSkills(currentCharacter)
+      if (skill.character != 'tmpChar') await useSetLogger(skill)
+    } catch (err) {
+      console.log(err)
+    }
+
+    getLogger()
+  }
+
+  const sortedLogger = computed(() => Array.from(logger.value).reverse())
+
+  const router = useRouter()
+
+  if (!userRole.value) router.push('/')
+  
+  getAllCharacters()
+  getLogger()
+  getCharacterSkills("Iris")
 </script>
 
 <style scoped>
@@ -470,16 +446,16 @@ export default {
   .skills-container th {
     width: 7.5%;
   }
-  .add-character {
+  .add-skill {
     float: left;
     padding: 0.2em 0.5em;
-    background: none;
-    border: 2px solid #95989e;
+    background: #2d343f;
+    border: 1px solid #95989e;
     text-decoration: none;
     color: white;
     border-radius: 5px;
   }
-  .add-character:hover {
+  .add-skill:hover {
     background: #ffffff21;
   }
 
