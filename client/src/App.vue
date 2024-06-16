@@ -61,8 +61,8 @@
     let latestVer = await VersionService.getVersion()
     latestVer = latestVer.data
 
-    console.log('Current version - ', latestVer)
-    console.log('Package after ver - ', version)
+    // console.log('Current version - ', latestVer)
+    // console.log('Package after ver - ', version)
 
     if (version !== latestVer) location.reload()
   })
