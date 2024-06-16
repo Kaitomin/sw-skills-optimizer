@@ -17,17 +17,9 @@
 
 <script setup>
   const props = defineProps(['userRole'])
+  const emit = defineEmits(['logout'])
 
-  //TODO: was in App.vue
-  const logout = async() => {
-    try {
-      await UserService.logout_post();
-      userRole = null;
-      this.$router.push('/')
-    } catch (error) {
-      console.log("Logout err :", error)
-    }
-  }
+  const logout = () => emit('logout')
 </script>
 
 <style scoped>

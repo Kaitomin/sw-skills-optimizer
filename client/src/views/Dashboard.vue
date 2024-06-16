@@ -1,8 +1,9 @@
 <template>
   <ModalForm 
-    v-if="showModalEdit" 
+    v-if="showModalForm" 
     :skill="selectedSkill" 
-    @close-modal="showModalEdit = false" 
+    :action="actionType"
+    @close-modal="showModalForm = false" 
     @submit="saveChanges"
   />
   <div class="dashboard">
@@ -76,13 +77,12 @@
 
             </div>
           </div>
-          <router-link
-            v-if="userRole === 'ADMIN'"
-            to="/add-new-skill"
+          <button
             class="add-skill"
+            @click="addSkill"
           >
             Add skill
-          </router-link
+          </button
           >
         </div>
         <div class="skills-container">
@@ -219,7 +219,7 @@
                   <i
                     class="fa-solid fa-pen-to-square"
                     title="Edit skill"
-                    @click="editSkill(skill)"
+                    @click="updateSkill(skill)"
                   ></i>
                 </td>
               </tr>
@@ -253,9 +253,10 @@
   let currentCharacter = ""
   let error = false
   let showModal = false
-  let showModalEdit = ref(false)
+  let showModalForm = ref(false)
   let selectedSkill = {}
   let userRole = inject('userRole')
+  let actionType = ref(null)
 
   const getAllCharacters = async() => {
     charList.value = await useGetCharactersIcons();
@@ -265,9 +266,6 @@
     return useGetCharacterIcon(iconUrl);
   }
 
-  const getSkillIcon = (iconUrl) => {
-    return useGetSkillIcon(iconUrl);
-  }
 
   const getCharacterSkills = (name) => {
     CharacterService.getCharacterInfo(name).then(res => {
@@ -280,14 +278,20 @@
     LoggerService.getLogger().then(res => (logger.value = res.data.logger));
   }
 
-  const editSkill = (event) => {
+  const updateSkill = (event) => {
     selectedSkill = event
-    showModalEdit.value = true
+    actionType.value = 'update'
+    showModalForm.value = true
+  }
+
+  const addSkill = () => {
+    actionType.value = 'add'
+    showModalForm.value = true
   }
 
   const saveChanges= async(skill) => {
     try {
-      showModalEdit.value = false
+      showModalForm.value = false
 
       await getCharacterSkills(currentCharacter)
       if (skill.character != 'tmpChar') await useSetLogger(skill)
@@ -452,8 +456,8 @@
   .add-skill {
     float: left;
     padding: 0.2em 0.5em;
-    background: none;
-    border: 2px solid #95989e;
+    background: #2d343f;
+    border: 1px solid #95989e;
     text-decoration: none;
     color: white;
     border-radius: 5px;

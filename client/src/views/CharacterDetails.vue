@@ -49,7 +49,6 @@
       <button class="rotation" :class="rotationLimit <= 2 ? 'add-rotation' : 'disabled-rotation'" @click="addRotation">Add rotation</button>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -123,11 +122,9 @@ export default {
       this.save.save = false
     },
   },
-  computed: {
-  },
   created() {
     // For testing
-    // if (this.name == 'tmpChar') this.$router.push('/')
+    if (this.name == 'tmpChar') this.$router.push('/')
 
     try {
       // Get character rotations from store
@@ -139,8 +136,6 @@ export default {
       // Character does not exist in store
       this.$router.push('/')
     }
-  },
-  mounted() {
   },
   unmounted() {
     this.components = null

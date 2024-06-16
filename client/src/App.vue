@@ -21,8 +21,9 @@
 </template>
 
 <script setup>
-  import { onBeforeMount, provide, ref } from 'vue'
+  import { onBeforeMount, provide, ref, watch } from 'vue'
   import { version } from '../package.json'
+  import { useRoute, useRouter } from 'vue-router'
 
   import Nav from '@/components/Nav.vue'
   import NavAdmin from './components/NavAdmin.vue'
@@ -31,25 +32,20 @@
 
   import "@/assets/global.css";
 
+  let route = useRoute()
+  let router = useRouter()
   let userRole = ref('')
   provide('userRole', userRole)
 
-  // const selectedItemMenu = ''
-  
-  // function setSelectedItem(event) {
-  //   console.log('selectedItem - ', event);
-  //   this.selectedItemMenu = event
-  // }
-
-  // async function logout() {
-  //   try {
-  //     await UserService.logout_post();
-  //     this.userRole = null;
-  //     this.$router.push('/')
-  //   } catch (error) {
-  //     console.log("Logout err :", error)
-  //   }
-  // }
+  async function logout() {
+    try {
+      await UserService.logout_post();
+      provide('userRole', null)
+      router.go()
+    } catch (error) {
+      console.log("Logout err :", error)
+    }
+  }
 
   onBeforeMount(async() => {
     try {
@@ -60,31 +56,16 @@
     }
   })
 
-  // watch: {
-  //   '$route': {
-  //     async handler(newValue, oldValue) {
-  //       // console.log('Old route - ', oldValue);
-  //       // console.log('New route - ', newValue);
-  //       // console.log('Package before ver - ', version);
+  // Reload website if version difference
+  watch(() => route.fullPath, async(newValue, oldValue) => {
+    let latestVer = await VersionService.getVersion()
+    latestVer = latestVer.data
 
-  //       if (oldValue && newValue && oldValue.fullPath != newValue.fullPath) {
-  //         let latestVer = await VersionService.getVersion()
-  //         latestVer = latestVer.data
+    console.log('Current version - ', latestVer)
+    console.log('Package after ver - ', version)
 
-  //         // console.log('Current version - ', latestVer);
-  //         // console.log('Package after ver - ', version);
-
-  //         if (version !== latestVer) {
-  //           location.reload()
-  //         }
-        
-  //       }
-  //     },
-  //     immediate: true,
-  //     deep: true,
-  //   }
-  // }
-
+    if (version !== latestVer) location.reload()
+  })
 </script>
 
 <style>
