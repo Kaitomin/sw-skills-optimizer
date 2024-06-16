@@ -1,7 +1,7 @@
 <template>
   <div class="blocker"></div>
   <form class="form-modal" @submit="saveChanges">
-    <img :src="getSkillIcon(skill.icon)" alt="skill icon" width="50">
+    <img :src="skill.icon" alt="skill icon" width="50">
     <div class="form-inputs">
       <div>
         <label for="skill-name">Name</label>
@@ -40,6 +40,11 @@
         <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease">
       </div>
       <div>
+        <label>Icon</label>
+        <input type="file" name="icon" accept="image/*" ref="skillIcon" @change="onSelect">
+      </div>
+
+      <div>
         <label for="character">Character</label>
         <select name="character" id="character" v-model="skillUpdated.character">
           <option v-for="char in characters" :key="char._id" :value="char.name">{{ char.name }}</option>
@@ -69,7 +74,8 @@
       return {
         characters: [],
         skillUpdated: {},
-        error: { isError: false, msg: '' }
+        error: { isError: false, msg: '' },
+        skillIcon: ''
       }
     },
     methods: {
@@ -100,6 +106,10 @@
       getSkillIcon(iconUrl) {
         return useGetSkillIcon(iconUrl);
       },
+      onSelect() {
+        const file = this.$refs.skillIcon.files[0]
+        this.skillIcon = file
+      },
       async saveChanges(e) {
         e.preventDefault()
 
@@ -119,8 +129,24 @@
         }
 
         try { 
-          await SkillService.updateSkill(this.skillUpdated);
-          this.$emit('submit', this.skillUpdated)
+          const formData = new FormData()
+
+          formData.append('_id', this.skillUpdated._id)
+          formData.append('icon', this.skillIcon)
+          formData.append('skillName', this.skillUpdated.skillName)
+          formData.append('dmg', this.skillUpdated.dmg)
+          formData.append('cast', this.skillUpdated.cast)
+          formData.append('castCancel', this.skillUpdated.castCancel)
+          formData.append('cd', this.skillUpdated.cd)
+          formData.append('character', this.skillUpdated.character)
+          formData.append('secureUrl', this.skillUpdated.icon)
+
+          // for (const pair of formData.entries()) {
+          //   console.log(pair[0], pair[1])
+          // }
+
+          await SkillService.update(formData)
+          // this.$emit('submit', this.skillUpdated)
         } catch (e) {
           console.log(e);
         }
@@ -132,9 +158,6 @@
 
       this.skillUpdated = {...this.skill}
     },
-    mounted() {
-
-    }
   }
 </script>
 

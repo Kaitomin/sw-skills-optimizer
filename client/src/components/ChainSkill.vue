@@ -14,7 +14,7 @@
             <div class="dropdown">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s1">Skill 1</span>
-                <img v-else :src="getImgUrl(c1_s1.icon)" :alt="c1_s1.skillName + ' icon'" width="48" height="48">
+                <img v-else :src="c1_s1.icon" :alt="c1_s1.skillName + ' icon'" width="48" height="48">
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
@@ -24,7 +24,7 @@
                   :key="skill._id"
                   @click="c1_s1 = skill"
                  >
-                  <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                  <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 </li>
                 <li @click="c1_s1 = ''"><i class="fa-solid fa-ban"></i></li>
               </ul>
@@ -34,7 +34,7 @@
             <div class="dropdown">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s2">Skill 2</span>
-                <img v-else :src="getImgUrl(c1_s2.icon)" :alt="c1_s2.skillName + ' icon'" width="48" height="48">
+                <img v-else :src="c1_s2.icon" :alt="c1_s2.skillName + ' icon'" width="48" height="48">
               <span class="caret"></span></button>
               <ul class="dropdown-menu">
                  <li
@@ -43,7 +43,7 @@
                   :key="skill._id"
                   @click="c1_s2 = skill"
                  >
-                  <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                  <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 </li>
                 <li @click="c1_s2 = ''"><i class="fa-solid fa-ban"></i></li>
               </ul>
@@ -53,7 +53,7 @@
             <div class="dropdown">
               <button class="btn dropdown-toggle" type="button" data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 <span v-if="!c1_s3">Skill 3</span>
-                <img v-else :src="getImgUrl(c1_s3.icon)" :alt="c1_s3.skillName + ' icon'" width="48" height="48">
+                <img v-else :src="c1_s3.icon" :alt="c1_s3.skillName + ' icon'" width="48" height="48">
               <span class="caret"></span></button>
               <ul class="dropdown-menu">
                  <li
@@ -62,7 +62,7 @@
                   :key="skill._id"
                   @click="c1_s3 = skill"
                  >
-                  <img :src="getImgUrl(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                  <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 </li>
                  <li @click="c1_s3 = ''"><i class="fa-solid fa-ban"></i></li>
               </ul>
@@ -125,13 +125,6 @@ export default {
     }
   },
   methods: {
-    getImgUrl(iconUrl) {
-      try {
-        return require('@/assets/uploads/skills/' + iconUrl.split('.')[0] + '.png')
-      } catch (e) {
-        return
-      }
-    },
     calcTotal(s1, s2, s3, val) {
       // Filter undefined skills & dupes
       const filteredSkills = [s1, s2, s3].filter(s => s);
@@ -191,7 +184,6 @@ export default {
           return (this.totalCast/60).toFixed(2);
         }
       }
-
     },
     calcDmgRatio(s1, s2, s3, value) {
       if (!s1 && !s2 && !s3) return this.dmgCast = this.dmgCd = 0;

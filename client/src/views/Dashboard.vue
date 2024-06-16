@@ -46,25 +46,12 @@
               :key="char._id"
               :class="{
                 active: currentCharacter === char.name, 
-                hide: char.name == 'tmpChar'
+                // hide: char.name == 'tmpChar' // For testing
               }"
               @click="currentCharacter = char.name"
             >
-              <div
-                v-if="char.name !== 'tmpChar'"
-                @click="getCharacterSkills(char.name)"
-              >
-                <img
-                  :src="getCharacterIcon(char.icon)"
-                  :alt="char.name + ' icon'"
-                  width="150"
-                  height="150"
-                />
-              </div>
-
-              <!-- Temp for test -->
               <!-- <div
-                v-if="char.name == 'tmpChar' && userRole.value == 'ADMIN'"
+                v-if="char.name !== 'tmpChar'"
                 @click="getCharacterSkills(char.name)"
               >
                 <img
@@ -75,13 +62,27 @@
                 />
               </div> -->
 
+              <!-- For testing -->
+              <div
+                @click="getCharacterSkills(char.name)"
+              >
+                <img
+                  :src="getCharacterIcon(char.icon)"
+                  :alt="char.name + ' icon'"
+                  width="150"
+                  height="150"
+                />
+              </div>
+
             </div>
           </div>
           <router-link
             v-if="userRole === 'ADMIN'"
             to="/add-new-skill"
-            class="add-character"
-            >Add skill</router-link
+            class="add-skill"
+          >
+            Add skill
+          </router-link
           >
         </div>
         <div class="skills-container">
@@ -112,7 +113,7 @@
               >
                 <td scope="row">
                   <img
-                    :src="getSkillIcon(skill.icon)"
+                    :src="skill.icon"
                     :alt="skill.skillName + ' icon'"
                     width="48"
                     height="48"
@@ -272,7 +273,7 @@
     CharacterService.getCharacterInfo(name).then(res => {
       skillsList.value = res.data.skills;
       currentCharacter = name;
-    });
+    })
   }
 
   const getLogger = () => {
@@ -287,9 +288,9 @@
   const saveChanges= async(skill) => {
     try {
       showModalEdit.value = false
-      
+
       await getCharacterSkills(currentCharacter)
-      await useSetLogger(skill)
+      if (skill.character != 'tmpChar') await useSetLogger(skill)
     } catch (err) {
       console.log(err)
     }
@@ -301,7 +302,7 @@
 
   const router = useRouter()
 
-  if (!userRole.value) router.push("/")
+  if (!userRole.value) router.push('/')
   
   getAllCharacters()
   getLogger()
@@ -448,7 +449,7 @@
   .skills-container th {
     width: 7.5%;
   }
-  .add-character {
+  .add-skill {
     float: left;
     padding: 0.2em 0.5em;
     background: none;
@@ -457,7 +458,7 @@
     color: white;
     border-radius: 5px;
   }
-  .add-character:hover {
+  .add-skill:hover {
     background: #ffffff21;
   }
 

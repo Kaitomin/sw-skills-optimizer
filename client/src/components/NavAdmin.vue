@@ -18,6 +18,7 @@
 <script setup>
   const props = defineProps(['userRole'])
 
+  //TODO: was in App.vue
   const logout = async() => {
     try {
       await UserService.logout_post();

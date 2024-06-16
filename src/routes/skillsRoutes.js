@@ -1,62 +1,91 @@
-const router = require('express').Router();
-const Skill = require('../models/Skills');
-const multer = require('multer');
-const fs = require("fs");
 
-// Set Multer storage to upload images
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './client/src/assets/uploads/skills')
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + '.' + file.originalname.split('.')[1])
-  }
-})
+const router = require('express').Router()
+const Skill = require('../models/Skills')
+const multer = require('multer')
+const fs = require("fs")
+const { handleUpload, getAssetInfo, deleteAsset, searchAsset } = require('../helpers')
 
-const upload = multer({ storage: storage });
+// Set Multer storage to intercept FormData
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
+const uploadMiddleware = upload.single('icon')
 
-// Add new skill
-router.post('/add-new-skill', upload.single('icon'), async (req, res) => {
+router.post('/add-skill', uploadMiddleware, async (req, res) => {
   if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
-  try {
-    let img = fs.readFileSync(req.file.path);
-    let encode_img = img.toString('base64');
-    const final_img = {
-      contentType: req.file.mimetype,
-      image: Buffer.from(encode_img,'base64')
-    };
 
-    const skill = await Skill.create({
+  try {
+    const skill = {
       skillName: req.body.skillName,
       dmg: req.body.dmg,
       cast: req.body.cast,
       castCancel: req.body.castCancel,
       cd: req.body.cd,
       character: req.body.character,
-      avatar: final_img,
-      icon: req.file.filename
-    })
-    res.status(201).json({ skill });
+      icon: null
+    }
 
-  } catch (error) {
-    return res.status(400).send({ error: error.message });
-  }
-});
+    // Upload skill icon to Cloudinary
+    await runMiddleware(req, res, uploadMiddleware)
+    const b64 = Buffer.from(req.file.buffer).toString("base64")
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64
+    const cldRes = await handleUpload(dataURI)
 
-// Update skill
-router.put('/dashboard', async (req, res) => {
-  try {
-    // const skill = await Skill.findById(req.body._id)
+    skill.icon = cldRes.secure_url
 
-    await Skill.findByIdAndUpdate(req.body._id, req.body)
-
-    // console.log('--OG--', skill)
-    // console.log('--MOD--', req.body)
-
-    res.end()
-  } catch (err) {
-    console.log(err)
+    await Skill.create(skill)
+    res.status(201).json({ skill })
+  } catch(e) {
+    console.log(e)
   }
 })
+
+router.put('/update-skill', uploadMiddleware, async(req, res) => {
+  const urlArr = req.body.secureUrl.split('/')
+  const publicId = urlArr.slice(urlArr.length - 3).join('/').split('.')[0]
+  const id = req.body._id
+
+  const skill = {
+    skillName: req.body.skillName,
+    dmg: req.body.dmg,
+    cast: req.body.cast,
+    castCancel: req.body.castCancel,
+    cd: req.body.cd,
+    character: req.body.character,
+    icon: req.body.secureUrl
+  }
+
+  try {
+    if (req.file) {
+      await runMiddleware(req, res, uploadMiddleware)
+      const b64 = Buffer.from(req.file.buffer).toString("base64")
+      let dataURI = "data:" + req.file.mimetype + ";base64," + b64
+      const cldRes = await handleUpload(dataURI)
+
+      skill.icon = cldRes.secure_url
+
+      // Delete previous skill icon in Cloudinary
+      const file = await searchAsset(publicId)
+      if (file.resources[0].folder == 'sw-skills/skills') await deleteAsset(file.resources[0].public_id)
+
+    }
+    
+    await Skill.findByIdAndUpdate(id, skill)
+    res.end()
+  } catch (err) {
+    console.log('ERROR', err)
+  }
+})
+
+
+function runMiddleware(req, res, fn) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
+      return resolve(result)
+    })
+  })
+}
 
 module.exports = router

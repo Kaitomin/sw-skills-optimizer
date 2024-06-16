@@ -126,9 +126,8 @@ export default {
   computed: {
   },
   created() {
-    if (this.name == 'tmpChar' && this.$root.userRole != 'ADMIN') {
-      this.$router.push('/')
-    }
+    // For testing
+    // if (this.name == 'tmpChar') this.$router.push('/')
 
     try {
       // Get character rotations from store

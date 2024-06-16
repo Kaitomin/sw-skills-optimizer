@@ -58,7 +58,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + ' icon'" width="48" height="48">
+                <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
                 <p>{{ skill.skillName }}</p>
               </td>
 
@@ -92,7 +92,7 @@
           <tbody>
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
-                <img :src="getSkillIcon(skill.icon)" :alt="skill.skillName + 'icon'">
+                <img :src="skill.icon" :alt="skill.skillName + 'icon'">
                 <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
