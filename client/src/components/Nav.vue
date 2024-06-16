@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <router-link to="/" class="logo">
-      <img src="@/assets/img/logo_130x70.png" alt="soulworker logo" width="130" height="70">
+      <img src="/logo_130x70.png" alt="soulworker logo" width="130" height="70">
     </router-link>
     <div class="menu">
       <router-link 
@@ -10,9 +10,10 @@
         :to="'/character/' + character.name"
         class="character"
       >
+      <!-- :src="getCharacterIcon(character.name.toLowerCase() + '_nav')"  -->
         <img
           v-if="character.name != 'tmpChar'"
-          :src="getCharacterIcon(character.name.toLowerCase() + '_nav')" 
+          :src="'/' + character.name.toLowerCase() + '_nav.png'"
           :alt="character.name + ' avatar'" 
           width="120" 
           height="50"
@@ -39,6 +40,8 @@
 
   const getCharacterIcon = (iconUrl) => {
     const url = useGetCharacterIcon(iconUrl)
+    const tmp = new URL(url, import.meta.url)
+    console.log(tmp)
     return new URL(url, import.meta.url)
   }
 
