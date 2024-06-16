@@ -77,7 +77,7 @@
         <!-- <div> -->
         <div>
           <img
-            src="@/assets/img/ephnel_bullet.png"
+            src="/ephnel_bullet.png"
             alt=""
             width="40"
             height="40"
