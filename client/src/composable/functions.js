@@ -14,7 +14,7 @@ export async function useGetCharactersIcons() {
 }
 
 export function useGetCharacterIcon(url) {
-  return ('@/assets/img/' + url.split('.')[0] + '.png')
+  return (url.split('.')[0] + '.png')
 }
 
 /*
