@@ -731,8 +731,8 @@ export default {
       })
       .catch(err => this.$router.push("/"));
 
-    this.description = "Data by Tatufo from EN ver. [18/05/2023]";
-    this.aspd = 200;
+    this.description = "Data by Axtate from EN [18/06/2024]";
+    this.aspd = 250;
   }
 };
 </script>

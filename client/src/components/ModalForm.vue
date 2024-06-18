@@ -32,16 +32,16 @@
         <label for="skill-dw">DW boost</label>
         <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost" required>
       </div>
-      <div v-if="skillUpdated.mark">
-        <label for="skill-mark">Mark</label>
+      <div v-if="skillUpdated.character == 'Chii'">
+        <label for="skill-mark">Dmg per mark (%)</label>
         <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark" required>
       </div>
-      <div v-if="skillUpdated.dmgBullet">
-        <label for="skill-dmgBullet">Dmg bullet</label>
+      <div v-if="skillUpdated.character == 'Ephnel'">
+        <label for="skill-dmgBullet">Dmg bullet (%)</label>
         <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet" required>
       </div>
-      <div v-if="skillUpdated.dmgRelease">
-        <label for="skill-dmgRelease">Dmg release</label>
+      <div v-if="skillUpdated.character == 'Ephnel'">
+        <label for="skill-dmgRelease">Dmg release (%)</label>
         <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease" required>
       </div>
       <div>
@@ -144,11 +144,18 @@
           formData.append('character', this.skillUpdated.character)
           formData.append('secureUrl', this.skillUpdated.icon)
 
+          if (this.skillUpdated.dwBoost) formData.append('dwBoost', this.skillUpdated.dwBoost)
+
+          if (this.skillUpdated.character == 'Chii') formData.append('mark', this.skillUpdated.mark)
+
+          if (this.skillUpdated.character == 'Ephnel') {
+            formData.append('dmgBullet', this.skillUpdated.dmgBullet)
+            formData.append('dmgRelease', this.skillUpdated.dmgRelease)
+          }
+
           // for (const pair of formData.entries()) {
           //   console.log(pair[0], pair[1])
           // }
-          
-          if (this.skillUpdated.dwBoost) formData.append('dwBoost', this.skillUpdated.dwBoost)
 
           switch (this.action) {
             case 'update':
@@ -163,7 +170,7 @@
               console.log('Action type not defined')
           }
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
       },
     },
