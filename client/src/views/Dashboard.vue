@@ -47,7 +47,7 @@
               :key="char._id"
               :class="{
                 active: currentCharacter === char.name, 
-                // hide: char.name == 'tmpChar' // For testing
+                hide: char.name == 'tmpChar' // For testing
               }"
               @click="currentCharacter = char.name"
             >
