@@ -46,6 +46,8 @@
             <p class="mark-count" @click="detonateMarks(3)">3</p>
             <p class="mark-count" @click="detonateMarks(4)">4</p>
             <p class="mark-count" @click="detonateMarks(5)">5</p>
+            <p class="mark-count" @click="detonateMarks(6)">6</p>
+            <p class="mark-count" @click="detonateMarks(7)">7</p>
           </div>
         </div>
         
@@ -55,7 +57,7 @@
               @mouseover="displayTooltip"
               @mouseout="hideTooltip"
             >
-              <th scope="col" class="tooltip-container">Skill<span class="tooltip-msg">[Marks count]</span></th>
+              <th scope="col">Skill<span class="tooltip-msg"></span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
@@ -69,7 +71,7 @@
             <tr v-for="skill in skillsTable" :key="skill._id">
               <td>
                 <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
-                <p>{{ skill.skillName }} <span v-if="skill.mark > 0">[{{ skill.mark }}]</span> </p>
+                <p>{{ skill.skillName }}</p>
               </td>
               <td>{{ skill.dmg }}%</td>
               <td :class="castChecked && (+skill.castCancel < +skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
@@ -185,43 +187,24 @@ export default {
         }
       })
 
+
       // Remove previous marks
       this.skillsTable.forEach(skill => {
-        if (skill.skillName == "Claws Out") {
-          if (this.dwChecked) {
-            skill.dmg = Math.round(skill.dmg / 1.2)
-            skill.dmg = +skill.dmg - (this.marksCountTmp * 606)
-          } else {
-            skill.dmg = +skill.dmg - (this.marksCountTmp * 606)
-          }
-        }
-        if (skill.skillName == "Soul Strike") {
-          if (this.dwChecked) {
-            skill.dmg = Math.round(skill.dmg / 1.2)
-            skill.dmg = +skill.dmg - (this.marksCountTmp * 422)
-          } else {
-            skill.dmg = +skill.dmg - (this.marksCountTmp * 422)
-          }
+        if (this.dwChecked) {
+          skill.dmg = Math.round(skill.dmg / 1.2)
+          skill.dmg = +skill.dmg - (this.marksCountTmp * skill.mark)
+        } else {
+          skill.dmg = +skill.dmg - (this.marksCountTmp * skill.mark)
         }
       })
 
       // Add marks
       this.skillsTable.forEach(skill => {
-        if (skill.skillName == "Claws Out") {
-          if (this.dwChecked) {
-            skill.dmg = +skill.dmg + (this.marksCount * 606)
-            skill.dmg = Math.round(skill.dmg * 1.2)
-          } else {
-            skill.dmg = +skill.dmg + (this.marksCount * 606)
-          }
-        }
-        if (skill.skillName == "Soul Strike") {
-          if (this.dwChecked) {
-            skill.dmg = +skill.dmg + (this.marksCount * 422)
-            skill.dmg = Math.round(skill.dmg * 1.2)
-          } else {
-            skill.dmg = +skill.dmg + (this.marksCount * 422)
-          }
+        if (this.dwChecked) {
+          skill.dmg = +skill.dmg + (this.marksCount * skill.mark)
+          skill.dmg = Math.round(skill.dmg * 1.2)
+        } else {
+          skill.dmg = +skill.dmg + (this.marksCount * skill.mark)
         }
       })
 
@@ -293,14 +276,8 @@ export default {
     })
     .catch(err => this.$router.push('/'));
 
-    switch(this.charName) {
-      case 'Chii':
-        this.description = "Data by Yukawa from KR ver. S2 rebalance [23/03/2022]"
-        this.aspd = 201
-        break;
-      default :
-        this.aspd = 200
-    }
+  this.description = "Data by Anave & Darkblue from EN [18/06/2024]"
+  this.aspd = 250
   },
 }
 </script>
@@ -396,7 +373,7 @@ export default {
   }
   .chii-counter {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 0 5px;
     align-items: flex-end;
     width: 450px;

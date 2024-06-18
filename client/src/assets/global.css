@@ -306,7 +306,7 @@ input[type=range].custom-slider::-ms-fill-upper {
     width: 150px;
   }
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 800px) {
   .skills-container .char-info {
     flex-direction: column;
     align-items: center;

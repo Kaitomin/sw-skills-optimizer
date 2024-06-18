@@ -14,16 +14,11 @@ router.post('/add-skill', uploadMiddleware, async (req, res) => {
   if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
 
   try {
-    const skill = {
-      skillName: req.body.skillName,
-      dmg: req.body.dmg,
-      cast: req.body.cast,
-      castCancel: req.body.castCancel,
-      cd: req.body.cd,
-      character: req.body.character,
-      icon: null
-    }
+    const skill = { ...req.body }
 
+    delete skill._id
+    delete skill.secureUrl
+    
     // Upload skill icon to Cloudinary
     await runMiddleware(req, res, uploadMiddleware)
     const b64 = Buffer.from(req.file.buffer).toString("base64")
@@ -44,15 +39,10 @@ router.put('/update-skill', uploadMiddleware, async(req, res) => {
   const publicId = urlArr.slice(urlArr.length - 3).join('/').split('.')[0]
   const id = req.body._id
 
-  const skill = {
-    skillName: req.body.skillName,
-    dmg: req.body.dmg,
-    cast: req.body.cast,
-    castCancel: req.body.castCancel,
-    cd: req.body.cd,
-    character: req.body.character,
-    icon: req.body.secureUrl
-  }
+  const skill = { ...req.body }
+
+  skill.icon = req.body.secureUrl
+  delete skill.secureUrl
 
   if (req.body.dwBoost) skill.dwBoost = req.body.dwBoost
 
@@ -68,7 +58,6 @@ router.put('/update-skill', uploadMiddleware, async(req, res) => {
       // Delete previous skill icon in Cloudinary
       const file = await searchAsset(publicId)
       if (file.resources[0].folder == 'sw-skills/skills') await deleteAsset(file.resources[0].public_id)
-
     }
     
     await Skill.findByIdAndUpdate(id, skill)
