@@ -7,7 +7,7 @@
         <i class="fa-brands fa-discord"></i> kaitomin<br>
         <i class="fa-brands fa-discord"></i> afn99
       </p>
-      <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia & Asvra</p>
+      <p>Special thanks : <br> AFN, Yayathic, Eden, jumpi, Tatufo, Kitai, Yukawa, Restia, Asvra, Anave & Darkblue</p>
       <p class="copyrights">
         <i>
           All images used belong to 
