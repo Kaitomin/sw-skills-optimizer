@@ -45,7 +45,7 @@
               @mouseover="displayTooltip"
               @mouseout="hideTooltip"
             >
-              <th scope="col">Skill</th>
+              <th scope="col" style="width:15%">Skill</th>
               <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
               <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
@@ -159,12 +159,7 @@ export default {
     },
     toggleCastCancel() {
       this.castChecked = !this.castChecked;
-
-      if (this.castChecked) {
-        this.$emit('cast-cancel', this.castChecked)
-      } else {
-        this.$emit('cast-cancel', this.castChecked)
-      }
+      this.$emit('cast-cancel', this.castChecked)
     },
     calcCD(skill) {
       if (skill.cd == 0) return Infinity

@@ -94,7 +94,7 @@
       <table v-if="clientWidth > 550" class="table table-striped table-skills">
         <thead>
           <tr @mouseover="displayTooltip" @mouseout="hideTooltip">
-            <th scope="col">Skill</th>
+            <th scope="col" style="width:15%">Skill</th>
             <th scope="col" class="tooltip-container" @click="sortBy('dmg')">
               DMG<span class="tooltip-msg">Skill multiplier</span>
             </th>
