@@ -1,122 +1,111 @@
 <template>
-  <!-- Skills -->
-    <div class="skills-details">
-      <div v-if="char">
-        <div class="char-info">
-          <div>
-            <img :src="'/' + char.icon" :alt="char.name + ' icon'" width="80" height="80">
-          </div>
+  <div class="skills-details">
+    <div v-if="char">
+      <div class="char-info">
+        <div>
+          <img :src="'/' + char.icon" :alt="char.name + ' icon'" width="80" height="80">
+        </div>
+
+        <div>
+          <p class="description"><i>{{ description }}<br>{{ note }}</i></p>
 
           <div>
-            <p class="description"><i>{{ description }}<br></i></p>
-
-            <div>
-              <div class="cd-input">
-                <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" />
-                <label id="cd-input" for="charCD">Character CDR : {{ charCD +'%' }}</label>
-              </div>
-
-              <!-- DW toggle -->
-              <div class="d-flex flex-column justify-evenly align-items-center">
-                <label  class="switch">
-                  <input type="checkbox">
-                  <span class="slider round" @click="toggleDesire"></span>
-                </label>
-                <p>Desire worker</p>
-              </div>
-              <!-- Animation cancel toggle -->
-              <div class="d-flex flex-column justify-evenly align-items-center">
-                <label class="switch">
-                  <input type="checkbox">
-                  <span class="slider round" @click="toggleCastCancel"></span>
-                </label>
-                <p>Animation cancel</p>
-              </div>
+            <div class="cd-input">
+              <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" />
+              <label id="cd-input" for="charCD">Character CDR : {{ charCD +'%' }}</label>
+            </div>
+            <div class="d-flex flex-column justify-evenly align-items-center">
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round" @click="toggleCastCancel"></span>
+              </label>
+              <p>Animation cancel</p>
             </div>
           </div>
         </div>
-
-        <!-- Chii marks -->
-        <div class="chii-explosion">
-          <div class="chii-counter" >
-            <p>Marks</p>
-            <p class="mark-count active-mark" @click="detonateMarks(0)">0</p>
-            <p class="mark-count" @click="detonateMarks(1)">1</p>
-            <p class="mark-count" @click="detonateMarks(2)">2</p>
-            <p class="mark-count" @click="detonateMarks(3)">3</p>
-            <p class="mark-count" @click="detonateMarks(4)">4</p>
-            <p class="mark-count" @click="detonateMarks(5)">5</p>
-            <p class="mark-count" @click="detonateMarks(6)">6</p>
-            <p class="mark-count" @click="detonateMarks(7)">7</p>
-          </div>
-        </div>
-        
-        <table v-if="clientWidth > 550" class="table table-striped table-skills">
-          <thead>
-            <tr 
-              @mouseover="displayTooltip"
-              @mouseout="hideTooltip"
-            >
-              <th scope="col">Skill<span class="tooltip-msg"></span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DMG/Cast</span><br>[{{ +charCD + 15 }}% ]</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="skill in skillsTable" :key="skill._id">
-              <td>
-                <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
-                <p>{{ skill.skillName }}</p>
-              </td>
-              <td>{{ skill.dmg }}%</td>
-              <td :class="castChecked && (+skill.castCancel < +skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
-              <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
-              <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
-              <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
-              <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
-              <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <table v-else class="table table-striped table-skills">
-          <thead>
-            <tr 
-              @mouseover="displayTooltip" 
-              @mouseout="hideTooltip"
-            >
-              <th scope="col" class="tooltip-container">Skill<span class="tooltip-msg">[Marks count]</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier (DPS)</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}%  aspd - 60fps</span></th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
-              <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="skill in skillsTable" :key="skill._id">
-              <td>
-                <img :src="skill.icon" :alt="skill.skillName + 'icon'">
-                <p>{{ skill.skillName }}</p>
-              </td>
-              <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
-              <td :class="(castChecked && (+skill.castCancel < +skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
-              <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
-              <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-      <hr>
+
+      <!-- Chii marks -->
+      <div class="chii-explosion">
+        <div class="chii-counter" >
+          <p>Marks</p>
+          <p class="mark-count active-mark" @click="detonateMarks(0)">0</p>
+          <p class="mark-count" @click="detonateMarks(1)">1</p>
+          <p class="mark-count" @click="detonateMarks(2)">2</p>
+          <p class="mark-count" @click="detonateMarks(3)">3</p>
+          <p class="mark-count" @click="detonateMarks(4)">4</p>
+          <p class="mark-count" @click="detonateMarks(5)">5</p>
+          <p class="mark-count" @click="detonateMarks(6)">6</p>
+          <p class="mark-count" @click="detonateMarks(7)">7</p>
+        </div>
+      </div>
+      
+      <table v-if="clientWidth > 550" class="table table-striped table-skills">
+        <thead>
+          <tr 
+            @mouseover="displayTooltip"
+            @mouseout="hideTooltip"
+          >
+            <th scope="col" class="tooltip-container" style="width:20%">Skill<span class="tooltip-msg">[x/💥/y] refers to mark <br>x = application <br>💥= detonation <br> y = reapplication</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation</span><br>[{{ +charCD + 15}}%]</th>
+            <th scope="col" class="tooltip-container" @click="sortBy('dps')">DMG/Cast<span class="tooltip-msg">Skill cast efficiency. Skill damage divided by cast time. If the attack duration is equal to cast time, consider it as the effective DPS.<br>This is a ratio, the total DMG done is equal to Skill %, not the ratio</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR. <br> Theoretically, the higher the more you should spam the skill when off CD. <br> In practice, you should balance with DMG/Cast</span><br>[{{ charCD }}%]</th>
+            <th scope="col" class="tooltip-container" @click="sortBy('dmg-cd15')">DMG/CD<span class="tooltip-msg">Skill spam efficiency including character CDR & chain 15% CDR bonus. Theoretically, the higher the more you should spam the skill when off CD. In practice, you should balance with DMG/Cast</span><br>[{{ +charCD + 15 }}% ]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="skill in skillsTable" :key="skill._id">
+            <td>
+              <img :src="skill.icon" :alt="skill.skillName + ' icon'" width="48" height="48">
+              <p>{{ skill.skillName }}</p>
+            </td>
+            <td>{{ skill.dmg }}%</td>
+            <td :class="castChecked && (+skill.castCancel < +skill.cast) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ castChecked ? skill.castCancel : skill.cast }}]</td>
+            <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s</td>
+            <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s</td>
+            <td class="dps">{{ castChecked ? Math.round(skill.dmg/(skill.castCancel / 60)) : Math.round(skill.dmg/(skill.cast / 60)) }}%</td>
+            <td>{{ Math.round(skill.dmg/calcCD(skill)) }}</td>
+            <td>{{ Math.round(skill.dmg/calcCD15(skill)) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table v-else class="table table-striped table-skills">
+        <thead>
+          <tr 
+            @mouseover="displayTooltip" 
+            @mouseout="hideTooltip"
+          >
+            <th scope="col" class="tooltip-container">Skill<span class="tooltip-msg">[Marks count]</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier (DPS)</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] (DPS) {{ aspd }}%  aspd - 60fps</span></th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation (DMG/CD{{charCD}})</span><br>[{{ charCD }}%]</th>
+            <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR & chain 15% CDR bonus calculation (DMG/CD{{+charCD + 15}})</span><br>[{{ +charCD + 15}}%]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="skill in skillsTable" :key="skill._id">
+            <td>
+              <img :src="skill.icon" :alt="skill.skillName + 'icon'">
+              <p>{{ skill.skillName }}</p>
+            </td>
+            <td>{{ skill.dmg }}% <br> ({{ Math.round(skill.dmg/(skill.cast / 60).toFixed(2)) }}%)</td>
+            <td :class="(castChecked && (+skill.castCancel < +skill.cast)) ? 'cancel-active' : ''">{{ castChecked ? (skill.castCancel / 60).toFixed(2) : (skill.cast / 60).toFixed(2)}}s <br> [{{ skill.cast }}]</td>
+            <td>{{ skill.cd == 0 ? '0.00' : calcCD(skill) }}s <br>({{ Math.round(skill.dmg/calcCD(skill)) }})</td>
+            <td>{{ skill.cd == 0 ? '0.00' : calcCD15(skill) }}s <br>({{ Math.round(skill.dmg/calcCD15(skill)) }})</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+    <hr>
+  </div>
 </template>
 
 <script>
 import CharacterService from '../services/CharacterService';
-
 import { useDisplayTooltip, useHideTooltip } from '../composable/functions';
 
 export default {
@@ -125,93 +114,47 @@ export default {
     return {
       char: '',
       charCD: '44',
-      dwChecked: false,
       castChecked: false,
       sortOrder: false,
-      marksCount: '0',
-      marksCountTmp: '0',
+      selectedMark: '0',
+      currentMarkCount: '0',
       skillsTable: [],
+      skillsTableDefault: [],
       aspd: '',
-      description: '',
+      note: '',
+      description: ''
     }
   },
   methods: {
-    toggleDesire() {
-      this.dwChecked = !this.dwChecked;
-      
-      if (this.dwChecked) {        
-        Array.from(this.skillsTable).map(skill => {
-          if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg * skill.dwBoost)
-          } else {
-            skill.dmg = Math.round(skill.dmg * 1.2)
-          }
-        })
-        this.$emit('skills-table', {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        })
-      } else {
-        Array.from(this.skillsTable).map(skill => {
-          if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg / skill.dwBoost)
-          } else {
-            skill.dmg = Math.round(skill.dmg / 1.2)
-          }
-        })
-        this.$emit('skills-table', {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        })
-      }
-    },
     toggleCastCancel() {
       this.castChecked = !this.castChecked;
-
-      if (this.castChecked) {
-        this.$emit('cast-cancel', this.castChecked)
-      } else {
-        this.$emit('cast-cancel', this.castChecked)
-      }
+      this.$emit('cast-cancel', this.castChecked)
     },
-    // Chii marks
     detonateMarks(count) {
-      this.marksCount = count;
+      this.selectedMark = count
 
       // Active mark count
       document.querySelectorAll('.mark-count').forEach(mark => {
-        if (mark.textContent == this.marksCount) {
-          mark.classList.add('active-mark')
-        } else {
-          mark.classList.remove('active-mark')
-        }
+        if (mark.textContent == this.selectedMark) mark.classList.add('active-mark')
+        else mark.classList.remove('active-mark')
       })
-
 
       // Remove previous marks
       this.skillsTable.forEach(skill => {
-        if (this.dwChecked) {
-          skill.dmg = Math.round(skill.dmg / 1.2)
-          skill.dmg = +skill.dmg - (this.marksCountTmp * skill.mark)
-        } else {
-          skill.dmg = +skill.dmg - (this.marksCountTmp * skill.mark)
-        }
+        skill.dmg = Math.round(skill.dmg / 1.2)
+        skill.dmg = +skill.dmg - (this.currentMarkCount * skill.mark)
       })
-
+            
       // Add marks
       this.skillsTable.forEach(skill => {
-        if (this.dwChecked) {
-          skill.dmg = +skill.dmg + (this.marksCount * skill.mark)
-          skill.dmg = Math.round(skill.dmg * 1.2)
-        } else {
-          skill.dmg = +skill.dmg + (this.marksCount * skill.mark)
-        }
+        skill.dmg = +skill.dmg + (this.selectedMark * skill.mark)
+        skill.dmg = Math.round(skill.dmg * 1.2)
       })
+      
 
-      this.marksCountTmp = count;
+      this.currentMarkCount = count;
       this.$emit('skills-table', {
         skillsTable: this.skillsTable,
-        dwChecked: this.dwChecked
       })
     },
     calcCD(skill) {
@@ -251,12 +194,8 @@ export default {
           break;
       }
     },
-    displayTooltip(e) {
-      useDisplayTooltip(e)
-    },
-    hideTooltip(e) {
-      useHideTooltip(e)
-    },
+    displayTooltip(e) { useDisplayTooltip(e) },
+    hideTooltip(e) { useHideTooltip(e) },
   },
   computed: {
     clientWidth() {
@@ -267,25 +206,27 @@ export default {
     CharacterService.getCharacterInfo(this.charName)
     .then(res => {
       this.char = res.data.character;
-      this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
+      this.skillsTable = JSON.parse(JSON.stringify(res.data.skills))
+      this.skillsTable.forEach(skill => skill.dmg = Math.round(skill.dmg * 1.2))
       this.displayTooltip
       this.$emit('skills-table', {
         skillsTable: this.skillsTable,
-        dwChecked: this.dwChecked
       })
     })
-    .catch(err => this.$router.push('/'));
+    .catch(() => this.$router.push('/'));
 
-  this.description = "Data by Anave & Darkblue from EN [18/06/2024]"
-  this.aspd = 250
+    this.description = "Data by Anave & Darkblue from EN [18/06/2024]"
+    this.note = "(DW coefficient is applied by default)"
+    this.aspd = 250
   },
 }
 </script>
 
 <style scoped>
-.char-info {
-  border-radius: 5px 5px 0 0;
-}
+  .char-info {
+    border-radius: 5px 5px 0 0;
+    padding: 10px 0;
+  }
   .description {
     color: white;
   }
@@ -393,24 +334,6 @@ export default {
     }
   }
   @media screen and (max-width: 500px) {
-    /* .char-info {
-      flex-direction: column;
-      align-items: center;
-      height: 200px;
-    }
-    .description {
-      margin-bottom: 0;
-    }
-    .dw-container,
-    .cast-container {
-      width: 240px;
-      flex-direction: row-reverse;
-      align-items: center;
-      justify-content: center;
-    }
-    .checkmark {
-      margin-right: 10px;
-    } */
     .chii-counter p:not(:first-child) {
       height: 50px;
       display: flex;

@@ -93,7 +93,7 @@
             if (!/^[0-9]+$/.test(value)) this.error.isError = true;
             break;
           case "skillName":
-            if (!/^[-a-z0-9()%>:' ]+$/i.test(value)) this.error.isError = true;
+            if (!/^[-a-z0-9()%<>:'\[\]+/ ]+$/i.test(value)) this.error.isError = true;
             break;
           case "dwBoost":
             if (!/^[0-9]{1}([.][0-9]{1,4})$/.test(value)) this.error.isError = true;

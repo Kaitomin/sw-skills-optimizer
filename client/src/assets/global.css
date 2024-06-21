@@ -86,12 +86,11 @@ input[type=range].custom-slider::-ms-fill-upper {
   gap: 10px;
 }
 .skills-container .char-info {
-  height: 100px;
+  height: 130px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   color: white;
-  /* border: 1px solid white; */
 }
 
 .skills-container .char-info p {
@@ -109,7 +108,7 @@ input[type=range].custom-slider::-ms-fill-upper {
 
 .skills-container .char-info > div:last-child > div {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
 }
 
