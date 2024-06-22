@@ -157,18 +157,18 @@ export default {
             case 'release':
               this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
                 return +prev + +curr.dmgRelease;
-              }, 0);
-              break;
+              }, 0)
+              break
             case 'bullet':
               this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
                 return +prev + +curr.dmgBullet;
-              }, 0);
-              break;
-            default :
+              }, 0)
+              break
+              default :
               this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
                 return +prev + +curr.dmg;
-              }, 0);
-              break;
+              }, 0)
+              break
           }
         return this.totalDmg;
 
@@ -277,8 +277,9 @@ export default {
       });
     },
     dwChecked() {
-      if (this.dwChecked) this.nabiBomb.modifier = 360
-      else this.nabiBomb.modifier = 300
+      this.nabiBomb.modifier = 360
+      // if (this.dwChecked) this.nabiBomb.modifier = 360
+      // else this.nabiBomb.modifier = 300
     }
   },
   created() {
