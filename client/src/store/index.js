@@ -50,6 +50,13 @@ const store = createStore({
       state[charRotations] = template.rotations
       localStorage.setItem(storageStr, state[charRotations]);
     },
+    clearLocalStorage(state, template) {
+      const chains = `${template.name.toLowerCase()}-chains`
+      const rotations = `${template.name.toLowerCase()}-rotations`
+
+      localStorage.removeItem(chains)
+      localStorage.removeItem(rotations)
+    },
     // Calculator setups
     saveSetup(state, setup) {
       const index = setup.id
