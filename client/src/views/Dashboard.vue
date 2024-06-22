@@ -23,19 +23,19 @@
           <div v-for="log in sortedLogger" :key="log._id">
             {{ log.date }} |
             {{ log.skill.skillName }}
-            ◼ Dmg = {{ log.skill.dmg }}
+             /  Dmg = {{ log.skill.dmg }}
             {{
-              log.skill.dmgBullet ? `◼ Dmg bullet = ${log.skill.dmgBullet}` : null
+              log.skill.dmgBullet ? `/ Dmg bullet = ${log.skill.dmgBullet}` : null
             }}
             {{
               log.skill.dmgRelease
-                ? `◼ Dmg release = ${log.skill.dmgRelease}`
+                ? `/ Dmg release = ${log.skill.dmgRelease}`
                 : null
             }}
-            {{ log.skill.mark ? `◼ Mark = ${log.skill.mark}` : null }}
-            ◼ Cast = {{ log.skill.cast }} ◼ Anim.cancel =
-            {{ log.skill.castCancel }} ◼ CD = {{ log.skill.cd }}
-            {{ log.skill.dwBoost ? `◼ DW = ${log.skill.dwBoost}` : null }}
+            {{ log.skill.mark ? `/ Mark = ${log.skill.mark}` : null }}
+            / Cast = {{ log.skill.cast }} / Anim.cancel =
+            {{ log.skill.castCancel }} / CD = {{ log.skill.cd }}
+            {{ log.skill.dwBoost ? `/ DW = ${log.skill.dwBoost}` : null }}
           </div>
         </div>
       </div>
@@ -51,19 +51,6 @@
               }"
               @click="currentCharacter = char.name"
             >
-              <!-- <div
-                v-if="char.name !== 'tmpChar'"
-                @click="getCharacterSkills(char.name)"
-              >
-                <img
-                  :src="'/' + char.icon"
-                  :alt="char.name + ' icon'"
-                  width="150"
-                  height="150"
-                />
-              </div> -->
-
-              <!-- For testing -->
               <div
                 @click="getCharacterSkills(char.name)"
               >
@@ -74,14 +61,15 @@
                   height="150"
                 />
               </div>
-
             </div>
+        
           </div>
           <button
             class="add-skill"
             @click="addSkill"
           >
-            Add skill
+          <i class="fa-solid fa-circle-plus"></i>
+            New skill
           </button
           >
         </div>
@@ -90,7 +78,7 @@
             <thead>
               <tr>
                 <th scope="col">Icon</th>
-                <th scope="col" style="width: 340px">Skill</th>
+                <th scope="col" style="width: 25%">Skill</th>
                 <th scope="col">Damage</th>
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">
@@ -99,7 +87,7 @@
                 <th scope="col">CD</th>
                 <th scope="col">Cast</th>
                 <th scope="col">Cast cancel</th>
-                <th scope="col">DW</th>
+                <!-- <th scope="col">DW</th> -->
                 <th scope="col" v-if="currentCharacter === 'Chii'">Mark</th>
                 <th scope="col">Character</th>
                 <th scope="col">Action</th>
@@ -186,7 +174,7 @@
                     disabled
                   />
                 </td>
-                <td>
+                <!-- <td>
                   <input
                     type="text"
                     name="dwBoost"
@@ -195,7 +183,7 @@
                     title="Float (min 1 | max 4 digits after floating point)"
                     disabled
                   />
-                </td>
+                </td> -->
                 <td v-if="currentCharacter === 'Chii'">
                   <input
                     type="text"
@@ -243,7 +231,6 @@
     useGetCharactersIcons,
     useSetLogger
   } from "../composable/functions";
-
 
   let charList = ref([])
   let skillsList = ref([])
@@ -296,14 +283,13 @@
   }
 
   const sortedLogger = computed(() => Array.from(logger.value).reverse())
-
   const router = useRouter()
 
   if (!userRole.value) router.push('/')
   
   getAllCharacters()
   getLogger()
-  getCharacterSkills("Iris")
+  getCharacterSkills('Iris')
 </script>
 
 <style scoped>
@@ -316,7 +302,7 @@
   .logger-container > div {
     overflow-y: scroll;
     margin: 0 auto;
-    height: 100px;
+    height: 130px;
     padding: 1em 2em;
     text-align: left;
     border: 1px solid #95989e;
@@ -329,6 +315,7 @@
   .logger-container ~ div {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     gap: 1em;
   }
   .dashboard {
@@ -395,9 +382,8 @@
   /* ---------- */
   .characters-container {
     display: flex;
-    flex-direction: column;
     gap: 30px 0;
-    width: 275px;
+    flex-direction: column;
   }
   .characters {
     display: flex;
@@ -408,8 +394,8 @@
     gap: 10px;
     border: 1px solid #95989e;
     background: #2d343f;
-    padding: 1em 10px;
     border-radius: 5px;
+    padding: 10px 0;
   }
   .characters img {
     width: 80px;
@@ -440,7 +426,7 @@
   /* ------------ */
   .skills-container {
     min-width: 1000px;
-    width: 1200px;
+    /* width: 1200px; */
     height: fit-content;
   }
   .skills-container th {
@@ -454,6 +440,7 @@
     text-decoration: none;
     color: white;
     border-radius: 5px;
+    width: max-content;
   }
   .add-skill:hover {
     background: #ffffff21;

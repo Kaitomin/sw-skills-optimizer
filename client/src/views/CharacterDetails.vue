@@ -107,15 +107,27 @@ export default {
 
       this.components = new Map(Array.from(this.components).filter(comp => comp[0] != c[0]));
       this.rotationLimit -= 1;
+
+      if (this.components.size <= 0) {
+        this.clearLocalStorage()
+        return
+      }
+      
+      this.saveRotations()
     },
     // Commit all changes
     saveRotations() {
-      this.save = {save: true, deleteId: this.deleteId}
+      this.save = { save: true, deleteId: this.deleteId }
       this.$store.commit('saveRotations', {
         name: this.name, 
         rotations: JSON.stringify(Array.from(this.components.entries()))
       });
       this.$router.go()
+    },
+    clearLocalStorage() {
+      this.$store.commit('clearLocalStorage', {
+        name: this.name
+      })
     },
     // Reset save props after saveTemplate()
     setSave() {
