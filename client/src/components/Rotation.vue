@@ -16,12 +16,12 @@
       </div>
     </div>
     
-    <!-- <div class="total-values">
+    <div class="total-values">
       <p>Total DMG/Cast - {{ totalDps }}%</p>
       <p>Total DMG/CD - {{ totalDmgCd }}</p>
-    </div> -->
+    </div>
 
-    <!-- <hr style="color: white"> -->
+    <hr style="color: white">
   </div>
 </template>
 
