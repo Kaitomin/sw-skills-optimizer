@@ -203,8 +203,8 @@ export default {
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data by Tatufo from EN [18/05/2023]"
-        this.aspd = 200
+        this.description = "Data by Axtate from EN [22/06/2024]"
+        this.aspd = 250
         break;
       case 'Erwin':
         this.description = "Data gathered from EN [08/06/2022]"
