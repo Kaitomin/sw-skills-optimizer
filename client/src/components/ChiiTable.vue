@@ -46,7 +46,7 @@
             @mouseover="displayTooltip"
             @mouseout="hideTooltip"
           >
-            <th scope="col" class="tooltip-container" style="width:20%">Skill<span class="tooltip-msg">[x/💥/y] refers to mark <br>x = application <br>💥= detonation <br> y = reapplication</span></th>
+            <th scope="col" class="tooltip-container" style="width:30%">Skill<span class="tooltip-msg">[x/💥/y] refers to mark <br>x = application <br>💥= detonation <br> y = reapplication</span></th>
             <th scope="col" class="tooltip-container" @click="sortBy('dmg')">DMG<span class="tooltip-msg">Skill multiplier</span></th>
             <th scope="col" class="tooltip-container" @click="sortBy('cast')">Cast<span class="tooltip-msg">Cast time in seconds [frames] {{ aspd }}%  aspd - 60fps</span></th>
             <th scope="col" class="tooltip-container" @click="sortBy('cd')">CD<span class="tooltip-msg">Skill CD after character CDR calculation</span><br>[{{ charCD }}%]</th>
@@ -121,7 +121,7 @@ export default {
       skillsTable: [],
       skillsTableDefault: [],
       aspd: '',
-      note: '',
+      note: '(DW coefficient is applied by default)',
       description: ''
     }
   },
@@ -216,7 +216,6 @@ export default {
     .catch(() => this.$router.push('/'));
 
     this.description = "Data by Anave & Darkblue from EN [18/06/2024]"
-    this.note = "(DW coefficient is applied by default)"
     this.aspd = 250
   },
 }
@@ -239,7 +238,7 @@ export default {
   }
   /* SKills details */
   .skills-details {
-    width: 800px;
+    width: 50%;
     min-width: 715px;
     margin: 0 1em;
     padding-top: 3em;

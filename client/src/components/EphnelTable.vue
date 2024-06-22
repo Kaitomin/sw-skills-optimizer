@@ -13,9 +13,7 @@
         </div>
 
         <div>
-          <p class="description">
-            <i>{{ description }}<br /></i>
-          </p>
+          <p class="description"><i>{{ description }}<br>{{ note }}</i></p>
 
           <div>
             <div class="cd-input">
@@ -34,13 +32,6 @@
               >
             </div>
 
-            <div class="d-flex flex-column justify-evenly align-items-center">
-              <label class="switch">
-                <input type="checkbox" />
-                <span class="slider round" @click="toggleEphnelDesire"></span>
-              </label>
-              <p>Desire worker</p>
-            </div>
             <!-- Animation cancel toggler -->
             <div class="d-flex flex-column justify-evenly align-items-center">
               <label class="switch">
@@ -51,30 +42,9 @@
             </div>
           </div>
         </div>
-
-        <!-- Ephnel desire -->
-        <!-- <div v-if="charName == 'Ephnel'" class="dw-container" @click="toggleEphnelDesire">
-            <p>Desire Worker</p>
-          </div>
-          <div class="cast-container" @click="toggleCastCancel">
-            <p>Animation cancel</p>
-          </div> -->
-
-        <!-- DW toggle -->
       </div>
 
-      <!-- Ephnel Bullet & Release -->
-      <!-- <div v-if="charName == 'Ephnel'" class="ephnel-buff">
-          <div class="ephnel-bullet" @click="toggleBullet">
-            <p>Bullet</p>
-          </div>
-          <div class="ephnel-release" @click="toggleRelease">
-            <p>Bullet + Release</p>
-          </div>
-        </div> -->
-
       <div class="ephnel-buff">
-        <!-- <div> -->
         <div>
           <img
             src="/ephnel_bullet.png"
@@ -83,12 +53,8 @@
             height="40"
           />
         </div>
-        <!-- <p>Buff</p> -->
         <button class="ephnel-bullet" @click="toggleBullet">Bullet</button>
-        <button class="ephnel-release" @click="toggleRelease">
-          Limit Release
-        </button>
-        <!-- </div> -->
+        <button class="ephnel-release" @click="toggleRelease">Limit Release</button>
       </div>
 
       <table v-if="clientWidth > 550" class="table table-striped table-skills">
@@ -333,403 +299,241 @@ export default {
       castChecked: false,
       sortOrder: false,
       skillsTable: [],
-      aspd: "",
-      description: "",
+      aspd: '',
+      description: '',
+      note: '(DW coefficient is applied by default)',
       ephnelBullet: false,
       ephnelRelease: false
     };
   },
   methods: {
-    toggleEphnelDesire() {
-      this.dwChecked = !this.dwChecked;
-      this.ephnelDW();
-    },
-    ephnelDW() {
-      if (this.dwChecked) {
-        // document.querySelector('.dw-container').classList.add('active')
-
-        if (this.ephnelRelease) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgRelease = Math.round(skill.dmgRelease * skill.dwBoost);
-            } else {
-              skill.dmgRelease = Math.round(skill.dmgRelease * 1.2);
-            }
-          });
-        } else if (this.ephnelBullet) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgBullet = Math.round(skill.dmgBullet * skill.dwBoost);
-            } else {
-              skill.dmgBullet = Math.round(skill.dmgBullet * 1.2);
-            }
-          });
-        } else {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmg = Math.round(skill.dmg * skill.dwBoost);
-            } else {
-              skill.dmg = Math.round(skill.dmg * 1.2);
-            }
-          });
-        }
-
-        this.$emit("skills-table", {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        });
-      } else {
-        // document.querySelector('.dw-container').classList.remove('active')
-
-        if (this.ephnelRelease) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgRelease = Math.round(skill.dmgRelease / skill.dwBoost);
-            } else {
-              skill.dmgRelease = Math.round(skill.dmgRelease / 1.2);
-            }
-          });
-        } else if (this.ephnelBullet) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgBullet = Math.round(skill.dmgBullet / skill.dwBoost);
-            } else {
-              skill.dmgBullet = Math.round(skill.dmgBullet / 1.2);
-            }
-          });
-        } else {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmg = Math.round(skill.dmg / skill.dwBoost);
-            } else {
-              skill.dmg = Math.round(skill.dmg / 1.2);
-            }
-          });
-        }
-        this.$emit("skills-table", {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        });
-      }
-    },
     toggleCastCancel() {
       this.castChecked = !this.castChecked;
 
-      if (this.castChecked) {
-        // document.querySelector('.cast-container').classList.add('active')
-
-        this.$emit("cast-cancel", this.castChecked);
-      } else {
-        // document.querySelector('.cast-container').classList.remove('active')
-        this.$emit("cast-cancel", this.castChecked);
-      }
+      if (this.castChecked) this.$emit("cast-cancel", this.castChecked)
+      else this.$emit("cast-cancel", this.castChecked)
     },
-    // Ephnel Bullet & Release
     toggleBullet() {
-      this.ephnelBullet = !this.ephnelBullet;
+      this.ephnelBullet = !this.ephnelBullet
 
       if (this.ephnelBullet) {
-        document.querySelector(".ephnel-bullet").classList.add("active-buff");
-
         // Disable Ephnel Release checkbox
         document
+          .querySelector(".ephnel-bullet")
+          .classList.add("active-buff")
+        document
           .querySelector(".ephnel-release")
-          .classList.remove("active-buff");
-
-        if (this.dwChecked && !this.ephnelRelease) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmg = Math.round(skill.dmg / skill.dwBoost);
-            } else {
-              skill.dmg = Math.round(skill.dmg / 1.2);
-            }
-          });
-        }
-
-        if (this.dwChecked && this.ephnelRelease) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgRelease = Math.round(skill.dmgRelease / skill.dwBoost);
-            } else {
-              skill.dmgRelease = Math.round(skill.dmgRelease / 1.2);
-            }
-          });
-        }
+          .classList.remove("active-buff")
 
         this.ephnelRelease = false;
-        this.$emit("ephnel-dmg", "bullet");
-
-        if (this.dwChecked) this.ephnelDW();
+        this.$emit("ephnel-dmg", "bullet")
       } else {
+        // Disable Ephnel Release checkbox
         document
           .querySelector(".ephnel-bullet")
-          .classList.remove("active-buff");
+          .classList.remove("active-buff")
 
-        if (this.dwChecked) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgBullet = Math.round(skill.dmgBullet / skill.dwBoost);
-            } else {
-              skill.dmgBullet = Math.round(skill.dmgBullet / 1.2);
-            }
-          });
-          this.ephnelDW();
-        }
-
-        this.$emit("ephnel-dmg", "");
+        this.$emit("ephnel-dmg", "")
       }
     },
     toggleRelease() {
       this.ephnelRelease = !this.ephnelRelease;
 
       if (this.ephnelRelease) {
-        document.querySelector(".ephnel-release").classList.add("active-buff");
-
         // Disable Ephnel Bullet checkbox
         document
+        .querySelector(".ephnel-release")
+        .classList.add("active-buff");
+        document
           .querySelector(".ephnel-bullet")
-          .classList.remove("active-buff");
-
-        if (this.dwChecked && !this.ephnelBullet) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmg = Math.round(skill.dmg / skill.dwBoost);
-            } else {
-              skill.dmg = Math.round(skill.dmg / 1.2);
-            }
-          });
-        }
-
-        if (this.dwChecked && this.ephnelBullet) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgBullet = Math.round(skill.dmgBullet / skill.dwBoost);
-            } else {
-              skill.dmgBullet = Math.round(skill.dmgBullet / 1.2);
-            }
-          });
-        }
+          .classList.remove("active-buff")
 
         this.ephnelBullet = false;
-        this.$emit("ephnel-dmg", "release");
-
-        if (this.dwChecked) this.ephnelDW();
+        this.$emit("ephnel-dmg", "release")
       } else {
         document
           .querySelector(".ephnel-release")
-          .classList.remove("active-buff");
-
-        if (this.dwChecked) {
-          Array.from(this.skillsTable).map(skill => {
-            if (skill.dwBoost) {
-              skill.dmgRelease = Math.round(skill.dmgRelease / skill.dwBoost);
-            } else {
-              skill.dmgRelease = Math.round(skill.dmgRelease / 1.2);
-            }
-          });
-          this.ephnelDW();
-        }
-        this.$emit("ephnel-dmg", "");
+          .classList.remove("active-buff")
+    
+        this.$emit("ephnel-dmg", "")
       }
     },
     ephnelCalcDmg(skill) {
-      if (this.ephnelRelease) {
-        return skill.dmgRelease;
-      }
-      if (this.ephnelBullet) {
-        return skill.dmgBullet;
-      }
-      return skill.dmg;
+      if (this.ephnelRelease) return skill.dmgRelease
+      if (this.ephnelBullet) return skill.dmgBullet
+      return skill.dmg
     },
     calcCD(skill) {
-      if (skill.cd == 0) return Infinity;
+      if (skill.cd == 0) return Infinity
       return (+skill.cd - (+skill.cd * this.charCD) / 100).toFixed(2);
     },
     calcCD15(skill) {
-      if (skill.cd == 0) return Infinity;
+      if (skill.cd == 0) return Infinity
       return (
         +skill.cd -
         ((+skill.cd * this.charCD) / 100 + +skill.cd * 0.15)
       ).toFixed(2);
     },
     sortBy(criteria) {
-      this.sortOrder = !this.sortOrder;
+      this.sortOrder = !this.sortOrder
 
       switch (criteria) {
         case "dmg": {
           if (this.ephnelRelease) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? +a.dmgRelease - +b.dmgRelease
-                : +b.dmgRelease - +a.dmgRelease
-            );
+              this.sortOrder ? 
+                +a.dmgRelease - +b.dmgRelease : 
+                +b.dmgRelease - +a.dmgRelease
+            )
           } else if (this.ephnelBullet) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? +a.dmgBullet - +b.dmgBullet
-                : +b.dmgBullet - +a.dmgBullet
-            );
+              this.sortOrder ? 
+                +a.dmgBullet - +b.dmgBullet :
+                +b.dmgBullet - +a.dmgBullet
+            )
           } else {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder ? +a.dmg - +b.dmg : +b.dmg - +a.dmg
-            );
+              this.sortOrder ?
+                +a.dmg - +b.dmg : 
+                +b.dmg - +a.dmg
+            )
           }
-          break;
+          break
         }
         case "dps":
           if (this.castChecked && this.ephnelRelease) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgRelease / (a.castCancel / 60)) -
-                  Math.round(b.dmgRelease / (b.castCancel / 60))
-                : Math.round(b.dmgRelease / (b.castCancel / 60)) -
-                  Math.round(a.dmgRelease / (a.castCancel / 60))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgRelease / (a.castCancel / 60)) - Math.round(b.dmgRelease / (b.castCancel / 60)) : 
+                Math.round(b.dmgRelease / (b.castCancel / 60)) - Math.round(a.dmgRelease / (a.castCancel / 60))
+            )
           } else if (this.castChecked && this.ephnelBullet) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgBullet / (a.castCancel / 60)) -
-                  Math.round(b.dmgBullet / (b.castCancel / 60))
-                : Math.round(b.dmgBullet / (b.castCancel / 60)) -
-                  Math.round(a.dmgBullet / (a.castCancel / 60))
-            );
+              this.sortOrder ?
+                Math.round(a.dmgBullet / (a.castCancel / 60)) - Math.round(b.dmgBullet / (b.castCancel / 60)) :
+                Math.round(b.dmgBullet / (b.castCancel / 60)) - Math.round(a.dmgBullet / (a.castCancel / 60))
+            )
           } else if (this.castChecked) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmg / (a.castCancel / 60)) -
-                  Math.round(b.dmg / (b.castCancel / 60))
-                : Math.round(b.dmg / (b.castCancel / 60)) -
-                  Math.round(a.dmg / (a.castCancel / 60))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmg / (a.castCancel / 60)) - Math.round(b.dmg / (b.castCancel / 60)) :
+                Math.round(b.dmg / (b.castCancel / 60)) - Math.round(a.dmg / (a.castCancel / 60))
+            )
           } else if (this.ephnelRelease) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgRelease / (a.cast / 60)) -
-                  Math.round(b.dmgRelease / (b.cast / 60))
-                : Math.round(b.dmgRelease / (b.cast / 60)) -
-                  Math.round(a.dmgRelease / (a.cast / 60))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgRelease / (a.cast / 60)) - Math.round(b.dmgRelease / (b.cast / 60)) :
+                Math.round(b.dmgRelease / (b.cast / 60)) - Math.round(a.dmgRelease / (a.cast / 60))
+            )
           } else if (this.ephnelBullet) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgBullet / (a.cast / 60)) -
-                  Math.round(b.dmgBullet / (b.cast / 60))
-                : Math.round(b.dmgBullet / (b.cast / 60)) -
-                  Math.round(a.dmgBullet / (a.cast / 60))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgBullet / (a.cast / 60)) - Math.round(b.dmgBullet / (b.cast / 60)) : 
+                Math.round(b.dmgBullet / (b.cast / 60)) - Math.round(a.dmgBullet / (a.cast / 60))
+            )
           } else {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmg / (a.cast / 60)) -
-                  Math.round(b.dmg / (b.cast / 60))
-                : Math.round(b.dmg / (b.cast / 60)) -
-                  Math.round(a.dmg / (a.cast / 60))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmg / (a.cast / 60)) - Math.round(b.dmg / (b.cast / 60)) : 
+                Math.round(b.dmg / (b.cast / 60)) - Math.round(a.dmg / (a.cast / 60))
+            )
           }
-          break;
+          break
         case "dmg-cd":
           if (this.ephnelRelease) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgRelease / this.calcCD(a)) -
-                  Math.round(b.dmgRelease / this.calcCD(b))
-                : Math.round(b.dmgRelease / this.calcCD(b)) -
-                  Math.round(a.dmgRelease / this.calcCD(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgRelease / this.calcCD(a)) - Math.round(b.dmgRelease / this.calcCD(b)) : 
+                Math.round(b.dmgRelease / this.calcCD(b)) - Math.round(a.dmgRelease / this.calcCD(a))
+            )
           } else if (this.ephnelBullet) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgBullet / this.calcCD(a)) -
-                  Math.round(b.dmgBullet / this.calcCD(b))
-                : Math.round(b.dmgBullet / this.calcCD(b)) -
-                  Math.round(a.dmgBullet / this.calcCD(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgBullet / this.calcCD(a)) - Math.round(b.dmgBullet / this.calcCD(b)) : 
+                Math.round(b.dmgBullet / this.calcCD(b)) - Math.round(a.dmgBullet / this.calcCD(a))
+            )
           } else {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmg / this.calcCD(a)) -
-                  Math.round(b.dmg / this.calcCD(b))
-                : Math.round(b.dmg / this.calcCD(b)) -
-                  Math.round(a.dmg / this.calcCD(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmg / this.calcCD(a)) - Math.round(b.dmg / this.calcCD(b)) :
+                Math.round(b.dmg / this.calcCD(b)) - Math.round(a.dmg / this.calcCD(a))
+            )
           }
           break;
         case "dmg-cd15":
           if (this.ephnelRelease) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgRelease / this.calcCD15(a)) -
-                  Math.round(b.dmgRelease / this.calcCD15(b))
-                : Math.round(b.dmgRelease / this.calcCD15(b)) -
-                  Math.round(a.dmgRelease / this.calcCD15(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgRelease / this.calcCD15(a)) - Math.round(b.dmgRelease / this.calcCD15(b)) : 
+                Math.round(b.dmgRelease / this.calcCD15(b)) - Math.round(a.dmgRelease / this.calcCD15(a))
+            )
           } else if (this.ephnelBullet) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmgBullet / this.calcCD15(a)) -
-                  Math.round(b.dmgBullet / this.calcCD15(b))
-                : Math.round(b.dmgBullet / this.calcCD15(b)) -
-                  Math.round(a.dmgBullet / this.calcCD15(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmgBullet / this.calcCD15(a)) - Math.round(b.dmgBullet / this.calcCD15(b)) : 
+                Math.round(b.dmgBullet / this.calcCD15(b)) - Math.round(a.dmgBullet / this.calcCD15(a))
+            )
           } else {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? Math.round(a.dmg / this.calcCD15(a)) -
-                  Math.round(b.dmg / this.calcCD15(b))
-                : Math.round(b.dmg / this.calcCD15(b)) -
-                  Math.round(a.dmg / this.calcCD15(a))
-            );
+              this.sortOrder ? 
+                Math.round(a.dmg / this.calcCD15(a)) - Math.round(b.dmg / this.calcCD15(b)) : 
+                Math.round(b.dmg / this.calcCD15(b)) - Math.round(a.dmg / this.calcCD15(a))
+            )
           }
-          break;
+          break
         case "cast":
           if (this.castChecked) {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder
-                ? +a.castCancel - +b.castCancel
-                : +b.castCancel - +a.castCancel
-            );
+              this.sortOrder ? 
+                +a.castCancel - +b.castCancel : 
+                +b.castCancel - +a.castCancel
+            )
           } else {
             this.skillsTable.sort((a, b) =>
-              this.sortOrder ? +a.cast - +b.cast : +b.cast - +a.cast
-            );
+              this.sortOrder ?
+                +a.cast - +b.cast : 
+                +b.cast - +a.cast
+            )
           }
-          break;
+          break
         default:
           this.skillsTable.sort((a, b) =>
-            this.sortOrder
-              ? +a[criteria] - +b[criteria]
-              : +b[criteria] - +a[criteria]
-          );
-          break;
+            this.sortOrder ? 
+              +a[criteria] - +b[criteria] : 
+              +b[criteria] - +a[criteria]
+          )
+          break
       }
     },
-    // sortTab() {
-    //   useSortTable()
-    // },
     displayTooltip(e) {
-      useDisplayTooltip(e);
+      useDisplayTooltip(e)
     },
     hideTooltip(e) {
-      useHideTooltip(e);
+      useHideTooltip(e)
     }
   },
   computed: {
     clientWidth() {
-      return window.innerWidth;
+      return window.innerWidth
     }
   },
   created() {
     CharacterService.getCharacterInfo(this.charName)
       .then(res => {
         this.char = res.data.character;
-        this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
+        this.skillsTable = JSON.parse(JSON.stringify(res.data.skills))
+        this.skillsTable.forEach(skill => {
+          skill.dmg = Math.round(skill.dmg * 1.2)
+          skill.dmgBullet = Math.round(skill.dmgBullet * 1.2)
+          skill.dmgRelease = Math.round(skill.dmgRelease * 1.2)
+        })
         this.displayTooltip;
         this.$emit("skills-table", {
           skillsTable: this.skillsTable,
           dwChecked: this.dwChecked
         });
       })
-      .catch(err => this.$router.push("/"));
+      .catch(() => this.$router.push("/"));
 
     this.description = "Data by Axtate from EN [18/06/2024]";
     this.aspd = 250;
@@ -754,7 +558,7 @@ export default {
 
 /* SKills details */
 .skills-details {
-  width: 800px;
+  width: 50%;
   min-width: 715px;
   margin: 0 1em;
   padding-top: 3em;
@@ -832,15 +636,6 @@ export default {
 /* ---------- */
 /* Responsive */
 /* ---------- */
-
-/* @media screen and (max-width: 768px) {
-    .skills-details {
-      min-width: 100%;
-    }
-    .tooltip-msg {
-      width: 150px;
-    }
-  } */
 @media screen and (max-width: 650px) {
   .ephnel-buff {
     padding: 0.5rem;
@@ -850,28 +645,5 @@ export default {
   .ephnel-buff {
     grid-template-columns: 1fr;
   }
-  /* .ephnel-buff > div {
-      width: 240px;
-    } */
 }
-/* @media screen and (max-width: 500px) {
-    .char-info {
-      flex-direction: column;
-      align-items: center;
-      height: 200px;
-    }
-    .description {
-      margin-bottom: 0;
-    }
-    .dw-container,
-    .cast-container {
-      width: 240px;
-      flex-direction: row-reverse;
-      align-items: center;
-      justify-content: center;
-    }
-    .checkmark {
-      margin-right: 10px;
-    }
-  } */
 </style>

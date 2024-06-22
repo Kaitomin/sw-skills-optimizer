@@ -98,7 +98,6 @@ export default {
   created() {
     // Get character chains from store
     const charChains = `${this.name.toLowerCase()}Chains`
-
     this.allChains = this.$store.getters.getChains(charChains)
 
     let tmp = this.allChains.filter(ch => ch.chains[0] == this.id)  
