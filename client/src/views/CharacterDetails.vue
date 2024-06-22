@@ -225,7 +225,7 @@ export default {
   /* ---------- */
   /* Responsive */
   /* ---------- */
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1600px) {
     .skills-container {
       flex-direction: column;
       align-items: center;

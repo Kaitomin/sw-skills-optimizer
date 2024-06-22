@@ -8,22 +8,13 @@
           </div>
 
           <div>
-            <p class="description"><i>{{ description }}<br></i></p>
-
+            <p class="description"><i>{{ description }}<br>{{ note }}</i></p>
             <div>
               <div class="cd-input">
                 <input type="range" name="charCD" id="charCD" min="0" max="55" step="1" @change="$emit('char-cdr', charCD)" v-model="charCD" />
                 <label id="cd-input" for="charCD">Character CDR : {{ charCD +'%' }}</label>
               </div>
 
-              <!-- DW toggle -->
-              <div class="d-flex flex-column justify-evenly align-items-center">
-                <label  class="switch">
-                  <input type="checkbox">
-                  <span class="slider round" @click="toggleDesire"></span>
-                </label>
-                <p>Desire worker</p>
-              </div>
               <!-- Animation cancel toggler -->
               <div class="d-flex flex-column justify-evenly align-items-center">
                 <label class="switch">
@@ -32,11 +23,8 @@
                 </label>
                 <p>Animation cancel</p>
               </div>
-
             </div>
-
           </div>
-
         </div>
         
         <table v-if="clientWidth > 550" class="table table-striped table-skills">
@@ -118,45 +106,15 @@ export default {
     return {
       char: '',
       charCD: '44',
-      dwChecked: false,
       castChecked: false,
       sortOrder: false,
       skillsTable: [],
       aspd: '',
       description: '',
+      note: '(DW coefficient is applied by default)',
     }
   },
   methods: {
-    toggleDesire() {
-      this.dwChecked = !this.dwChecked;
-
-      if (this.dwChecked) {
-        Array.from(this.skillsTable).map(skill => {
-          if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg * skill.dwBoost)
-          } else {
-            skill.dmg = Math.round(skill.dmg * 1.2)
-          }
-        })
-        this.$emit('skills-table', {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        })
-
-      } else {
-        Array.from(this.skillsTable).map(skill => {
-          if (skill.dwBoost) {
-            skill.dmg = Math.round(skill.dmg / skill.dwBoost)
-          } else {
-            skill.dmg = Math.round(skill.dmg / 1.2)
-          }
-        })
-        this.$emit('skills-table', {
-          skillsTable: this.skillsTable,
-          dwChecked: this.dwChecked
-        })
-      }
-    },
     toggleCastCancel() {
       this.castChecked = !this.castChecked;
       this.$emit('cast-cancel', this.castChecked)
@@ -214,60 +172,52 @@ export default {
     CharacterService.getCharacterInfo(this.charName)
     .then(res => {
       this.char = res.data.character;
-      this.skillsTable = JSON.parse(JSON.stringify(res.data.skills));
+      this.skillsTable = JSON.parse(JSON.stringify(res.data.skills))
+      this.skillsTable.forEach(skill => skill.dmg =  Math.round(skill.dmg * 1.2))
       this.displayTooltip
       this.$emit('skills-table', {
-        skillsTable: this.skillsTable,
-        dwChecked: this.dwChecked
+        skillsTable: this.skillsTable
       })
     })
     .catch(err => this.$router.push('/'));
 
     switch(this.charName) {
       case 'Lily': 
-        this.description = "Data from KR ver. S2 rebalance [23/03/2022]"
-        this.aspd = 205
+        this.description = "Data by Axtate from EN [22/06/2024]"
+        this.aspd = 250
         break;
       case 'Iris':
-        this.description = "Data by AFN from EN ver. [16/06/2024]"
+        this.description = "Data by AFN from EN [16/06/2024]"
         this.aspd = 240
         break;
       case 'Stella':
-        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN [18/05/2023]"
         this.aspd = 205
         break;
       case 'Haru':
-        this.description = "Data by Anave from EN ver. [04/06/2024]"
+        this.description = "Data by Anave from EN [04/06/2024]"
         this.aspd = 240
         break;
       case 'Nabi':
-        this.description = "Data from EN ver. [29/05/2022]"
+        this.description = "Data from EN [29/05/2022]"
         this.aspd = 200
         break;
       case 'Dana':
-        this.description = "Data by Tatufo from EN ver. [18/05/2023]"
+        this.description = "Data by Tatufo from EN [18/05/2023]"
         this.aspd = 200
         break;
       case 'Erwin':
-        this.description = "Data gathered from EN ver. [08/06/2022]"
+        this.description = "Data gathered from EN [08/06/2022]"
         this.aspd = 200
         break;
       default :
-        this.aspd = 200
+        this.aspd = 250
     }
   },
 }
 </script>
 
 <style scoped>
-  /* .char-info,
-  .table-skills {
-    border-radius: 5px;
-  }
-  .char-info {
-    background-color: #2d343f;
-    border: 1px solid rgba(255, 255, 255, 0.493);
-  } */
   .description {
     color: white;
   }
@@ -284,7 +234,7 @@ export default {
   }
   /* SKills details */
   .skills-details {
-    /* width: 800px; */
+    width: 50%;
     min-width: 715px;
     margin: 0 1em;
     padding-top: 3em;
@@ -330,33 +280,4 @@ export default {
   }
   
   /* Responsive */
-  /* @media screen and (max-width: 860px) {
-    .skills-details {
-      min-width: 100%;
-      width: 100%;
-    }
-    .tooltip-msg {
-      width: 150px;
-    }
-  } */
-  /* @media screen and (max-width: 500px) {
-    .char-info {
-      flex-direction: column;
-      align-items: center;
-      height: 200px;
-    }
-    .description {
-      margin-bottom: 0;
-    }
-    .dw-container,
-    .cast-container {
-      width: 240px;
-      flex-direction: row-reverse;
-      align-items: center;
-      justify-content: center;
-    }
-    .checkmark {
-      margin-right: 10px;
-    }
-  } */
 </style>
