@@ -424,7 +424,7 @@
     justify-content: center;
     align-items: center;
   }
-  .characters > div:not(div:last-child):hover {
+  .characters > div:hover {
     cursor: pointer;
     background-color: #ffffff29;
   }
