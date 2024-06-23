@@ -63,8 +63,8 @@
 </template>
 
 <script>
-  import CharacterService from '../services/CharacterService';
-  import SkillService from '../services/SkillService';
+  import CharacterService from '../services/CharacterService'
+  import SkillService from '../services/SkillService'
   
   export default {
     props: [
