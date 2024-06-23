@@ -67,6 +67,21 @@ router.put('/update-skill', uploadMiddleware, async(req, res) => {
   }
 })
 
+router.post('/delete-skill', async(req, res) => {
+  const { _id, icon } = req.body
+  const urlArr = req.body.icon.split('/')
+  const publicId = urlArr.slice(urlArr.length - 3).join('/').split('.')[0]
+
+  // Delete skill in DB
+  await Skill.findByIdAndRemove(_id)
+
+  // Delete skill icon in Cloudinary
+  const file = await searchAsset(publicId)
+  if (file.resources[0].folder == 'sw-skills/skills') await deleteAsset(file.resources[0].public_id)
+
+  res.end()
+})
+
 
 function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {

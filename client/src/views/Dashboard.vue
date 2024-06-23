@@ -22,6 +22,7 @@
         <div>
           <div v-for="log in sortedLogger" :key="log._id">
             {{ log.date }} |
+            {{ log.skill.character }} -
             {{ log.skill.skillName }}
              /  Dmg = {{ log.skill.dmg }}
             {{
@@ -47,7 +48,7 @@
               :key="char._id"
               :class="{
                 active: currentCharacter === char.name, 
-                hide: char.name == 'tmpChar' // For testing
+                // hide: char.name == 'tmpChar' // For testing
               }"
               @click="currentCharacter = char.name"
             >
@@ -68,9 +69,9 @@
             class="add-skill"
             @click="addSkill"
           >
-          <i class="fa-solid fa-circle-plus"></i>
-            New skill
-          </button
+            <i class="fa-solid fa-circle-plus"></i>
+              New
+            </button
           >
         </div>
         <div class="skills-container">
@@ -206,8 +207,13 @@
                 <td class="actions">
                   <i
                     class="fa-solid fa-pen-to-square"
-                    title="Edit skill"
+                    title="Edit"
                     @click="updateSkill(skill)"
+                  ></i>
+                  <i
+                    class="fa-solid fa-trash"
+                    title="Delete"
+                    @click="deleteSkill(skill)"
                   ></i>
                 </td>
               </tr>
@@ -224,8 +230,9 @@
   import { useRouter } from 'vue-router'
 
   import ModalForm from '../components/ModalForm.vue'
-  import CharacterService from "../services/CharacterService";
-  import LoggerService from "../services/LoggerService";
+  import CharacterService from "../services/CharacterService"
+  import LoggerService from "../services/LoggerService"
+  import SkillService from '../services/SkillService'
 
   import {
     useGetCharactersIcons,
@@ -267,6 +274,13 @@
   const addSkill = () => {
     actionType.value = 'add'
     showModalForm.value = true
+  }
+
+  const deleteSkill = async(skill) => {
+    if (!confirm(`Delete "${skill.skillName}" ?`)) return
+
+    await SkillService.delete(skill)
+    await getCharacterSkills(currentCharacter)
   }
 
   const saveChanges= async(skill) => {
@@ -468,11 +482,17 @@
   }
 
   /* Actions icons */
+  .actions > i:first-child {
+    margin-right: 10px;
+  }
   .actions .fa-solid:hover {
     cursor: pointer;
   }
   .fa-pen-to-square:hover {
     color: #00b8ff;
+  }
+  .fa-trash:hover {
+    color: red;
   }
   .fa-check,
   .fa-xmark {
@@ -481,7 +501,6 @@
   .fa-check {
     color: green;
   }
-
   .fa-xmark {
     color: red;
   }
