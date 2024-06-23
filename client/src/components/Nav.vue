@@ -11,7 +11,7 @@
         class="character"
       >
         <img
-          v-if="character.name != 'tmpChar'"
+          v-if="(character.name != 'tmpChar' && character.name != 'Jin')"
           :src="'/' + character.name.toLowerCase() + '_nav.png'"
           :alt="character.name + ' avatar'"
           width="120" 
