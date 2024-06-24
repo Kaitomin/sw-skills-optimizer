@@ -16,6 +16,14 @@
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
+    <JinTable
+      v-else-if="name == 'Jin'"
+      :charName="name"
+      @skills-table="toggleDesire"
+      @jin-dmg="toggleJinDmg"
+      @char-cdr="currentCDR"
+      @cast-cancel="toggleCastCancel"
+    />
     <SkillsTable 
       v-else
       :charName="name"
@@ -36,6 +44,7 @@
         :key="component[0]"
         :id="component[0]"
         :ephDmg="ephDmg"
+        :jinDmg="jinDmg"
         :skills="skills"
         :dwChecked="dwChecked"
         :castChecked="castChecked"
@@ -73,6 +82,7 @@ export default {
       sortOrder: false,
       containerH: '',
       ephDmg: '',
+      jinDmg: ''
     }
   },
   components: { 
@@ -80,6 +90,7 @@ export default {
     SkillsTable: defineAsyncComponent(() => import('@/components/SkillsTable.vue')),
     ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue')),
     EphnelTable: defineAsyncComponent(() => import('@/components/EphnelTable.vue')),
+    JinTable: defineAsyncComponent(() => import('@/components/JinTable.vue')),
   },
   methods: {
     toggleDesire(payload) {
@@ -100,6 +111,9 @@ export default {
     },
     toggleEphDmg(val) {
       this.ephDmg = val
+    },
+    toggleJinDmg(val) {
+      this.jinDmg = val
     },
     deleteComponent(c) {
       // Add component id to delete to array

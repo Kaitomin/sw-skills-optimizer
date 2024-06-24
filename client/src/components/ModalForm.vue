@@ -16,6 +16,22 @@
         <label for="skill-dmg">Damage (%)</label>
         <input type="text" class="text" id="skill-dmg" v-model="skillUpdated.dmg" required>
       </div>
+      <div v-if="skillUpdated.character == 'Chii'">
+        <label for="skill-mark">Dmg per mark (%)</label>
+        <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark" required>
+      </div>
+      <div v-if="skillUpdated.character == 'Ephnel'">
+        <label for="skill-dmgBullet">Bullet (%)</label>
+        <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet" required>
+      </div>
+      <div v-if="skillUpdated.character == 'Ephnel'">
+        <label for="skill-dmgRelease">Limit release (%)</label>
+        <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease" required>
+      </div>
+      <div v-if="skillUpdated.character == 'Jin'">
+        <label for="skill-dmgReinforcement">Reinforcement (%)</label>
+        <input type="text" class="text" id="skill-dmgReinforcement" v-model="skillUpdated.dmgReinforcement" required>
+      </div>
       <div>
         <label for="skill-time">Cast full (frame)</label>
         <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast" required>
@@ -31,18 +47,6 @@
       <div v-if="skillUpdated.dwBoost">
         <label for="skill-dw">DW boost</label>
         <input type="text" class="text" id="skill-dw" v-model="skillUpdated.dwBoost" required>
-      </div>
-      <div v-if="skillUpdated.character == 'Chii'">
-        <label for="skill-mark">Dmg per mark (%)</label>
-        <input type="text" class="text" id="skill-mark" v-model="skillUpdated.mark" required>
-      </div>
-      <div v-if="skillUpdated.character == 'Ephnel'">
-        <label for="skill-dmgBullet">Dmg bullet (%)</label>
-        <input type="text" class="text" id="skill-dmgBullet" v-model="skillUpdated.dmgBullet" required>
-      </div>
-      <div v-if="skillUpdated.character == 'Ephnel'">
-        <label for="skill-dmgRelease">Dmg release (%)</label>
-        <input type="text" class="text" id="skill-dmgRelease" v-model="skillUpdated.dmgRelease" required>
       </div>
       <div>
         <label>Icon</label>
@@ -90,6 +94,7 @@
           case "dmgBullet":
           case "dmgRelease":
           case "mark":
+          case "dmgReinforcement":
             if (!/^[0-9]+$/.test(value)) this.error.isError = true;
             break;
           case "skillName":
@@ -152,6 +157,8 @@
             formData.append('dmgBullet', this.skillUpdated.dmgBullet)
             formData.append('dmgRelease', this.skillUpdated.dmgRelease)
           }
+
+          if (this.skillUpdated.character == 'Jin') formData.append('dmgReinforcement', this.skillUpdated.dmgReinforcement)
 
           // for (const pair of formData.entries()) {
           //   console.log(pair[0], pair[1])
