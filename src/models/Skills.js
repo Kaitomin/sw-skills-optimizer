@@ -37,11 +37,16 @@ const skillSchema = new Schema({
   mark: {
     type: String
   },
-  // Ephnel buff
+  // Ephnel bullet
   dmgBullet: {
     type: String
   },
+  // Ephnel limit release
   dmgRelease: {
+    type: String
+  },
+  // Jin reinforcement
+  dmgReinforcement: {
     type: String
   }
 });

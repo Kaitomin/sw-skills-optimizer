@@ -104,7 +104,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'dwChecked', 'castChecked', 'ephDmg'],
+  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'dwChecked', 'castChecked', 'ephDmg', 'jinDmg'],
   data() {
     return {
       chainId: '',
@@ -132,7 +132,7 @@ export default {
 
       this.nabiBomb.counter = this.checkInput(this.nabiBomb.counter, 0, 15)
 
-      if (this.name != 'Ephnel') {
+      if (this.name != 'Ephnel' && this.name != 'Jin') {
         if (val === 'dmg') {
           this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.dmg;
@@ -176,6 +176,34 @@ export default {
           this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.castCancel;
           }, 0);
+          return (this.totalCast/60).toFixed(2);
+        } else if (val === 'cast') {
+          this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.cast;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        }
+      }
+
+      if (this.name == 'Jin') {
+        if (val == 'dmg') {
+          switch (this.jinDmg) {
+            case 'reinforcement':
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                  return +prev + +curr.dmgReinforcement;
+                }, 0)
+              break
+            default:
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                return +prev + +curr.dmg;
+              }, 0)
+          }
+          return this.totalDmg;
+
+        } else if (this.castChecked && val === 'cast') {
+            this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.castCancel;
+            }, 0);
           return (this.totalCast/60).toFixed(2);
         } else if (val === 'cast') {
           this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {

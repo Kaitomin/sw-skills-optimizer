@@ -26,13 +26,14 @@
             {{ log.skill.skillName }}
              /  Dmg = {{ log.skill.dmg }}
             {{
-              log.skill.dmgBullet ? `/ Dmg bullet = ${log.skill.dmgBullet}` : null
+              log.skill.dmgBullet ? `/ Bullet = ${log.skill.dmgBullet}` : null
             }}
             {{
               log.skill.dmgRelease
-                ? `/ Dmg release = ${log.skill.dmgRelease}`
+                ? `/ Release = ${log.skill.dmgRelease}`
                 : null
             }}
+            {{ log.skill.dmgReinforcement ?  `/ Reinforcement = ${log.skill.dmgReinforcement}` : null }}
             {{ log.skill.mark ? `/ Mark = ${log.skill.mark}` : null }}
             / Cast = {{ log.skill.cast }} / Anim.cancel =
             {{ log.skill.castCancel }} / CD = {{ log.skill.cd }}
@@ -82,9 +83,8 @@
                 <th scope="col" style="width: 25%">Skill</th>
                 <th scope="col">Damage</th>
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
-                <th scope="col" v-if="currentCharacter === 'Ephnel'">
-                  Limit release
-                </th>
+                <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
+                <th scope="col" v-if="currentCharacter === 'Jin'">Reinforcement</th>
                 <th scope="col">CD</th>
                 <th scope="col">Cast</th>
                 <th scope="col">Cast cancel</th>
@@ -144,6 +144,16 @@
                     name="dmgRelease"
                     class="ephnel-release"
                     :value="skill.dmgRelease"
+                    title="Integer"
+                    disabled
+                  />
+                </td>
+                <td v-if="currentCharacter === 'Jin'">
+                  <input
+                    type="text"
+                    name="dmgReinforcement"
+                    class="jin-reinforcement"
+                    :value="skill.dmgReinforcement"
                     title="Integer"
                     disabled
                   />
