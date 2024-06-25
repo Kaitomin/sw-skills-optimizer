@@ -59,7 +59,9 @@
       <table v-if="clientWidth > 550" class="table table-striped table-skills">
         <thead>
           <tr @mouseover="displayTooltip" @mouseout="hideTooltip">
-            <th scope="col" style="width:15%">Skill</th>
+            <th scope="col" class="tooltip-container" style="width:15%">
+              Skill<span class="tooltip-msg">[Reinforcement gain/loss]</span>
+            </th>
             <th scope="col" class="tooltip-container" @click="sortBy('dmg')">
               DMG<span class="tooltip-msg">Skill multiplier</span>
             </th>
@@ -360,6 +362,12 @@ export default {
                 Math.round(a.dmg / (a.castCancel / 60)) - Math.round(b.dmg / (b.castCancel / 60)) :
                 Math.round(b.dmg / (b.castCancel / 60)) - Math.round(a.dmg / (a.castCancel / 60))
             )
+          } else if (this.jinReinforcement) {
+            this.skillsTable.sort((a, b) =>
+              this.sortOrder ? 
+                Math.round(a.dmgReinforcement / (a.cast / 60)) - Math.round(b.dmgReinforcement / (b.cast / 60)) :
+                Math.round(b.dmgReinforcement / (b.cast / 60)) - Math.round(a.dmgReinforcement / (a.cast / 60))
+            )
           } else {
             this.skillsTable.sort((a, b) =>
               this.sortOrder ? 
@@ -452,7 +460,7 @@ export default {
       .catch(() => this.$router.push("/"));
 
     this.description = "Data by Axtate from EN [24/06/2024]";
-    this.aspd = 250;
+    this.aspd = 242;
   }
 };
 </script>
@@ -545,7 +553,7 @@ export default {
   border-radius: 5px
 }
 .jin-buff button.active-buff {
-  background-color: #008751;
+  background-color: #8d5808;
   box-shadow: inset 0 0 0 1px white;
 }
 

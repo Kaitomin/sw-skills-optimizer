@@ -11,11 +11,11 @@
         class="character"
       >
         <img
-          v-if="(character.name != 'tmpChar' && character.name != 'Jin')"
           :src="'/' + character.name.toLowerCase() + '_nav.png'"
           :alt="character.name + ' avatar'"
           width="120" 
           height="50"
+          :class="character.name"
         >
       </router-link>
     </div>
@@ -83,6 +83,9 @@
     border-radius: 5px;
     background-color: #00ffff75;
   }
+  .character:has(>img.tmpChar) {
+    display: none;
+  }  
   
   /* Responsive */
   @media screen and (max-width: 1380px) {
