@@ -104,7 +104,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'dwChecked', 'castChecked', 'ephDmg', 'jinDmg'],
+  props: ['skills', 'charCD', 'thValue', 'thValue640','thValue368', 'reset', 'data', 'pos', 'rotationId', 'name', 'dwChecked', 'castChecked', 'ephDmg', 'jinDmg', 'stellaDmg'],
   data() {
     return {
       chainId: '',
@@ -132,7 +132,7 @@ export default {
 
       this.nabiBomb.counter = this.checkInput(this.nabiBomb.counter, 0, 15)
 
-      if (this.name != 'Ephnel' && this.name != 'Jin') {
+      if (this.name != 'Ephnel' && this.name != 'Jin' && this.name != 'Stella') {
         if (val === 'dmg') {
           this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
             return +prev + +curr.dmg;
@@ -191,6 +191,35 @@ export default {
             case 'reinforcement':
               this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
                   return +prev + +curr.dmgReinforcement;
+                }, 0)
+              break
+            default:
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                return +prev + +curr.dmg;
+              }, 0)
+          }
+          return this.totalDmg;
+
+        } else if (this.castChecked && val === 'cast') {
+            this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.castCancel;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        } else if (val === 'cast') {
+          this.totalCast = Array.from(arrSkills).reduce((prev, curr) => {
+              return +prev + +curr.cast;
+            }, 0);
+          return (this.totalCast/60).toFixed(2);
+        }
+      }
+
+      if (this.name == 'Stella') {
+        console.log(this.stellaDmg)
+        if (val == 'dmg') {
+          switch (this.stellaDmg) {
+            case 'ghost':
+              this.totalDmg = Array.from(arrSkills).reduce((prev, curr) => {
+                  return +prev + +curr.dmgGhost;
                 }, 0)
               break
             default:

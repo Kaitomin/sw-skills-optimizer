@@ -24,6 +24,14 @@
       @char-cdr="currentCDR"
       @cast-cancel="toggleCastCancel"
     />
+    <StellaTable
+      v-else-if="name == 'Stella'"
+      :charName="name"
+      @skills-table="toggleDesire"
+      @stella-dmg="toggleStellaDmg"
+      @char-cdr="currentCDR"
+      @cast-cancel="toggleCastCancel"
+    />
     <SkillsTable 
       v-else
       :charName="name"
@@ -45,6 +53,7 @@
         :id="component[0]"
         :ephDmg="ephDmg"
         :jinDmg="jinDmg"
+        :stellaDmg="stellaDmg"
         :skills="skills"
         :dwChecked="dwChecked"
         :castChecked="castChecked"
@@ -82,7 +91,8 @@ export default {
       sortOrder: false,
       containerH: '',
       ephDmg: '',
-      jinDmg: ''
+      jinDmg: '',
+      stellaDmg: ''
     }
   },
   components: { 
@@ -91,6 +101,7 @@ export default {
     ChiiTable: defineAsyncComponent(() => import('@/components/ChiiTable.vue')),
     EphnelTable: defineAsyncComponent(() => import('@/components/EphnelTable.vue')),
     JinTable: defineAsyncComponent(() => import('@/components/JinTable.vue')),
+    StellaTable: defineAsyncComponent(() => import('@/components/StellaTable.vue')),
   },
   methods: {
     toggleDesire(payload) {
@@ -114,6 +125,9 @@ export default {
     },
     toggleJinDmg(val) {
       this.jinDmg = val
+    },
+    toggleStellaDmg(val) {
+      this.stellaDmg = val
     },
     deleteComponent(c) {
       // Add component id to delete to array
