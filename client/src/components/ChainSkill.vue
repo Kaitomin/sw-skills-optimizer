@@ -214,7 +214,6 @@ export default {
       }
 
       if (this.name == 'Stella') {
-        console.log(this.stellaDmg)
         if (val == 'dmg') {
           switch (this.stellaDmg) {
             case 'ghost':
