@@ -48,6 +48,10 @@ const skillSchema = new Schema({
   // Jin reinforcement
   dmgReinforcement: {
     type: String
+  },
+  // Stella ghost amp
+  dmgGhost: {
+    type: String
   }
 });
 

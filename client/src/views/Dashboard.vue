@@ -34,6 +34,7 @@
                 : null
             }}
             {{ log.skill.dmgReinforcement ?  `/ Reinforcement = ${log.skill.dmgReinforcement}` : null }}
+            {{ log.skill.dmgGhost ?  `/ Ghost amp = ${log.skill.dmgGhost}` : null }}
             {{ log.skill.mark ? `/ Mark = ${log.skill.mark}` : null }}
             / Cast = {{ log.skill.cast }} / Anim.cancel =
             {{ log.skill.castCancel }} / CD = {{ log.skill.cd }}
@@ -85,6 +86,7 @@
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
                 <th scope="col" v-if="currentCharacter === 'Jin'">Reinforcement</th>
+                <th scope="col" v-if="currentCharacter === 'Stella'">Ghost buff</th>
                 <th scope="col">CD</th>
                 <th scope="col">Cast</th>
                 <th scope="col">Cast cancel</th>
@@ -154,6 +156,16 @@
                     name="dmgReinforcement"
                     class="jin-reinforcement"
                     :value="skill.dmgReinforcement"
+                    title="Integer"
+                    disabled
+                  />
+                </td>
+                <td v-if="currentCharacter === 'Stella'">
+                  <input
+                    type="text"
+                    name="dmgGhost"
+                    class="stella-ghost"
+                    :value="skill.dmgGhost"
                     title="Integer"
                     disabled
                   />
