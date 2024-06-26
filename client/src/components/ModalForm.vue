@@ -32,6 +32,10 @@
         <label for="skill-dmgReinforcement">Reinforcement (%)</label>
         <input type="text" class="text" id="skill-dmgReinforcement" v-model="skillUpdated.dmgReinforcement" required>
       </div>
+      <div v-if="skillUpdated.character == 'Stella'">
+        <label for="skill-dmgGhost">Ghost amp (%)</label>
+        <input type="text" class="text" id="skill-dmgGhost" v-model="skillUpdated.dmgGhost" required>
+      </div>
       <div>
         <label for="skill-time">Cast full (frame)</label>
         <input type="text" class="text" id="skill-time" v-model="skillUpdated.cast" required>
@@ -95,6 +99,7 @@
           case "dmgRelease":
           case "mark":
           case "dmgReinforcement":
+          case "dmgGhost":
             if (!/^[0-9]+$/.test(value)) this.error.isError = true;
             break;
           case "skillName":
@@ -151,14 +156,14 @@
 
           if (this.skillUpdated.dwBoost) formData.append('dwBoost', this.skillUpdated.dwBoost)
 
-          if (this.skillUpdated.character == 'Chii') formData.append('mark', this.skillUpdated.mark)
-
           if (this.skillUpdated.character == 'Ephnel') {
             formData.append('dmgBullet', this.skillUpdated.dmgBullet)
             formData.append('dmgRelease', this.skillUpdated.dmgRelease)
           }
-
+          
+          if (this.skillUpdated.character == 'Chii') formData.append('mark', this.skillUpdated.mark)
           if (this.skillUpdated.character == 'Jin') formData.append('dmgReinforcement', this.skillUpdated.dmgReinforcement)
+          if (this.skillUpdated.character == 'Stella') formData.append('dmgGhost', this.skillUpdated.dmgGhost)
 
           // for (const pair of formData.entries()) {
           //   console.log(pair[0], pair[1])
