@@ -33,7 +33,7 @@
         <input type="text" class="text" id="skill-dmgReinforcement" v-model="skillUpdated.dmgReinforcement" required>
       </div>
       <div v-if="skillUpdated.character == 'Stella'">
-        <label for="skill-dmgGhost">Ghost amp (%)</label>
+        <label for="skill-dmgGhost">Ghost buff (%)</label>
         <input type="text" class="text" id="skill-dmgGhost" v-model="skillUpdated.dmgGhost" required>
       </div>
       <div>

@@ -86,7 +86,7 @@
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Bullet</th>
                 <th scope="col" v-if="currentCharacter === 'Ephnel'">Limit release</th>
                 <th scope="col" v-if="currentCharacter === 'Jin'">Reinforcement</th>
-                <th scope="col" v-if="currentCharacter === 'Stella'">Ghost amp</th>
+                <th scope="col" v-if="currentCharacter === 'Stella'">Ghost buff</th>
                 <th scope="col">CD</th>
                 <th scope="col">Cast</th>
                 <th scope="col">Cast cancel</th>
